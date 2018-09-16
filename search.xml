@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[我的第一条博客]]></title>
+    <url>%2F2018%2F09%2F16%2F%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9D%A1%E5%8D%9A%E5%AE%A2%2F</url>
+    <content type="text"><![CDATA[1.新建页面在根目录下使用以下命令即可生成博客页面，在_post文件夹下 1hexo new "博客标题" 2.编辑博客该文件是markdown格式的 在文件开始会先编辑此博客的基本信息，标题，时间，标签，分类，简介之类的，下面就是写正文 1234567891011121314151617181920212223242526272829title:/* 文章标题，可以为中文 */date:/* 建立日期，如果自己手动添加，请按固定格式** 自定义文章发布的时间*/categories:/* 分类，支持多级，比如：- technology- computer- computer-aided-art*/tags:/* 标签** 多个可以这样写[标签1,标签2,标签3]*/description:/* 文章的描述，在每篇文章标题下方显示** 建议每篇文章都务必加上！*/keywords:/* 关键字，并且作为网页的 keywords 元数据*/ 3. 发布使用以下命令 12hexo s -g //本地使用hexo d -g //发布到远程的GitHub]]></content>
+      <categories>
+        <category>Hexo教程</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hello World]]></title>
     <url>%2F2018%2F09%2F16%2Fhello-world%2F</url>
     <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
