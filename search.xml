@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[java集合总纲]]></title>
+    <url>%2F2018%2F12%2F05%2Fjava%E9%9B%86%E5%90%88%E6%80%BB%E7%BA%B2%2F</url>
+    <content type="text"><![CDATA[java集合集合是用来存储数据的，以前有了数组为什么还要集合呢，因为数组必须要声明长度，集合不需要，更加灵活， 集合是在java.util包中的，也有一部分在java.util.concurrent 这里面是一些支持并发编程的集合类 概况java的集合分为两种，一种是实现了map接口的key-value形式的，每个位置存放一对数据。一种是实现了Collection接口的每个位置存放一个数据， 具体实现CollectionCollection是继承了Iterable接口的 我们看一下Iterable接口是干嘛的，接口的简介说实现此接口，可以让其成为可以使用for-each的目标，也就是说实现这个接口的集合，都可以被遍历。 12// 这是接口内部的方法，返回类型元素的迭代器Iterator&lt;T&gt; iterator(); Collection接口下有三个子接口 List ArrayList LinkedList Set HashSet LinkedHashSet TreeSet Queue Deque LinkedList 现在对每一种进行简单介绍 List 是一个有序，可重复的集合。添加数据，获取数据也是按照添加数据的顺序 ArrayList ArrayList是基于数组实现的List类，它封装了一个动态的增长的、允许再分配的Object[]数组。 LinkedList 是基于链表实现的，他还实现了Deque接口，可以进行双端队列操作 Set 是一个不可有重复的集合 HashSet 这是一个无序的集合， LinkedHashSet 这是一个有序的集合，底层按照数据添加顺序维护 Queue是一个队列，先入先出 Deque 也是一个可以进行双端队列操作的 LinkedList ArrayQueue Mapmap用于保存一个映射关系的数据的，存储是key-value形式的数据。map不允许存储key相同的数据 HashMap 不能保证数据的顺序性， HashTable SortMap TreeMap 基于红黑树实现，可以根据key对数据进行排序 下面我们会对这些集合类，进行进一步探讨]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>java集合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[操作mysql]]></title>
     <url>%2F2018%2F12%2F05%2F%E6%93%8D%E4%BD%9Cmysql%2F</url>
     <content type="text"><![CDATA[mysql基础架构先上图 首先第一层，当请求过来的连接处理，授权认证，安全都是在这一层 第二层是mysql的核心服务功能，包括查询解析，分析，优化，缓存以及所有的内置函数(日期，时间，数学和加密函数),所有跨存储引擎的功能都在这一层实现，如存储过程，触发器，视图 第三次则是存储引擎。负责对mysql中的数据进行存储和提取。 基础操作操作数据库创建删除 123create database test // 创建drop database test // 删除show databases // 查看所有的数据库 增删改查创建操作表 1234567891011create table 表名( 列名 类型(长度) 限制条件(not null,uniqe ), primary key (主键列))存储引擎 字符集例：CREATE TABLE `user` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(255) DEFAULT NULL, `age` int(11) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 删除表 1drop table 表名 查询查询使用join连接字，分为左连接(left join)，右连接(right join)，内连接(inner join)，全连接(full join) 在对多个表进行连接查询的时候，其实是在对多个表中符合条件的数据进行笛卡尔积 左连接 以连接表的左表为标准，左表中的数据全部显示，而右边中的数据只显示满足条件的 右连接 以连接表的右表为标准，右表中的数据全部显示，而左边的只显示满足条件的，没有则显示null 内连接 显示两表中数据满足条件的数据 全连接 显示两表所有数据，mysql暂不支持 删除delete from 表名 where 条件 更新update 表名 set 列=‘’ where 条件 插入insert into 表名（字段） values（字段值） 存储引擎mysql有多种存储引擎，但是常见的就是两种 Myisam和Innodb，下面看看他们有什么区别 Myisam Innodb 索引的实现原理 B+Tree （非聚集索引） B+Tree（聚集索引） 锁 支持表锁 支持表锁，行锁（默认行锁，当没有操作索引列，上升为表锁） 数据文件 .myi(索引文件) .frm(表的结构文件) .myd(表的数据文件) .frm (表的结构文件) .ibd(存储表数据文件) 事务 不支持 支持事务 适用情况 多查询，少修改 多查询，多修改 索引索引是对数据进行定位，在对数据进行操作使用，如果使用索引，那么效率则会大大加快，在不同的存储引擎下索引的实现不同，数据库的存储引擎已经说了 基础操作创建ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引 123ALTER TABLE table_name ADD INDEX index_name (column_list) ALTER TABLE table_name ADD UNIQUE (column_list)ALTER TABLE table_name ADD PRIMARY KEY (column_list) CREATE INDEX可对表增加普通索引或UNIQUE索引 12CREATE INDEX index_name ON table_name (column_list)CREATE UNIQUE INDEX index_name ON table_name (column_list) 删除123DROP INDEX index_name ON talbe_nameALTER TABLE table_name DROP INDEX index_nameALTER TABLE table_name DROP PRIMARY KEY // 仅在删除主键索引时使用，因为主键只有一个，不需要指定索引名称 原理数据库的索引都是通过B+树实现，但是不同存储引擎的实现方法也不同，先说一下B+树，B+树是在B树的基础上实现的，B树是每个节点都保存着数据，但是B+树只在叶子节点保存数据，其余的节点都是没有数据的 Myisam 我们已经知道，Myisam在存储数据的时候，有三个文件，为什么呢，因为其中一个文件就是存储索引的，实现索引的B+树的叶子节点存储的是索引对应数据的地址。我们在对数据操作的时候，如查询，那么他会先在索引文件查询，查到该数据的地址，然后根据地址去数据存储文件查，得到数据，是非聚集索引 Innodb Innodb是聚集索引，首先他会根据id建立索引，然后将数据存储在索引树上，如果还根据其他列建立索引，那么索引树存储的值是他的id，然后根据id去id索引树查找到真正的数据 如何创建索引 最左原则，在创建联合索引的时候，多列数据组成索引，在B+树中也是按照多列进行存储，那么如果在查询的时候，最左边的条件不是索引，那么就无法命中索引，那么索引就无效了 尽量选择查询频率较高的字段， 尽量扩展索引，而不是增加索引，如对a列已经做了索引，现在想对b列也做索引，那么可以修改以前的索引为(a,b)， 小技巧 explain sql 可以查看sql的执行计划，对sql进行优化]]></content>

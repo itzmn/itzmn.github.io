@@ -159,18 +159,18 @@
 
 
 
-  <meta name="description" content="这一篇叫大家如何使用hexo">
-<meta name="keywords" content="hexo,博客">
+  <meta name="description" content="总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析">
+<meta name="keywords" content="java,java集合">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我的第一条博客">
-<meta property="og:url" content="https://itzmn.github.io/2018/09/16/我的第一条博客/index.html">
+<meta property="og:title" content="java集合总纲">
+<meta property="og:url" content="https://itzmn.github.io/2018/12/05/java集合总纲/index.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="这一篇叫大家如何使用hexo">
+<meta property="og:description" content="总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-16T14:18:03.371Z">
+<meta property="og:updated_time" content="2018-12-05T08:43:54.815Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的第一条博客">
-<meta name="twitter:description" content="这一篇叫大家如何使用hexo">
+<meta name="twitter:title" content="java集合总纲">
+<meta name="twitter:description" content="总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析">
 
 
 
@@ -179,7 +179,7 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/2018/09/16/我的第一条博客/"/>
+  <link rel="canonical" href="https://itzmn.github.io/2018/12/05/java集合总纲/"/>
 
 
 
@@ -189,7 +189,7 @@
   };
 </script>
 
-  <title>我的第一条博客 | 七夜博客</title>
+  <title>java集合总纲 | 七夜博客</title>
   
 
 
@@ -403,7 +403,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/09/16/我的第一条博客/">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/05/java集合总纲/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="七夜">
@@ -420,7 +420,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">我的第一条博客
+          <h1 class="post-title" itemprop="name headline">java集合总纲
               
             
           </h1>
@@ -445,7 +445,7 @@
                 
               
 
-              <time title="Post created: 2018-09-16 22:04:26 / Updated at: 22:18:03" itemprop="dateCreated datePublished" datetime="2018-09-16T22:04:26+08:00">2018-09-16</time>
+              <time title="Post created: 2018-12-05 16:08:58 / Updated at: 16:43:54" itemprop="dateCreated datePublished" datetime="2018-12-05T16:08:58+08:00">2018-12-05</time>
             
 
             
@@ -467,7 +467,7 @@
                 <span class="post-meta-item-text">in</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hexo教程/" itemprop="url" rel="index"><span itemprop="name">Hexo教程</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -487,7 +487,7 @@
           
 
           
-              <div class="post-description">这一篇叫大家如何使用hexo</div>
+              <div class="post-description">总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析</div>
           
 
         </div>
@@ -503,13 +503,78 @@
       
 
       
-        <h1 id="1-新建页面"><a href="#1-新建页面" class="headerlink" title="1.新建页面"></a>1.新建页面</h1><p>在根目录下使用以下命令即可生成博客页面，在_post文件夹下</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new "博客标题"</span><br></pre></td></tr></table></figure>
-<h1 id="2-编辑博客"><a href="#2-编辑博客" class="headerlink" title="2.编辑博客"></a>2.编辑博客</h1><p>该文件是markdown格式的</p>
-<p>在文件开始会先编辑此博客的基本信息，标题，时间，标签，分类，简介之类的，下面就是写正文</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">title:</span><br><span class="line">/* 文章标题，可以为中文 */</span><br><span class="line"></span><br><span class="line">date:</span><br><span class="line">/* 建立日期，如果自己手动添加，请按固定格式</span><br><span class="line">** 自定义文章发布的时间</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">categories:</span><br><span class="line">/* 分类，支持多级，比如：</span><br><span class="line">- technology</span><br><span class="line">- computer</span><br><span class="line">- computer-aided-art</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">tags:</span><br><span class="line">/* 标签</span><br><span class="line">** 多个可以这样写[标签1,标签2,标签3]</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">description:</span><br><span class="line">/* 文章的描述，在每篇文章标题下方显示</span><br><span class="line">** 建议每篇文章都务必加上！</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">keywords:</span><br><span class="line">/* 关键字，并且作为网页的 keywords 元数据</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-<h1 id="3-发布"><a href="#3-发布" class="headerlink" title="3. 发布"></a>3. 发布</h1><p>使用以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo s -g  //本地使用</span><br><span class="line">hexo d -g  //发布到远程的GitHub</span><br></pre></td></tr></table></figure>
+        <h1 id="java集合"><a href="#java集合" class="headerlink" title="java集合"></a>java集合</h1><p>集合是用来存储数据的，以前有了数组为什么还要集合呢，因为数组必须要声明长度，集合不需要，更加灵活，</p>
+<p>集合是在java.util包中的，也有一部分在java.util.concurrent 这里面是一些支持并发编程的集合类</p>
+<h1 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h1><p>java的集合分为两种，一种是实现了map接口的key-value形式的，每个位置存放一对数据。一种是实现了Collection接口的每个位置存放一个数据，</p>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><h3 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h3><p>Collection是继承了Iterable接口的</p>
+<p>我们看一下Iterable接口是干嘛的，接口的简介说实现此接口，可以让其成为可以使用for-each的目标，也就是说实现这个接口的集合，都可以被遍历。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是接口内部的方法，返回类型元素的迭代器</span></span><br><span class="line"><span class="function">Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>Collection接口下有三个子接口</p>
+<ul>
+<li>List<ul>
+<li>ArrayList</li>
+<li>LinkedList</li>
+</ul>
+</li>
+<li>Set  <ul>
+<li>HashSet</li>
+<li>LinkedHashSet</li>
+<li>TreeSet</li>
+</ul>
+</li>
+<li>Queue<ul>
+<li>Deque<ul>
+<li>LinkedList</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>现在对每一种进行简单介绍</p>
+<p>List 是一个有序，可重复的集合。添加数据，获取数据也是按照添加数据的顺序</p>
+<ul>
+<li><p>ArrayList</p>
+<p>  ArrayList是基于数组实现的List类，它封装了一个动态的增长的、允许再分配的Object[]数组。</p>
+</li>
+<li><p>LinkedList</p>
+<p>是基于链表实现的，他还实现了Deque接口，可以进行双端队列操作</p>
+</li>
+</ul>
+<p>Set 是一个不可有重复的集合</p>
+<ul>
+<li><p>HashSet</p>
+<p>这是一个无序的集合，</p>
+</li>
+<li><p>LinkedHashSet</p>
+<p>这是一个有序的集合，底层按照数据添加顺序维护</p>
+</li>
+</ul>
+<p>Queue是一个队列，先入先出</p>
+<ul>
+<li><p>Deque</p>
+<p>也是一个可以进行双端队列操作的</p>
+<ul>
+<li>LinkedList</li>
+<li>ArrayQueue</li>
+</ul>
+</li>
+</ul>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>map用于保存一个映射关系的数据的，存储是key-value形式的数据。map不允许存储key相同的数据</p>
+<ul>
+<li><p>HashMap</p>
+<p>不能保证数据的顺序性，</p>
+</li>
+<li><p>HashTable</p>
+</li>
+<li><p>SortMap</p>
+<ul>
+<li><p>TreeMap</p>
+<p>基于红黑树实现，可以根据key对数据进行排序</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>下面我们会对这些集合类，进行进一步探讨</p>
 
       
     </div>
@@ -560,7 +625,7 @@
     <strong>Post author:  </strong>七夜</li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="https://itzmn.github.io/2018/09/16/我的第一条博客/" title="我的第一条博客">https://itzmn.github.io/2018/09/16/我的第一条博客/</a>
+    <a href="https://itzmn.github.io/2018/12/05/java集合总纲/" title="java集合总纲">https://itzmn.github.io/2018/12/05/java集合总纲/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
@@ -585,9 +650,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/博客/" rel="tag"># 博客</a>
+            <a href="/tags/java集合/" rel="tag"># java集合</a>
           
         </div>
       
@@ -600,8 +665,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/16/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/12/05/操作mysql/" rel="next" title="操作mysql">
+                <i class="fa fa-chevron-left"></i> 操作mysql
               </a>
             
           </div>
@@ -609,10 +674,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/16/第二篇测试/" rel="prev" title="第二篇测试">
-                第二篇测试 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -805,7 +866,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-新建页面"><span class="nav-number">1.</span> <span class="nav-text">1.新建页面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-编辑博客"><span class="nav-number">2.</span> <span class="nav-text">2.编辑博客</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-发布"><span class="nav-number">3.</span> <span class="nav-text">3. 发布</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java集合"><span class="nav-number">1.</span> <span class="nav-text">java集合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概况"><span class="nav-number">2.</span> <span class="nav-text">概况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体实现"><span class="nav-number">3.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Collection"><span class="nav-number">3.0.1.</span> <span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map"><span class="nav-number">3.0.2.</span> <span class="nav-text">Map</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
