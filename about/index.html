@@ -366,6 +366,13 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
 
 
 
@@ -417,7 +424,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -519,7 +526,13 @@
 
       
 
+	 	<div id="music163player">
+		     <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=210 height=46 src="/images/shenhua.mp3"></iframe>
+		     </iframe>
+	    </div>
     </div>
+
+
   </aside>
 
 
@@ -535,6 +548,15 @@
   </span>
   <span class="author" itemprop="copyrightHolder">七夜</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">27k</span>
   
 </div>
 
@@ -693,6 +715,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'itzmn',
+            repo: 'itzmn.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'adb0f110788297e3d645e7488af6cc0e09eb04a6',
+            
+                client_id: '309dd5496c29c3545ad7'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 
