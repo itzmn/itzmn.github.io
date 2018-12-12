@@ -73,8 +73,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="七夜博客" type="application/atom+xml" />
 
@@ -83,18 +81,18 @@
 
 
 
-<meta name="description" content="一个java学习者，希望能认识更多志同道合的朋友">
+<meta name="description" content="blog.itzmn.com">
 <meta name="keywords" content="java spring springboot redis mysql">
 <meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="https://itzmn.github.io/categories/index.html">
+<meta property="og:title" content="七夜博客">
+<meta property="og:url" content="https://itzmn.github.io/CNAME.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="一个java学习者，希望能认识更多志同道合的朋友">
+<meta property="og:description" content="blog.itzmn.com">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-16T14:23:47.587Z">
+<meta property="og:updated_time" content="2018-12-12T07:53:27.663Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
-<meta name="twitter:description" content="一个java学习者，希望能认识更多志同道合的朋友">
+<meta name="twitter:title" content="七夜博客">
+<meta name="twitter:description" content="blog.itzmn.com">
 
 
 
@@ -124,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/categories/"/>
+  <link rel="canonical" href="https://itzmn.github.io/CNAME.html"/>
 
 
 
 
 
-  <title>categories | 七夜博客</title>
+  <title> | 七夜博客</title>
   
 
 
@@ -304,7 +302,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
+	<h1 class="post-title" itemprop="name headline"></h1>
 
 
 
@@ -316,14 +314,8 @@
       <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 5 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo教程/">Hexo教程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/算法/">算法</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/算法/数据结构/">数据结构</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul>
-            </div>
-          </div>
+          <p>blog.itzmn.com</p>
+
         
       </div>
       
@@ -341,6 +333,14 @@
 
 
           
+
+  
+   <div id="gitalk-container"></div>
+
+  
+
+
+
 
 
 
@@ -668,6 +668,21 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '309dd5496c29c3545ad7',
+          clientSecret: 'adb0f110788297e3d645e7488af6cc0e09eb04a6',
+          repo: 'itzmn.github.io',
+          owner: 'itzmn',
+          admin: ['itzmn'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
 
   
 
