@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://itzmn.github.io/categories/index.html</loc>
+    
+    <lastmod>2018-12-12T08:49:13.367Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://itzmn.github.io/photos/index.html</loc>
+    
+    <lastmod>2018-12-12T08:45:34.072Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://itzmn.github.io/about/index.html</loc>
     
-    <lastmod>2018-12-12T08:40:29.400Z</lastmod>
+    <lastmod>2018-12-12T08:44:34.330Z</lastmod>
     
   </url>
   
@@ -121,23 +135,9 @@
   </url>
   
   <url>
-    <loc>https://itzmn.github.io/categories/index.html</loc>
-    
-    <lastmod>2018-09-16T14:23:47.587Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://itzmn.github.io/2018/09/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9D%A1%E5%8D%9A%E5%AE%A2/</loc>
     
     <lastmod>2018-09-16T14:18:03.371Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://itzmn.github.io/photos/index.html</loc>
-    
-    <lastmod>2018-09-16T10:59:27.907Z</lastmod>
     
   </url>
   
