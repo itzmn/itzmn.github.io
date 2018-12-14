@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java,算法，排序，数据结构," />
+  <meta name="keywords" content="java,java基础," />
 
 
 
@@ -81,63 +81,22 @@
 
 
 
-<meta name="description" content="了解红黑树常见性质，基础操作，应用场景">
-<meta name="keywords" content="java,算法，排序，数据结构">
+<meta name="description" content="我们编写的代码最后都会存在jvm中，那么jvm是如何将java文件转换成数据加载到jvm中的呢？">
+<meta name="keywords" content="java,java基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构-红黑树">
-<meta property="og:url" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/index.html">
+<meta property="og:title" content="深入理解java虚拟机-类加载机制">
+<meta property="og:url" content="https://itzmn.github.io/2018/12/14/深入理解java虚拟机-类加载机制/index.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="了解红黑树常见性质，基础操作，应用场景">
+<meta property="og:description" content="我们编写的代码最后都会存在jvm中，那么jvm是如何将java文件转换成数据加载到jvm中的呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/左旋.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/右旋.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/1-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/1-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/1-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/2-1-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/2-1-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/2-1-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/2-2-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/2-2-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/2-2-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/2-2-4.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/3-1-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/3-1-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/3-1-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/3-2-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/3-2-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/3-2-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/3-2-4.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/z-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/z-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/z-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/z-4.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/r-e.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-1-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-1-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-1-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-1-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-2-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-2-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-2-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-3-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-3-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-3-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-4-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-4-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-2-2-4-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-3-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-3-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-4-1.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-4-2.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-4-3.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-4-4.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/d-4-5.png">
-<meta property="og:updated_time" content="2018-12-10T13:01:35.004Z">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/14/深入理解java虚拟机-类加载机制/类的生命周期.png">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/14/深入理解java虚拟机-类加载机制/类加载器.png">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/14/深入理解java虚拟机-类加载机制/类加载器过程.png">
+<meta property="og:updated_time" content="2018-12-14T07:43:20.850Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据结构-红黑树">
-<meta name="twitter:description" content="了解红黑树常见性质，基础操作，应用场景">
-<meta name="twitter:image" content="https://itzmn.github.io/2018/12/08/数据结构-红黑树/左旋.png">
+<meta name="twitter:title" content="深入理解java虚拟机-类加载机制">
+<meta name="twitter:description" content="我们编写的代码最后都会存在jvm中，那么jvm是如何将java文件转换成数据加载到jvm中的呢？">
+<meta name="twitter:image" content="https://itzmn.github.io/2018/12/14/深入理解java虚拟机-类加载机制/类的生命周期.png">
 
 
 
@@ -167,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/2018/12/08/数据结构-红黑树/"/>
+  <link rel="canonical" href="https://itzmn.github.io/2018/12/14/深入理解java虚拟机-类加载机制/"/>
 
 
 
 
 
-  <title>数据结构-红黑树 | 七夜博客</title>
+  <title>深入理解java虚拟机-类加载机制 | 七夜博客</title>
   
 
 
@@ -354,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/08/数据结构-红黑树/">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/14/深入理解java虚拟机-类加载机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="七夜">
@@ -371,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据结构-红黑树</h1>
+          <h1 class="post-title" itemprop="name headline">深入理解java虚拟机-类加载机制</h1>
         
 
         <div class="post-meta">
@@ -383,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-08T14:24:54+08:00">
-                2018-12-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-14T11:16:45+08:00">
+                2018-12-14
               </time>
             
 
@@ -408,28 +367,6 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/java/" itemprop="url" rel="index">
                     <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/算法/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
                   </a>
                 </span>
 
@@ -459,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.9k 字
+                  3.1k 字
                 </span>
               
 
@@ -475,7 +412,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  9 分钟
+                  10 分钟
                 </span>
               
             </div>
@@ -483,7 +420,7 @@
 
           
               <div class="post-description">
-                  了解红黑树常见性质，基础操作，应用场景
+                  我们编写的代码最后都会存在jvm中，那么jvm是如何将java文件转换成数据加载到jvm中的呢？
               </div>
           
 
@@ -500,364 +437,107 @@
       
 
       
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>红黑树，是一种特殊的二叉查找树，因为他不仅有二叉查找树的性质，还可以通过自旋，将结构变得平衡，当自旋之后，该树还是二叉查找树</p>
-<p>红黑树的性质：</p>
-<p><strong>（1）每个节点或者是黑色，或者是红色。</strong></p>
-<p><strong>（2）根节点是黑色。</strong> </p>
-<p><strong>（3）每个叶子节点（NIL）是黑色。 [注意：这里叶子节点，是指为空(NIL或NULL)的叶子节点！]</strong> </p>
-<p><strong>（4）如果一个节点是红色的，则它的子节点必须是黑色的。</strong> </p>
-<p><strong>（5）从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。</strong> </p>
-<h1 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h1><h3 id="基础方法"><a href="#基础方法" class="headerlink" title="基础方法"></a>基础方法</h3><p>当我们插入数据或者删除节点的时候，可能这个树就不满足红黑树的性质，那么就会通过自旋来将树的结构调整</p>
-<h5 id="左旋"><a href="#左旋" class="headerlink" title="左旋"></a>左旋</h5><p>先看一张图</p>
-<img src="/2018/12/08/数据结构-红黑树/左旋.png" title="左旋">
-<p>如图所示我们对3这个节点进行左旋，将3这个节点设为其右子节点的左节点，将右子节点的左节点设为3的右节点，将右子节点设为父节点的子节点，</p>
-<p>伪代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">p <span class="comment">// 需要左旋的节点</span></span><br><span class="line">parent = p.parent  <span class="comment">// 得到当前节点的父节点</span></span><br><span class="line">r = p.right <span class="comment">// 得到当前节点的右子节点</span></span><br><span class="line">newRight = p.right.left <span class="comment">// 得到当前节点的右子节点的左子节点，</span></span><br><span class="line">r.parent = parent <span class="comment">// 将右子节点的父节点设为原来的父节点（如果当前节点是父节点的左子节点，那么新的节点也设为父节点的左节点，如果当前节点是父节点的右孩子，那么将新节点设为父节点的右孩子）</span></span><br><span class="line">r.left = p <span class="comment">// 将该节点设为新的节点的左子节点</span></span><br><span class="line">p.right = newRight <span class="comment">// 将新得到的右子节点设为旋转的右子节点</span></span><br></pre></td></tr></table></figure>
-<h5 id="右旋"><a href="#右旋" class="headerlink" title="右旋"></a>右旋</h5><img src="/2018/12/08/数据结构-红黑树/右旋.png" title="右旋">
-<p>将9这个节点进行右旋处理，右旋就是将这个节点设置为其左子节点的右子节点，然后将其左子节点的右子节点设为自己的左子节点</p>
-<p>伪代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">p <span class="comment">// 当前要进行右旋的节点</span></span><br><span class="line">parent = p.parent <span class="comment">// 得到父节点</span></span><br><span class="line">l = p.left <span class="comment">// 得到左子节点</span></span><br><span class="line">newLeft = p.left.right <span class="comment">// 得到左子节点的右子节点</span></span><br><span class="line">l.parent = parent <span class="comment">// 将左子节点设为父节点的子节点(上次是什么节点，这次就是什么节点)</span></span><br><span class="line">l.right = p <span class="comment">// 将左子节点设为当前节点的父节点</span></span><br><span class="line">p.left = newLeft <span class="comment">// 将新得到的左节点，设为左节点</span></span><br></pre></td></tr></table></figure>
-<h3 id="增删改查-1"><a href="#增删改查-1" class="headerlink" title="增删改查"></a>增删改查</h3><h5 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h5><p><strong>插入的节点默认为红色</strong></p>
-<p>特殊情况：如果父亲和叔叔都是红色，直接把祖父设为红色，父亲和叔叔变黑，然后祖父节点设为当前节点，进行下面四种操作</p>
-<p>四种情况：</p>
+        <p>我们在运行java程序的时候，首先是编译源代码，将其转换成.class结尾的文件，那么jvm就会将这些文件加载进jvm中</p>
+<h1 id="类加载的时机"><a href="#类加载的时机" class="headerlink" title="类加载的时机"></a>类加载的时机</h1><p>类从被加载到虚拟机内存中开始到卸载出内存，生命周期包括：加载，验证，准备，解析，初始化，使用，卸载这7个阶段。其中验证，准备，解析3个阶段被称为连接。</p>
+<img src="/2018/12/14/深入理解java虚拟机-类加载机制/类的生命周期.png" title="类的生命周期">
+<p>其中，加载验证准备，初始化，卸载这5个阶段的顺序是确定的，类加载过程必须按照这种顺序按部就班的开始，而解析不一定，在某些情况下可以在初始化之后在开始。</p>
+<p>什么时候会开始加载。没有强制约束，但是初始化阶段有5种情况（加载必须在初始化前面，也就是这5种情况）</p>
 <ol>
-<li><p>父亲是祖父的左子树</p>
-<p>如果父亲是红，叔叔是黑</p>
+<li>当使用了new , getstatic ,putstatic , invokestatic这4条字节码时候，如果类没有进行过初始化，则需要先触发初始化。生成这4条指令最常见的代码就是：使用new关键字实例化对象的时候，读取或设置一个类的静态字段的时候（final修饰的常量静态字段除外，在编译期已经被读取到常量池了）的时候，以及调用一个类的静态方法的时候。</li>
+<li>使用java.lang.reflect包的方法对类进行反射调用的时候。如果类没有进行过初始化，需要先对其初始化</li>
+<li>当初始化一个类的时候，发现其父类还没有进行过初始化，则需要先触发其父类的初始化</li>
+<li>当虚拟器启动的时候，用户需要指定一个要执行的主类，，虚拟机初始化这个主类</li>
+<li>当动态调用的时候，发现该类没有初始化，则需要先触发初始化。</li>
+</ol>
+<p>这5种场景被称为对一个类的主动引用。除此之外，所有引用类的方式都不会触发初始化，称为被动引用。</p>
 <ol>
-<li>当前节点是左子树，将父节点设为黑色，祖父设为红色，然后祖父节点右旋</li>
-<li>当前节点是右子树，父节点设为当前节点，当前节点左旋，然后就变成了上面一种情况，</li>
+<li>当子类使用父类的静态变量， 只会初始化父类，不会初始化子类</li>
+<li>定义一个类的数组，不会触发此类的初始化。</li>
+<li>常量在编译阶段会存入调用类的常量池中，本质上没有直接引用到定义常量的类，不会触发定义常量的类的初始化。</li>
 </ol>
-</li>
+<p>接口的初始化与类的初始化大体相同，但是在接口初始化的时候，不会把父接口全部初始化，当使用到的时候，才会初始化。</p>
+<h1 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h1><p>加载，验证，准备，解析，初始化</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>加载是类加载过程的第一个阶段，</p>
+<ol>
+<li>通过一个类的全限定名获得定义此类的二进制字节流</li>
+<li>将这个字节流所代表的静态存储结构转化成方法区的运行时数据结构</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。</li>
 </ol>
-<ol start="2">
-<li>父亲是祖父的右子树<ol>
-<li>当前节点是父节点的右子树，父节点变黑，祖父变红，祖父左旋</li>
-<li>当前节点是父节点的左子树，当前变黑，祖父变红，父节点右旋，祖父左旋</li>
-</ol>
-</li>
-</ol>
-<p>增加一共有两大种情况（在进行旋转的条件是，当前节点的父亲是红色，如果是黑色，就不用动。）</p>
-<p>其中有一种特殊情况，就是父亲与叔叔都是红色，则把父亲与叔叔都变黑，祖父变红，然后以祖父节点为当前节点，然后再次进行上面四种情况的操作，知道完全自平衡，而且满足性质</p>
-<table>
-<thead>
-<tr>
-<th>效果</th>
-<th>父亲节点是祖父的那颗子树</th>
-<th>特征</th>
-<th>策略</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>左子树</td>
-<td>当前节点是父节点的左子树，父是红色，叔叔是黑色</td>
-<td>父变黑，祖父变红，祖父节点右旋</td>
-</tr>
-<tr>
-<td>2</td>
-<td>左子树</td>
-<td>当前节点是父节点的右子树，父亲是红色，叔叔是黑色</td>
-<td>把父节点设为当前节点，当前节点左旋，然后效果变成了1，</td>
-</tr>
-<tr>
-<td>3</td>
-<td>右子树</td>
-<td>当前节点是父亲节点的左子树，父亲是红，叔叔是黑色</td>
-<td>父节点设为当前节点，当前节点右旋，祖父左旋</td>
-</tr>
-<tr>
-<td>4</td>
-<td>右子树</td>
-<td>当前节点是父亲节点的右子树，父亲是红，叔叔是黑色</td>
-<td>父变黑，祖父变红，祖父节点左旋</td>
-</tr>
-</tbody>
-</table>
-<p>下面我们画图看一下</p>
-<p>特殊情况：</p>
-<p>父亲与叔叔都是红色（这个不论父亲是祖父的哪一科子树）</p>
-<p>插入节点10，因为父亲和叔叔都是红色，直接将父亲与叔叔变成黑色，祖父变成红色，然后祖父设为当前节点，进行下面的几种情况操作即可，这里只演示了父亲是祖父的左子树左子树，右子树也是一样的，这里就不演示</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/1-1.png" title="1-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/1-2.png" title="1-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/1-3.png" title="1-3"></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p>第二种情况  父亲节点是祖父节点的左子树</p>
-<p>2-1.  当父节点是红色，叔叔节点是黑色，当前节点是父节点的左子树</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/2-1-1.png" title="2-1-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/2-1-2.png" title="2-1-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/2-1-3.png" title="2-1-3"></td>
-</tr>
-</tbody>
-</table>
-<p>插入节点15，因为父节点是红色，叔叔节点是黑色，将父节点设为黑色，祖父设为红色，然后祖父右旋</p>
-<p>2-2. 当父节点是红色，叔叔节点是黑色，当前节点是父节点的右子树</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/2-2-1.png" title="2-2-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/2-2-2.png" title="2-2-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/2-2-3.png" title="2-2-3"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/2-2-4.png" title="2-2-4"></td>
-</tr>
-</tbody>
-</table>
-<p>插入节点30，为父节点（25）的右孩子，将父节点设为前节点左旋（这时候就变成了上面一种情况），将父亲变黑，祖父设为红色，祖父右旋</p>
-<hr>
-<p>第三种情况  父节点为祖父节点的右子树</p>
-<p>3-1 .  父节点是红色，叔叔是黑色，当前节点是父节点的右子树</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/3-1-1.png" title="3-1-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/3-1-2.png" title="3-1-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/3-1-3.png" title="3-1-3"></td>
-</tr>
-</tbody>
-</table>
-<p>当插入节点90的时候，父节点是红色，叔叔是黑色，当前节点是父节点的右子树，将父亲节点变黑，祖父变红，祖父节点左旋</p>
-<p>3-2. 父节点是红色，叔叔是黑色，当前节点是父亲节点的左子树</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/3-2-1.png" title="3-2-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/3-2-2.png" title="3-2-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/3-2-3.png" title="3-2-3"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/3-2-4.png" title="3-2-4"></td>
-</tr>
-</tbody>
-</table>
-<p>当插入节点82时，为其父节点（85）的左子树，将其父节点(85)设为当前节点(这时候就变成了上面一种情况)，当前节点右旋，父亲变黑，祖父变红，祖父左旋</p>
-<hr>
-<p>以上便是添加过程中的变化，但是当插入过程中，某一条链的长度大于其他链的2倍，那么整个树都需要做进一步的调整。调整过程中，先变色，保证红红不相连，也要保证根节点为黑色，在添加的时候，会自平衡，举个栗子</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/z-1.png" title="z-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/z-2.png" title="z-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/z-3.png" title="z-3"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/z-4.png" title="z-4"></td>
-</tr>
-</tbody>
-</table>
-<p>当插入节点5的时候，根据情况进行变色，旋转，然后继续，判断，直到树平衡为止</p>
-<h5 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h5><p>我们删除某个节点，需要得到替换他的节点，让这棵树能连接，然后把替换节点的值，换过来，删除那个替换节点，算是偷梁换柱，，删除我，我找个替死鬼，我改个名就行了，我们下面称真正删除的节点叫做替死节点，要删除的节点称作假死节点。</p>
-<p>寻找这个替死节点。</p>
+<p>加载过程中没有指定类的二进制字节流从哪里获得，这就是后面一些技术的实现基础，比如从war包中获取，动态生成中获取，网络中获取，等等。</p>
+<p><strong>用户可以自定义一个类加载器就加载类，</strong></p>
+<p>加载阶段与连接阶段 的部分内容（如一部分字节码文件格式验证动作）是交叉进行的，加载尚未完成，但是连接阶段已经可能开始。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>验证是连接的第一步，这是为了保证Class文件字节流中包含的信息符合当前虚拟机的要求，并且不会危害到虚拟机自身安全。</p>
+<p>当我们代码有了一些问题编译期可能就不会通过，那我们为啥还要验证呢，因为我们不确定这些字节流的来源，到底是否经过了编译，也可能是动态生成的，那么我们就需要检查了。</p>
+<p>验证分为4步，文件格式验证，元数据验证，字节码验证，符号引用验证。</p>
+<h3 id="文件格式验证"><a href="#文件格式验证" class="headerlink" title="文件格式验证"></a>文件格式验证</h3><p>第一阶段要验证字节流是否符号Class文件的规范，并且能够被当前版本的虚拟机处理</p>
 <ul>
-<li><p>假死节点的左子节点不为空，</p>
-<p>1.当前节点变换指针到达左节点，</p>
-<p>2.无右返回当前节点</p>
-<p>3.有右看右，当前节点到达右节点，然后循环2,3两步</p>
+<li>常量池中是否有不被支持的常量类型</li>
+<li>指向常量的各种索引值是否有指向不存在的常量或者不符合类型的常量</li>
+</ul>
+<p>等等信息。</p>
+<p>这个阶段主要保证二进制字节流中的信息能够被正确解析并存储在方法区中，通过了这个验证，字节流才会进入内存的方法区进行存储。</p>
+<h3 id="元数据验证"><a href="#元数据验证" class="headerlink" title="元数据验证"></a>元数据验证</h3><p>第二阶段是对字节码描述的信息进行语义分析，保证其描述的信息符合java语言规范</p>
+<ul>
+<li>这个类是否有父类</li>
+<li>这个类的父类是否继承了不允许被继承的类（final）</li>
+<li>如果这个类不是抽象类，是否实现了其父类或者接口之中要求实现的所有方法</li>
+<li>类中的字段，方法与父类是否矛盾</li>
+</ul>
+<p>第二阶段主要目的是对类的元数据进行语义校验</p>
+<h3 id="字节码验证"><a href="#字节码验证" class="headerlink" title="字节码验证"></a>字节码验证</h3><p>第三阶段是整个验证过程中最复杂的一个阶段，主要目的是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。验证方法逻辑</p>
+<ul>
+<li>保证任意时刻操作数栈的数据类型与指令代码序列都能配合工作，例如不会出现类似这种情况：在操作数栈中放置了一个int类型数据，使用却按照long类型来加载进本地变量表中。</li>
+<li>保证跳转指令不会跳转到方法体之外的指令去</li>
+<li>保证方法体中的类型转化是有效的。</li>
+</ul>
+<p>还有很多</p>
+<h3 id="符号引用验证"><a href="#符号引用验证" class="headerlink" title="符号引用验证"></a>符号引用验证</h3><p>最后一个阶段的校验发生在虚拟机将符号引用转化成直接引用的时候，这个转化动作将在链接的第三阶段解析中发生。符号引用验证可以看做是对类自身以外（常量池中的各种符号引用）的信息进行匹配校验</p>
+<ul>
+<li>符号引用中通过字符串描述的全限定名是否能找到对应的类</li>
+<li>在指定类中是否存在符合方法的字段描述符以及简单名称描述的方法字段</li>
+<li>符号引用中的类，字段，方法的访问性是否可以被当前类访问</li>
+</ul>
+<p>符号引用验证的目的是确保解析动作可以正常执行。</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些变量所使用的内存都在方法区进行分配。这时候进行内存分配的仅包括类变量（被static修饰的变量），不包含实例变量，实例变量在对象实例化随着对象分配在堆中。</p>
+<p>初始化，赋值是类型的默认零值。</p>
+<p>如 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> j = <span class="number">1000</span></span><br></pre></td></tr></table></figure>
+<p>变量在准备阶段过后值为0，而不是1000，因为这时候没有执行任何java代码。这个赋值为1000的代码在程序编译之后，放在了类构造器中，所以赋值动作在初始化阶段执行。</p>
+<p>如果是final修饰的变量，那么在编译时value就会保存这个值，准备阶段就会赋值。</p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>解析阶段是虚拟机将常量池中的符号引用替换成直接引用的过程，</p>
+<ul>
+<li><p>符号引用</p>
+<p>符号引用是以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用时能无歧义的定位到目标即可，符号引用与虚拟机实现的内存布局物管，引用的目标并不一定已经加载到内存中。符号引用的字面量形式明确定义在java虚拟机规范的Class文件格式中。</p>
 </li>
-<li><p>假死节点的左子节点为空，返回右子节点。</p>
+<li><p>直接引用</p>
+<p>直接引用可以是直接指向目标的指针，相对偏移量，或者是一个能间接定位到目标的句柄。直接引用是和虚拟机实现的内存布局相关的，同一个符号引用在不同虚拟机翻译出来的直接引用一般不会相同。如果有了直接引用，说明目标必定已经在内存中。</p>
 </li>
 </ul>
-<p>也就是说得到假死节点左子树的最右节点，也就是左子树值最大的节点来替死</p>
-<p>例如：</p>
-<img src="/2018/12/08/数据结构-红黑树/r-e.png" title="r-e">
-<p>我们删除9，需要找到左子树的最右节点，8，那么8叫做替死节点，9叫做假死节点，最后删除的时候，删除的是8这个节点，但是8这个值赋给9，也就是9这个节点的值是8</p>
-<p><strong>开始删除</strong></p>
-<ol>
-<li>替死节点为红，是叶子节点，直接删除，</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/d-1-1.png" title="d-1-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-1-2.png" title="d-1-2"></td>
-</tr>
-</tbody>
-</table>
-<p>2.替死节点为黑色：</p>
-<p>2.1、兄弟是红色</p>
-<p>​    兄弟变黑，父亲变红，父亲左旋，这时候，父亲是红色，兄弟是黑色，就变成了下面几种情况</p>
-<p>2.2、兄弟是黑色，</p>
-<p>2.2.1、待删除节点是左子树，远侄子(离自己最远的侄子，兄弟的右子树)是红色，近侄子和父亲啥色都行，兄弟与父亲换色，父亲左旋，然后删除当前节点，把远侄子设为黑色(结束)</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-1-1.png" title="d-2-2-1-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-1-2.png" title="d-2-2-1-2"></td>
-</tr>
-</tbody>
-</table>
-<p>我们要删除节点41，兄弟是黑的，远侄子是红的，父亲与兄弟互换颜色，父亲左旋，删除当前节点，远侄子设为黑色</p>
-<hr>
-<p>2.2.2、待删除节点是左子树，近侄子是红色，远侄子是黑色，近侄子侄子与兄弟换色，兄弟右旋(调用上面一种情况)</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-2-1.png" title="d-2-2-2-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-2-2.png" title="d-2-2-2-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-2-3.png" title="d-2-2-2-3"></td>
-</tr>
-</tbody>
-</table>
-<p>删除节点41，其兄弟远侄子都是黑色，近侄子是红色，近侄子与兄弟互换颜色，兄弟右旋，这时候就符合上面一种情况</p>
-<hr>
-<p>2.2.3、待删除是右子树，远侄子(离自己最远的侄子，兄弟的右子树)是红色，近侄子和父亲啥色都行，兄弟与父亲换色，父亲右旋，然后删除当前节点，远侄子设为黑色(结束)</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-3-1.png" title="d-2-2-3-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-3-2.png" title="d-2-2-3-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-3-3.png" title="d-2-2-3-3"></td>
-</tr>
-</tbody>
-</table>
-<p>删除节点8,8是右子树，兄弟是黑色的，远侄子是红色，则兄弟与父亲换色，父亲右旋，删除替死节点，远侄子设为黑色</p>
-<hr>
-<p>2.2.4、待删除是右子树，近侄子是红色，远侄子是黑色，近侄子与兄弟换色，兄弟左旋(调用上面一种情况)</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-4-1.png" title="d-2-2-4-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-4-2.png" title="d-2-2-4-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-2-2-4-3.png" title="d-2-2-4-3"></td>
-</tr>
-</tbody>
-</table>
-<p>删除节点52，是右子树，近侄子是红色，兄弟黑色，远侄子是黑色，近侄子与兄弟互换颜色，兄弟左旋，这时候就符合了上面一种情况</p>
-<hr>
-<p>3、父亲是红，兄弟与兄弟的孩子都是黑</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/d-3-1.png" title="d-3-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-3-2.png" title="d-3-2"></td>
-</tr>
-</tbody>
-</table>
-<p>将父亲变黑，兄弟变红，删除当前节点</p>
-<hr>
-<ol start="4">
-<li>父亲，兄弟，兄弟的两个孩子都是黑色</li>
-</ol>
-<p>兄弟变红，删除当前节点，父亲设为当前节点继续判断，但是不用删除节点</p>
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/2018/12/08/数据结构-红黑树/d-4-1.png" title="d-4-1"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-4-2.png" title="d-4-2"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-4-3.png" title="d-4-3"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-4-4.png" title="d-4-4"></td>
-<td><img src="/2018/12/08/数据结构-红黑树/d-4-5.png" title="d-4-5"></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p>这是为啥呢，因为我们删除了一个节点，我们还是需要保存这是一颗二叉搜索树的性质，那么，我们只需要在左子树，找到最大值，把它换到这个位置，那么这个树就还是一个二叉搜索树，但是我们换了之后，需要对其变色，或者进行旋转</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>类初始化是类加载过程中的最后一步，前面的类加载过程中，除了在加载阶段用户用户程序可以通过自定义类加载器参与之外，其余动作完全由虚拟机控制。到了初始化阶段，才真正开始执行类中定义的java代码。</p>
+<p>在准备阶段，变量已经赋值过一次系统要求的初始值，而在初始化阶段，则根据程序员通过程序制定的主管计划去初始化类变量和其他资源，</p>
+<h1 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h1><p>通过一个类的全名来获取描述此类的二进制字节流，这个动作在java虚拟机外部实现，实现这个动作的模块叫做类加载器</p>
+<h2 id="类与类加载器"><a href="#类与类加载器" class="headerlink" title="类与类加载器"></a>类与类加载器</h2><p>类加载器用来实现类的加载动作。并且对于任意一个类，都需要由加载它的类加载器与类本身一同确立其在java虚拟机中的唯一性，每一个类加载器都拥有一个独立的类名称空间，比较两个类是否相等，只有在两个类是在同一个类加载器加载的时候才有意义，否则即使这两个类来自同一个Class文件，被同一个虚拟机加载，只要类加载器不同，那么就不相等。</p>
+<h2 id="双亲委派模式"><a href="#双亲委派模式" class="headerlink" title="双亲委派模式"></a>双亲委派模式</h2><p>java虚拟机眼中只有两种类加载器，一种是启动类加载器（Bootstrap ClassLoader）另一个是其他的类加载器。全部继承于抽象类java.lang.ClassLoader.</p>
+<p>开发者角度有三种</p>
+<ul>
+<li><p>启动类加载器</p>
+<p>负责将存放在java_home/lib中的类库加载到虚拟机内存，启动类加载器无法被java程序直接引用，用户编写自定义类加载器，如果需要把加载请求委派给引导类加载器，那直接使用null替代即可。</p>
+</li>
+<li><p>扩展类加载器</p>
+<p>这个加载器由sun.misc.Launche$ClassLoader实现，加载扩展目录中的类库，开发者可以直接使用扩展类加载器</p>
+</li>
+<li><p>应用程序类加载器</p>
+<p>这个类加载器是ClassLoader中的getSystemClassLoader方法的返回值，所以一般也称为系统类加载器，他负责加载用户类路径上所指定的类库，开发者可以直接使用这个类加载器。如果应用程序中没有自定义过自己的类加载器，默认就这个。</p>
+</li>
+</ul>
+<p>类加载器的关系如下。</p>
+<img src="/2018/12/14/深入理解java虚拟机-类加载机制/类加载器.png" title="类加载器">
+<p>如图所示，类加载器中的关系，称为双亲委派模式。双亲委派模式要求除了顶层的启动类加载器外，其他类加载器都有自己的父类加载器。</p>
+<p>工作过程：如果一个类加载器收到类加载的请求，他首先不会自己去尝试加载这个类，而是把这个请求委派给父亲，每一层都是如此，因此所有的请求都会传送到顶层的启动类加载器中，只有当父类加载器反馈说自己不能完成这个加载（自己的范围中没有这个类），子类加载器才会尝试自己去加载。</p>
+<p>好处：如加载java.lang.Object类，他存放在rt.jar中，无论哪一个类加载这个类。最终都会发送到最顶层。因此Object类在程序的各种加载器中都是同一个类。</p>
+<img src="/2018/12/14/深入理解java虚拟机-类加载机制/类加载器过程.png" title="类加载器过程">
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
-<li><p>红黑树是一种很复杂的树，但是其功能特性也是极好的，是一颗二叉搜索树，还可以自平衡，并且它的效率也是最高的，因为他是平衡的</p>
-</li>
-<li><p>当什么时候红黑树会自平衡</p>
-<p>当某一叶子节点到根部的长度，大于最短的长度的2倍时候就会自平衡</p>
-</li>
-<li><p>在什么地方应用</p>
-<p>TreeMap，TreeSet，HashMap底层都有这种数据结构</p>
-</li>
+<li>类加载器有双亲委派机制，但是这个机制可以被破坏</li>
 </ol>
 
       
@@ -916,7 +596,7 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/算法，排序，数据结构/" rel="tag"># 算法，排序，数据结构</a>
+            <a href="/tags/java基础/" rel="tag"># java基础</a>
           
         </div>
       
@@ -929,8 +609,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/07/java集合-LinkedHashMap/" rel="next" title="java集合-LinkedHashMap">
-                <i class="fa fa-chevron-left"></i> java集合-LinkedHashMap
+              <a href="/2018/12/12/深入理解java虚拟机-垃圾收集器/" rel="next" title="深入理解java虚拟机-垃圾收集器">
+                <i class="fa fa-chevron-left"></i> 深入理解java虚拟机-垃圾收集器
               </a>
             
           </div>
@@ -938,10 +618,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/09/java集合-TreeMap/" rel="prev" title="java集合-TreeMap">
-                java集合-TreeMap <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -959,7 +635,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2018/12/08/数据结构-红黑树/" title="数据结构-红黑树">2018/12/08/数据结构-红黑树/</a>
+          <a href="/2018/12/14/深入理解java虚拟机-类加载机制/" title="深入理解java虚拟机-类加载机制">2018/12/14/深入理解java虚拟机-类加载机制/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -1143,7 +819,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#增删改查"><span class="nav-number">2.</span> <span class="nav-text">增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础方法"><span class="nav-number">2.0.1.</span> <span class="nav-text">基础方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#左旋"><span class="nav-number">2.0.1.0.1.</span> <span class="nav-text">左旋</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#右旋"><span class="nav-number">2.0.1.0.2.</span> <span class="nav-text">右旋</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增删改查-1"><span class="nav-number">2.0.2.</span> <span class="nav-text">增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加"><span class="nav-number">2.0.2.0.1.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除"><span class="nav-number">2.0.2.0.2.</span> <span class="nav-text">删除</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载的时机"><span class="nav-number">1.</span> <span class="nav-text">类加载的时机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载的过程"><span class="nav-number">2.</span> <span class="nav-text">类加载的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加载"><span class="nav-number">2.1.</span> <span class="nav-text">加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">2.2.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件格式验证"><span class="nav-number">2.2.1.</span> <span class="nav-text">文件格式验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元数据验证"><span class="nav-number">2.2.2.</span> <span class="nav-text">元数据验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字节码验证"><span class="nav-number">2.2.3.</span> <span class="nav-text">字节码验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#符号引用验证"><span class="nav-number">2.2.4.</span> <span class="nav-text">符号引用验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">2.3.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析"><span class="nav-number">2.4.</span> <span class="nav-text">解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">2.5.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载器"><span class="nav-number">3.</span> <span class="nav-text">类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类与类加载器"><span class="nav-number">3.1.</span> <span class="nav-text">类与类加载器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双亲委派模式"><span class="nav-number">3.2.</span> <span class="nav-text">双亲委派模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
