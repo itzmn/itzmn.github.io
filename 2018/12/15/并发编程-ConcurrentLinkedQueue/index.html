@@ -81,20 +81,20 @@
 
 
 
-<meta name="description" content="简介ConcurrentLinkedQueue是一个支持并发的容器，内部使用链表实现，是一个无界的安全队列，内部使用CAS实现。按照先入先出的顺序维护数据，新加入的数据放在尾部，移出的是头部的数据，不可以添加null数据。这是一个非阻塞的队列。 源码分析底层实现变量12private transient volatile Node&amp;lt;E&amp;gt; head;private transient v">
+<meta name="description" content="ConcurrentLinkedQueue是一个支持并发的容器,是一个无阻塞算法实现的队列">
 <meta name="keywords" content="java,java集合,Java基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发编程-ConcurrentLinkedQueue">
 <meta property="og:url" content="https://itzmn.github.io/2018/12/15/并发编程-ConcurrentLinkedQueue/index.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="简介ConcurrentLinkedQueue是一个支持并发的容器，内部使用链表实现，是一个无界的安全队列，内部使用CAS实现。按照先入先出的顺序维护数据，新加入的数据放在尾部，移出的是头部的数据，不可以添加null数据。这是一个非阻塞的队列。 源码分析底层实现变量12private transient volatile Node&amp;lt;E&amp;gt; head;private transient v">
+<meta property="og:description" content="ConcurrentLinkedQueue是一个支持并发的容器,是一个无阻塞算法实现的队列">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://itzmn.github.io/2018/12/15/并发编程-ConcurrentLinkedQueue/offer.png">
 <meta property="og:image" content="https://itzmn.github.io/2018/12/15/并发编程-ConcurrentLinkedQueue/poll.png">
-<meta property="og:updated_time" content="2018-12-15T12:57:04.145Z">
+<meta property="og:updated_time" content="2018-12-15T13:39:04.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发编程-ConcurrentLinkedQueue">
-<meta name="twitter:description" content="简介ConcurrentLinkedQueue是一个支持并发的容器，内部使用链表实现，是一个无界的安全队列，内部使用CAS实现。按照先入先出的顺序维护数据，新加入的数据放在尾部，移出的是头部的数据，不可以添加null数据。这是一个非阻塞的队列。 源码分析底层实现变量12private transient volatile Node&amp;lt;E&amp;gt; head;private transient v">
+<meta name="twitter:description" content="ConcurrentLinkedQueue是一个支持并发的容器,是一个无阻塞算法实现的队列">
 <meta name="twitter:image" content="https://itzmn.github.io/2018/12/15/并发编程-ConcurrentLinkedQueue/offer.png">
 
 
@@ -428,6 +428,10 @@
             </div>
           
 
+          
+              <div class="post-description">
+                  ConcurrentLinkedQueue是一个支持并发的容器,是一个无阻塞算法实现的队列
+              </div>
           
 
         </div>
