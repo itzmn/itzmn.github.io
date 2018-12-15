@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java,java集合," />
+  <meta name="keywords" content="java,java基础,java集合," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析">
-<meta name="keywords" content="java,java集合">
+<meta name="description" content="并发编程中，有时候需要使用线程安全的队列，如果实现一个线程安全的队列有两种方式：1是使用阻塞算法，一种是使用非阻塞算法，现在我们看一下阻塞算法的队列是如何实现的">
+<meta name="keywords" content="java,java基础,java集合">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java集合总纲">
-<meta property="og:url" content="https://itzmn.github.io/2018/12/05/java集合总纲/index.html">
+<meta property="og:title" content="并发编程-java中的阻塞队列(大纲)">
+<meta property="og:url" content="https://itzmn.github.io/2018/12/15/并发编程-java中的阻塞队列-大纲/index.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析">
+<meta property="og:description" content="并发编程中，有时候需要使用线程安全的队列，如果实现一个线程安全的队列有两种方式：1是使用阻塞算法，一种是使用非阻塞算法，现在我们看一下阻塞算法的队列是如何实现的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-05T08:43:54.815Z">
+<meta property="og:updated_time" content="2018-12-15T13:32:48.117Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java集合总纲">
-<meta name="twitter:description" content="总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析">
+<meta name="twitter:title" content="并发编程-java中的阻塞队列(大纲)">
+<meta name="twitter:description" content="并发编程中，有时候需要使用线程安全的队列，如果实现一个线程安全的队列有两种方式：1是使用阻塞算法，一种是使用非阻塞算法，现在我们看一下阻塞算法的队列是如何实现的">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/2018/12/05/java集合总纲/"/>
+  <link rel="canonical" href="https://itzmn.github.io/2018/12/15/并发编程-java中的阻塞队列-大纲/"/>
 
 
 
 
 
-  <title>java集合总纲 | 七夜博客</title>
+  <title>并发编程-java中的阻塞队列(大纲) | 七夜博客</title>
   
 
 
@@ -309,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/05/java集合总纲/">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/15/并发编程-java中的阻塞队列-大纲/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="七夜">
@@ -326,7 +326,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">java集合总纲</h1>
+          <h1 class="post-title" itemprop="name headline">并发编程-java中的阻塞队列(大纲)</h1>
         
 
         <div class="post-meta">
@@ -338,8 +338,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T16:08:58+08:00">
-                2018-12-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-15T21:16:01+08:00">
+                2018-12-15
               </time>
             
 
@@ -363,6 +363,17 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/java/" itemprop="url" rel="index">
                     <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">并发编程</span>
                   </a>
                 </span>
 
@@ -392,7 +403,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  510 字
+                  624 字
                 </span>
               
 
@@ -408,7 +419,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  2 分钟
                 </span>
               
             </div>
@@ -416,7 +427,7 @@
 
           
               <div class="post-description">
-                  总结java集合，分析其特性，并且尽力实现每一个集合，分析其源码，这个是总纲，后面还会有每一个小的具体剖析
+                  并发编程中，有时候需要使用线程安全的队列，如果实现一个线程安全的队列有两种方式：1是使用阻塞算法，一种是使用非阻塞算法，现在我们看一下阻塞算法的队列是如何实现的
               </div>
           
 
@@ -433,78 +444,89 @@
       
 
       
-        <h1 id="java集合"><a href="#java集合" class="headerlink" title="java集合"></a>java集合</h1><p>集合是用来存储数据的，以前有了数组为什么还要集合呢，因为数组必须要声明长度，集合不需要，更加灵活，</p>
-<p>集合是在java.util包中的，也有一部分在java.util.concurrent 这里面是一些支持并发编程的集合类</p>
-<h1 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h1><p>java的集合分为两种，一种是实现了map接口的key-value形式的，每个位置存放一对数据。一种是实现了Collection接口的每个位置存放一个数据，</p>
-<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><h3 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h3><p>Collection是继承了Iterable接口的</p>
-<p>我们看一下Iterable接口是干嘛的，接口的简介说实现此接口，可以让其成为可以使用for-each的目标，也就是说实现这个接口的集合，都可以被遍历。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是接口内部的方法，返回类型元素的迭代器</span></span><br><span class="line"><span class="function">Iterator&lt;T&gt; <span class="title">iterator</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-<p>Collection接口下有三个子接口</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>并发编程中，有时候需要使用线程安全的队列，如果实现一个线程安全的队列有两种方式：1是使用阻塞算法，一种是使用非阻塞算法，非阻塞的队列 前面写过一个ConcurrentLinkedQueue，是使用CAS实现，我们看一下阻塞队列是如何实现的。</p>
+<h1 id="什么是阻塞队列"><a href="#什么是阻塞队列" class="headerlink" title="什么是阻塞队列"></a>什么是阻塞队列</h1><p>阻塞队列是一个支持两个附加操作的队列，这个两个附加操作是支持阻塞的插入和移除方法</p>
+<ol>
+<li><p>支持阻塞的插入方法</p>
+<p>当队列满时，队列会阻塞插入元素的线程，直到队列不满</p>
+</li>
+<li><p>支持阻塞的移除</p>
+<p>当队列为空，队列会阻塞移除元素的线程，直到队列不为空。</p>
+</li>
+</ol>
+<p>阻塞队列常用于生产者和消费者的场景，生产者向队列插入数据，消费者向队列移除数据</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
+<th>阻塞</th>
+<th>超时退出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入方法</td>
+<td>add</td>
+<td>offer</td>
+<td>put</td>
+<td>offer(e,time,单位)</td>
+</tr>
+<tr>
+<td>移除</td>
+<td>remove</td>
+<td>poll</td>
+<td>take</td>
+<td>poll</td>
+</tr>
+<tr>
+<td>检查方法</td>
+<td>element</td>
+<td>peek</td>
+<td>无</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>List<ul>
-<li>ArrayList</li>
-<li>LinkedList</li>
-</ul>
+<li><p>抛出异常</p>
+<p>当队列满，如果添加元素，抛出异常，如果队列空，队列抛出异常</p>
 </li>
-<li>Set  <ul>
-<li>HashSet</li>
-<li>LinkedHashSet</li>
-<li>TreeSet</li>
-</ul>
+<li><p>返回特殊值</p>
+<p>当队列满，添加元素，成功返回true，如果是移除，成功返回值，不成功返回null</p>
 </li>
-<li>Queue<ul>
-<li>Deque<ul>
-<li>LinkedList</li>
-</ul>
+<li><p>阻塞</p>
+<p>当队列满，如果添加元素，队列会阻塞线程。直到队列不满。如果队列空也是一样</p>
+</li>
+<li><p>超时退出</p>
+<p>如果满了。添加元素，队列会阻塞线程，过了超时时间，线程退出。</p>
 </li>
 </ul>
+<h1 id="java中的阻塞队列"><a href="#java中的阻塞队列" class="headerlink" title="java中的阻塞队列"></a>java中的阻塞队列</h1><ol>
+<li><p>ArrayBlockingQueue</p>
+<p>一个由数组构成的有界阻塞队列</p>
 </li>
-</ul>
-<p>现在对每一种进行简单介绍</p>
-<p>List 是一个有序，可重复的集合。添加数据，获取数据也是按照添加数据的顺序</p>
-<ul>
-<li><p>ArrayList</p>
-<p>  ArrayList是基于数组实现的List类，它封装了一个动态的增长的、允许再分配的Object[]数组。</p>
+<li><p>LinkedBlockingQueue</p>
+<p>一个链表组成的有界阻塞队列（最大长度为整数的最大值，可先入先出）</p>
 </li>
-<li><p>LinkedList</p>
-<p>是基于链表实现的，他还实现了Deque接口，可以进行双端队列操作</p>
+<li><p>PriorityBlockingQueue</p>
+<p>一个支持优先级排序的无界阻塞队列（按照自然排序，可自定义排序规则）</p>
 </li>
-</ul>
-<p>Set 是一个不可有重复的集合</p>
-<ul>
-<li><p>HashSet</p>
-<p>这是一个无序的集合，</p>
+<li><p>DelayQueue</p>
+<p>一个使用优先级队列实现的无界阻塞队列（支持延时获取元素的队列，元素必须实现delay接口）</p>
 </li>
-<li><p>LinkedHashSet</p>
-<p>这是一个有序的集合，底层按照数据添加顺序维护</p>
+<li><p>SynchronousQueue</p>
+<p>一个不存储元素的阻塞队列（当有取值的时候，才能添加数据，支持公平访问，默认不公平）</p>
 </li>
-</ul>
-<p>Queue是一个队列，先入先出</p>
-<ul>
-<li><p>Deque</p>
-<p>也是一个可以进行双端队列操作的</p>
-<ul>
-<li>LinkedList</li>
-<li>ArrayQueue</li>
-</ul>
+<li><p>LinkedTransferQueue</p>
+<p>一个由链表组成的无界阻塞队列</p>
 </li>
-</ul>
-<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>map用于保存一个映射关系的数据的，存储是key-value形式的数据。map不允许存储key相同的数据</p>
-<ul>
-<li><p>HashMap</p>
-<p>不能保证数据的顺序性，</p>
+<li><p>LinkedBlockingDeque</p>
+<p>一个由链表组成的双向阻塞队列</p>
 </li>
-<li><p>HashTable</p>
-</li>
-<li><p>SortMap</p>
-<ul>
-<li><p>TreeMap</p>
-<p>基于红黑树实现，可以根据key对数据进行排序</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>下面我们会对这些集合类，进行进一步探讨</p>
+</ol>
+<h1 id="阻塞队列的实现"><a href="#阻塞队列的实现" class="headerlink" title="阻塞队列的实现"></a>阻塞队列的实现</h1><p>使用通知模式实现，后面我们会对这些源码进行分析。</p>
 
       
     </div>
@@ -562,6 +584,8 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
+            <a href="/tags/java基础/" rel="tag"># java基础</a>
+          
             <a href="/tags/java集合/" rel="tag"># java集合</a>
           
         </div>
@@ -575,8 +599,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/05/操作mysql/" rel="next" title="操作mysql">
-                <i class="fa fa-chevron-left"></i> 操作mysql
+              <a href="/2018/12/15/并发编程-ConcurrentLinkedQueue/" rel="next" title="并发编程-ConcurrentLinkedQueue">
+                <i class="fa fa-chevron-left"></i> 并发编程-ConcurrentLinkedQueue
               </a>
             
           </div>
@@ -584,10 +608,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/05/java集合-ArrayList/" rel="prev" title="java集合-ArrayList">
-                java集合-ArrayList <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -605,7 +625,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2018/12/05/java集合总纲/" title="java集合总纲">2018/12/05/java集合总纲/</a>
+          <a href="/2018/12/15/并发编程-java中的阻塞队列-大纲/" title="并发编程-java中的阻塞队列(大纲)">2018/12/15/并发编程-java中的阻塞队列-大纲/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -789,7 +809,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java集合"><span class="nav-number">1.</span> <span class="nav-text">java集合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概况"><span class="nav-number">2.</span> <span class="nav-text">概况</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体实现"><span class="nav-number">3.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Collection"><span class="nav-number">3.0.1.</span> <span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map"><span class="nav-number">3.0.2.</span> <span class="nav-text">Map</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是阻塞队列"><span class="nav-number">2.</span> <span class="nav-text">什么是阻塞队列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#java中的阻塞队列"><span class="nav-number">3.</span> <span class="nav-text">java中的阻塞队列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#阻塞队列的实现"><span class="nav-number">4.</span> <span class="nav-text">阻塞队列的实现</span></a></li></ol></div>
             
 
           </div>
