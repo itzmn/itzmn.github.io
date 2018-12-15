@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java,java虚拟机," />
+  <meta name="keywords" content="java,java基础," />
 
 
 
@@ -81,23 +81,23 @@
 
 
 
-<meta name="description" content="在使用java时候，使用者不用关心内部的内存管理问题，我们看一下数据在java虚拟机内部是如何存储的">
-<meta name="keywords" content="java,java虚拟机">
+<meta name="description" content="为什么会出现线程不安全的事件，让我们看看jvm的内部吧">
+<meta name="keywords" content="java,java基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入理解java虚拟机-java内存区域">
-<meta property="og:url" content="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/index.html">
+<meta property="og:title" content="并发编程-java内存模型">
+<meta property="og:url" content="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/index.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="在使用java时候，使用者不用关心内部的内存管理问题，我们看一下数据在java虚拟机内部是如何存储的">
+<meta property="og:description" content="为什么会出现线程不安全的事件，让我们看看jvm的内部吧">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/运行时数据区域.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/Mark-Word.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/句柄访问.png">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/指针访问.png">
-<meta property="og:updated_time" content="2018-12-12T07:45:21.076Z">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/JMM抽象模型.png">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/指令重排序.png">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/happens-before与JMM.png">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/concurrent.png">
+<meta property="og:updated_time" content="2018-12-15T03:24:49.741Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解java虚拟机-java内存区域">
-<meta name="twitter:description" content="在使用java时候，使用者不用关心内部的内存管理问题，我们看一下数据在java虚拟机内部是如何存储的">
-<meta name="twitter:image" content="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/运行时数据区域.png">
+<meta name="twitter:title" content="并发编程-java内存模型">
+<meta name="twitter:description" content="为什么会出现线程不安全的事件，让我们看看jvm的内部吧">
+<meta name="twitter:image" content="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/JMM抽象模型.png">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/"/>
+  <link rel="canonical" href="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/"/>
 
 
 
 
 
-  <title>深入理解java虚拟机-java内存区域 | 七夜博客</title>
+  <title>并发编程-java内存模型 | 七夜博客</title>
   
 
 
@@ -314,7 +314,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/12/深入理解java虚拟机-java内存区域/">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/15/并发编程-java内存模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="七夜">
@@ -331,7 +331,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">深入理解java虚拟机-java内存区域</h1>
+          <h1 class="post-title" itemprop="name headline">并发编程-java内存模型</h1>
         
 
         <div class="post-meta">
@@ -343,8 +343,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T12:58:57+08:00">
-                2018-12-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-15T09:42:44+08:00">
+                2018-12-15
               </time>
             
 
@@ -368,6 +368,17 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/java/" itemprop="url" rel="index">
                     <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">并发编程</span>
                   </a>
                 </span>
 
@@ -397,7 +408,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.6k 字
+                  2.8k 字
                 </span>
               
 
@@ -413,7 +424,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  12 分钟
+                  9 分钟
                 </span>
               
             </div>
@@ -421,7 +432,7 @@
 
           
               <div class="post-description">
-                  在使用java时候，使用者不用关心内部的内存管理问题，我们看一下数据在java虚拟机内部是如何存储的
+                  为什么会出现线程不安全的事件，让我们看看jvm的内部吧
               </div>
           
 
@@ -438,128 +449,99 @@
       
 
       
-        <h1 id="java运行时数据区域"><a href="#java运行时数据区域" class="headerlink" title="java运行时数据区域"></a>java运行时数据区域</h1><p>java虚拟机在运行程序的时候，会把内存分为几个部分，不同的数据放在不同的位置，先看一下这几个位置</p>
-<img src="/2018/12/12/深入理解java虚拟机-java内存区域/运行时数据区域.png" title="运行时数据区域">
-<p>我们下面具体讲一下每个区域</p>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器是一个较小的内存区域，是当前线程所执行的子节码的行号。java虚拟机多线程处理事情，是通过线程轮流切换实现的，在某一时刻，只会有一条线程在执行，所以为了线程切换之后能够回到刚刚执行的位置，所以就用这个记录刚刚执行的位置，这个是<strong>每个线程私有的</strong>，</p>
-<p>如果线程执行的是一个java方法，这个计数器记录的是正在执行的代码的行号，如果执行的是Native(本地)方法，则存储的值为空，此处区域是虚拟机中唯一一处不会发生内存溢出异常的区域(OutOfMemoryError)</p>
-<h2 id="java虚拟机栈"><a href="#java虚拟机栈" class="headerlink" title="java虚拟机栈"></a>java虚拟机栈</h2><p>与计数器一样，java虚拟机栈是<strong>线程私有的</strong>，生命周期有线程相同，虚拟机栈描述的是java方法的内存模型，在执行java方法的时候，就会生成一个栈帧，栈帧压入虚拟机栈，栈帧内部存储，<strong>局部变量表，操作数栈，动态链接，方法出口</strong>，当方法执行完毕，将栈帧弹出</p>
-<p>​    局部变量表存放了编译期可知的各种基本数据类型（boolean，int，char，short，double，float，long），对象引用(reference类型，他不是对象本身，可能是一个指向对象位置的地址，也可能是一个指向该对象的句柄)，returnAddress(指向了一条字节码指令地址)</p>
-<p>​    其中64位长度的long和double类型的数据会占用2个局部变量空间，其余类型都只是占用1个。局部变量表所需要的内存空间是在编译期完成分配的，当进入一个方法，这个方法所需要在栈帧内分配多大的局部变量表的空间是确定的，不会改变。</p>
-<p>​    栈中会发生两种异常，一种是线程请求的栈的深度大于栈的深度会抛出栈溢出异常(StackOverflowError)，另一种是栈在扩展的时候，无法申请到足够的内存，就会抛出内存异常异常(OutOfMemoryError)</p>
-<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>这个和虚拟机栈很类似，一般我们都合并在一起说栈，区别在于虚拟机栈存储java方法，而本地栈存储本地(Native)方法，本地方法栈也会抛出以上两种异常</p>
-<h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2><p>java堆（Heap）应该是虚拟机中内存最大的一块，java堆是被<strong>线程共享的</strong>，在虚拟机启动时创建，这个地方用来存储对象，几乎所有的对象实例都是在这个地方分配内存。数组也在堆上分配内存，</p>
-<p>java堆是垃圾收集管理的主要地域，被称为GC堆。从内存回收的角度看，由于垃圾收集器采用分代收集法，java堆被细分为<strong>老年代和新生代（Eden空间8，From Survivor空间1，To Survivor空间1）</strong>。</p>
-<p>java堆可以是物理上的内存不连续的空间，只要逻辑上的内存是连续的，内存也可以手动设置。</p>
-<p>1.7之后，将字符串常量池添加到堆中</p>
-<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>方法区域java堆一样是各个线程共享的。用于存储<strong>虚拟机加载的类信息，常量，静态变量，即时编译器编译后的代码</strong>。java虚拟机规范将方法区描述为堆的一个逻辑部分，但是他有个别名叫做<strong>非堆</strong>。</p>
-<p>在HotSpot虚拟机上开发，很多人习惯将方法区称作<strong>永久代</strong>（Permanent Generation），本质上两者不相同，仅仅是HotSpot虚拟机的设计团队将GC分代收集扩展至方法区，或者说使用永久代来实现方法区，这样就可以对这一部分进行内存管理。永久代也是会发生内存溢出的异常的。jdk1.7，已将放在永久代的字符串常量池移出。移至了元空间</p>
-<p>这个区域的内存回收主要针对常量池的回收和对类型的卸载</p>
-<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>运行时常量池是方法区的一部分，Class文件中除了有类的版本，字段，方法，接口等描述信息之外，还有一项是常量池，用于存放编译期生成的各种字面量和符号引用，这部分内容在将类加载后进入方法区的运行时常量池中存放。运行时常量池是动态的，可以在运行时候添加数据。</p>
-<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>这个并不是虚拟机运行时数据区的一部分，也不是java虚拟机规范中定义的内存区域。但这部分内存也被频繁使用，可能导致内存溢出</p>
-<p>在jdk1.4添加了NIO类，引入了一种基于通道与缓冲区的io方式，他可以使用native函数分配堆之外的内存，然后通过一个存储在java堆中的DirectByteBuffer对象作为这块内存的引用，进行操作，这样能够提升性能，避免了在java堆中和native堆中来回复制数据。</p>
-<p>分配堆外内存，不受jvm限制，但是受本机内存限制，可能会抛出异常</p>
-<h1 id="java对象分析"><a href="#java对象分析" class="headerlink" title="java对象分析"></a>java对象分析</h1><h2 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h2><p>我们在创建对象的时候使用了new关键字，看一下具体过程</p>
-<p>​    1.当检测到new指令的时候，会先去常量池中查找是否有这个类的引用，并检查这个引用代表的类是否被加载，解析和初始化过，如果没有执行类加载过程（后面讲）</p>
-<p>​    2.如果已经加载过，为对象分配内存。对象所需要的内存在加载之后就会确定，为对象分配内存是将从java堆中划出一块内存。如果堆内存是很规整的，那么中间回放着一个指针用作分界点，我们只需将指针移动需要的内存大小，这种方法叫做<strong>指针碰撞</strong>，如果内存不是规整的，那么虚拟机就会维护一个表，上面标注哪一块内存是可用的，我们在列表中找一块内存分配，这种叫做<strong>空闲列表</strong>。选择哪一种分配方式取决于堆内存是否规整，是否规整取决于垃圾收集器的种类，在使用Serial、ParNew等带整理内存的收集器的时候，会采用指针碰撞，使用CMS这种基于Mark-Sweep算法的收集器使用空闲指针（收集器在后面说）</p>
-<p>​    3.在创建对象时候，修改指针分配内存，这种在多线程容易出现线程安全问题，比如给A分配内存但是线程b也分配了那块内存，就发送问题了，一种是在分配的时候进行同步处理，虚拟机采用这种，Cas配上失败重试的方式保证更新操作的原子性，另一种是把内存按照线程分为不同的区域，每个线程在java堆中有一个自己的缓存内存（ThreadLocal），分配内存在自己的内存中分配，不够就再次申请。在申请的时候需要进行同步</p>
-<p>​    4.内存分配完毕之后，将分配到的内存空间初始化为零值（不包括对象头），这一步保证对象的实例字段在java代码中不赋值初始值就可以直接使用，返回对应数据类型的0值。</p>
-<p>​    5.接下来，虚拟机对对象进行必要的设置，例如这个对象是哪个类的实例，如何才能找到类的元数据信息，对象的hash吗，对象的GC分代年龄等。这些信息放在对象头中。</p>
-<p>上面做完，在虚拟机看来，对象已经产生，对于java程序来说，还需要执行init方法，所有字段都是零，</p>
-<h2 id="对象的内存分布"><a href="#对象的内存分布" class="headerlink" title="对象的内存分布"></a>对象的内存分布</h2><p>对象在内存中的存储布局分为3块区域，<strong>对象头，实例数据，对象填充</strong>。</p>
-<p>1.对象头包括两部分信息，<strong>一部分用于存储对象自身的运行时数据，hashCode，GC分代年龄，锁状态，线程持有的锁，偏向线程id，偏向时间戳等</strong>，这部分数据在32位和64位虚拟机中粉笔为32bit和64bit，官方称之为“Mark Word”。对象需要存储的数据很多，其实已经超过了32位64位，但是对象头信息是与自身定义的数据无关的额外存储成本，为了尽可能存储多数据，会根据对象的状态复用自己的存储空间，如在32位虚拟机，对象未被锁定，25bit存储hashCode，4bit存储对象的gc年龄，2位存储锁标志位，1位固定为0，其他状态存储内容，如下</p>
-<img src="/2018/12/12/深入理解java虚拟机-java内存区域/Mark-Word.png" title="Mark Word">
-<p><strong>对象头的另一部分是类型指针，即对象指向他的类元数据的指针</strong>，虚拟机通过这个指针来确定这个对象是哪个类的实例。如果对象是一个数组，那在对象头中还存储数组长度的数据</p>
-<p>2.实例部分是对象真正存储的有效信息，也是在程序代码中定义的各种类型字段内容。这部分的存储顺序按照字段宽度分配。</p>
-<p>3.第三部分的对齐填充并不是必然存在的，起着占位符的作用，虚拟机要求对象的起始地址必须是8个字节，换句话说对象的大小必须是8字节的倍数，对象头正好是8的倍数，实例数据部分没有对齐，就由这部分补充。</p>
-<h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><p>建立对象是为了使用对象，我们的java程序需要通过栈上的reference数据来操作堆上的具体对象。由于reference类型在虚拟机规范中是一个指向对象的引用，并没有定义如何通过引用去定位，</p>
-<p>1。句柄，java堆中会划分出句柄池，reference中存储的就是句柄的地址，句柄中包含了对象实例数据与类型数据各自的具体地址信息</p>
-<img src="/2018/12/12/深入理解java虚拟机-java内存区域/句柄访问.png" title="句柄访问">
-<p>2.直接指针访问，java堆对象的布局中必须考虑如何放置访问类型数据相关信息，而reference中存储对象的地址</p>
-<img src="/2018/12/12/深入理解java虚拟机-java内存区域/指针访问.png" title="指针访问">
-<p>使用句柄访问的好处就是reference中存储的是句柄地址，当对象移动的时候，会改变句柄中的对象地址，而reference不用改变。</p>
-<p>使用指针访问，速度快，不用再通过一次句柄去访问，虚拟机HotSpot默认就是这种</p>
-<h1 id="实战java内存异常"><a href="#实战java内存异常" class="headerlink" title="实战java内存异常"></a>实战java内存异常</h1><h2 id="参数设置"><a href="#参数设置" class="headerlink" title="参数设置"></a>参数设置</h2><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-Xms</td>
-<td>堆的初始内存</td>
-</tr>
-<tr>
-<td>-Xmx</td>
-<td>最大堆大小。如：-Xmx512m</td>
-</tr>
-<tr>
-<td>-Xmn</td>
-<td>新生代大小。通常为 Xmx 的 1/3 或 1/4。新生代 = Eden + 2 个 Survivor 空间。实际可用空间为 = Eden + 1 个 Survivor，即 90%</td>
-</tr>
-<tr>
-<td>-Xss</td>
-<td>JDK1.5+ 每个线程堆栈大小为 1M，一般来说如果栈不是很深的话， 1M 是绝对够用了的。</td>
-</tr>
-<tr>
-<td>-XX:NewRatio</td>
-<td>新生代与老年代的比例，如 –XX:NewRatio=2，则新生代占整个堆空间的1/3，老年代占2/3</td>
-</tr>
-<tr>
-<td>-XX:SurvivorRatio</td>
-<td>新生代中 Eden 与 Survivor 的比值。默认值为 8。即 Eden 占新生代空间的 8/10，另外两个 Survivor 各占 1/10</td>
-</tr>
-<tr>
-<td>-XX:PermSize</td>
-<td>永久代(方法区)的初始大小</td>
-</tr>
-<tr>
-<td>-XX:MaxPermSize</td>
-<td>永久代(方法区)的最大值</td>
-</tr>
-<tr>
-<td>-XX:+PrintGCDetails</td>
-<td>打印 GC 信息</td>
-</tr>
-<tr>
-<td>-XX:+HeapDumpOnOutOfMemoryError</td>
-<td>让虚拟机在发生内存溢出时 Dump 出当前的内存堆转储快照，以便分析用</td>
-</tr>
-<tr>
-<td>-XX:+PrintGCTimeStamps</td>
-<td>打印此次垃圾回收距离jvm开始运行的所耗时间。</td>
-</tr>
-<tr>
-<td>-Xloggc:<filename></filename></td>
-<td>将垃圾回收信息输出到指定文件</td>
-</tr>
-<tr>
-<td>-verbose:gc</td>
-<td>打印 GC 日志</td>
-</tr>
-<tr>
-<td>-XX:+PrintTenuringDistribution</td>
-<td>对象晋升的日志</td>
-</tr>
-<tr>
-<td>-XX:+PrintGCApplicationStopedTime</td>
-<td>查看 gc 造成的应用暂停时间</td>
-</tr>
-</tbody>
-</table>
-<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><h3 id="堆溢出"><a href="#堆溢出" class="headerlink" title="堆溢出"></a>堆溢出</h3><p>前面说了，堆存储的是对象实例，所以只要够多的对象实例，就会报异常，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span>: 张梦楠</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2018/12/12 15:20</span></span><br><span class="line"><span class="comment"> * 简书：https://www.jianshu.com/u/d611be10d1a6</span></span><br><span class="line"><span class="comment"> * 码云：https://gitee.com/zhangqiye</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>:</span></span><br><span class="line"><span class="comment"> *  虚拟机参数：-Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HeapOutOfMemeoryError</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">OOM</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ArrayList&lt;OOM&gt; ooms = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (;;)&#123;</span><br><span class="line">            ooms.add(<span class="keyword">new</span> OOM());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>异常</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"C:\Program Files\Java\jdk1.8.0_181\bin\java.exe"</span> -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError <span class="string">"-javaagent:D:\software\IntelliJ IDEA </span></span><br><span class="line"><span class="string">java.lang.OutOfMemoryError: Java heap space</span></span><br><span class="line"><span class="string">Dumping heap to java_pid13712.hprof ...</span></span><br><span class="line"><span class="string">Heap dump file created [28238909 bytes in 0.298 secs]</span></span><br><span class="line"><span class="string">Exception in thread "</span>main<span class="string">" java.lang.OutOfMemoryError: Java heap space</span></span><br><span class="line"><span class="string">	at java.util.Arrays.copyOf(Arrays.java:3210)</span></span><br><span class="line"><span class="string">	at java.util.Arrays.copyOf(Arrays.java:3181)</span></span><br><span class="line"><span class="string">	at java.util.ArrayList.grow(ArrayList.java:265)</span></span><br><span class="line"><span class="string">	at java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:239)</span></span><br><span class="line"><span class="string">	at java.util.ArrayList.ensureCapacityInternal(ArrayList.java:231)</span></span><br><span class="line"><span class="string">	at java.util.ArrayList.add(ArrayList.java:462)</span></span><br><span class="line"><span class="string">	at com.itzmn.java.javase.jvm.javamemory.HeapOutOfMemeoryError.main(HeapOutOfMemeoryError.java:20)</span></span><br></pre></td></tr></table></figure>
-<p>堆溢出，分为两种可能，一种是内存泄漏，一种是内存溢出，内存泄漏是站着茅坑不拉屎，站着位置，啥事不干，内存溢出是对象都有用，但是对象过多，我们先看看快照，是否是内存泄漏，某些对象是否是相互引用，而不是在GC Root的引用链上，那么就是内存泄漏，代码有问题，如果是内存溢出，那就要修改堆内存的大小</p>
-<h3 id="栈异常"><a href="#栈异常" class="headerlink" title="栈异常"></a>栈异常</h3><p>栈异常分为 StackOverflowError，还有OutOfMemoryError两种，当递归的深度太深，抵达了栈的最大深度，则会报出栈溢出异常，当栈扩容时申请不到内存则抛出内存溢出异常</p>
-<h3 id="方法区异常"><a href="#方法区异常" class="headerlink" title="方法区异常"></a>方法区异常</h3><p>OOM：PermGen space</p>
-<p>方法区存储类信息，即时编译的类数据，当动态生成大量的类，会撑爆方法区</p>
+        <h1 id="java内存模型基础"><a href="#java内存模型基础" class="headerlink" title="java内存模型基础"></a>java内存模型基础</h1><h2 id="并发编程模型的两个问题"><a href="#并发编程模型的两个问题" class="headerlink" title="并发编程模型的两个问题"></a>并发编程模型的两个问题</h2><p>在并发编程中，需要处理两个关键问题：线程之间如何通信及如何同步。通信是指线程之间以何种机制来交换信息。线程的通信机制有两种：共享内存和消息传递。</p>
+<p>在共享内存的并发模型里，线程之间共享程序的公共状态，通过写-读内存中的公共状态进行隐式通信。在消息传递的并发模型里，线程之间没有公共状态，线程之间需要通过发送信息来显式进行通信。</p>
+<p>同步是指程序中用于控制不同线程间操作发生相对顺序的机制。在共享内存并发模型中，同步是显式进行的。程序员必须显示指定某个方法或者某个代码需要在线程之间互斥执行。在消息传递的并发模型里，由于消息的发送必须在消息的接收之前，因此同步是隐式进行的。</p>
+<p>java的并发采用的是共享内存模型，java线程之间通信是隐式进行，整个通信过程对程序员完全透明。</p>
+<p>如果不了解这些，编程时候可能会遇到一些内存可见性问题。</p>
+<h2 id="java内存模型的抽象结构"><a href="#java内存模型的抽象结构" class="headerlink" title="java内存模型的抽象结构"></a>java内存模型的抽象结构</h2><p>在java中，所有实例域、静态域和数组元素存储在堆内存中，堆内存在线程之间共享，局部变量，不会在线程共享，不会有内存可见性问题。</p>
+<p>java线程之间通信由java内存模型（JMM），jMM决定一个线程对共享变量的写入何时对另个一线程可见。抽象来看，JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每个线程都有一个私有的本地内存，本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的一个抽象概念，并不真实存在。它涵盖了缓存，写缓冲区，寄存器等硬件设备。</p>
+<img src="/2018/12/15/并发编程-java内存模型/JMM抽象模型.png" title="JMM抽象模型">
+<p>线程A和线程B之间要通信</p>
+<ol>
+<li>线程A将本地内存A中更新过的数据写入主存</li>
+<li>线程B把主存中的数据更新过来</li>
+</ol>
+<h2 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h2><p>在执行程序的时候，为了提高性能，编译期和处理器常常会对指令做重排序。</p>
+<ul>
+<li><p>编译器优化的重排序。</p>
+<p>编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</p>
+</li>
+<li><p>指令级并行的重排序</p>
+<p>现代处理器采用指令级并行技术将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句的执行顺序</p>
+</li>
+<li><p>内存系统的重排序</p>
+<p>由于处理器使用缓存和读写缓冲区，这使得加载和存储操作上可能是在乱序执行</p>
+</li>
+</ul>
+<img src="/2018/12/15/并发编程-java内存模型/指令重排序.png" title="指令重排序">
+<h2 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h2><p>happens-before是用来阐述操作之间的内存可见性的。在JMM中如果一个操作对另一个操作可见，那么这两个操作之间必须存在happens-before关系</p>
+<p>程序员规则： 一个线程的每一个操作，happens-before于线程中的任意后续操作</p>
+<p>监视器锁规则：对一个锁的解锁，happens-before于对这个锁的加锁。</p>
+<p>volatile变量规则：对一个volatile变量的写，happens-before于任意后续对这个变量的读</p>
+<p>传递性：</p>
+<p>如果A happens-before于B，且B happens-before C，那么A happens-before C。</p>
+<p>注意：两个操作是happens-before关系，但不一定前一个操作要在后一个操作前执行，只需要结果对后一个操作可见。且前一个操作按顺序排在第二个操作之前。</p>
+<img src="/2018/12/15/并发编程-java内存模型/happens-before与JMM.png" title="happens-before与JMM">
+<h1 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h1><p>重排序是指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段。</p>
+<h2 id="数据依赖性"><a href="#数据依赖性" class="headerlink" title="数据依赖性"></a>数据依赖性</h2><p>如果两个操作访问同一个变量，且这两个操作中有一个为写 操作，此时这两个操作之间就存在数据依赖性。</p>
+<p>如写后读，写后写，读后写</p>
+<p>如果对这种情况进行排序，结果可能会被改变。</p>
+<p>前面说，编译器和处理器可能会对操作做重排序。在重排序的时候，会遵守数据依赖性，编译器和处理器不会改变存在数据依赖关系的两个操作的执行顺序。</p>
+<p>这里说的数据依赖性仅针对单个处理器中的指令序列和单个线程中执行的操作，多线程不考虑</p>
+<h2 id="as-if-serial语义"><a href="#as-if-serial语义" class="headerlink" title="as-if-serial语义"></a>as-if-serial语义</h2><p>不管怎么重排序，程序的执行结果不能改变。</p>
+<p>没有数据依赖的可以被重排序，但是有就不可以</p>
+<h2 id="指令重排对多线程的影响"><a href="#指令重排对多线程的影响" class="headerlink" title="指令重排对多线程的影响"></a>指令重排对多线程的影响</h2><p>如果两个线程对同一个变量操作(没有锁)，因为多线程之间是没有数据依赖性的，所以两个操作就会不可见，并且，还会进行指令重排序。那么可能就会改变程序的执行结果。</p>
+<h1 id="顺序一致性"><a href="#顺序一致性" class="headerlink" title="顺序一致性"></a>顺序一致性</h1><h2 id="数据竞争与顺序一致性"><a href="#数据竞争与顺序一致性" class="headerlink" title="数据竞争与顺序一致性"></a>数据竞争与顺序一致性</h2><p>当程序未正确同步时，可能会存在数据竞争。</p>
+<p>当代码中存在数据竞争时，程序的执行可能会有误。</p>
+<p>如果程序是正确同步的，程序的执行将具有顺序一致性，即程序的执行结果与该程序在顺序一致性内存模型中的执行结果相同。</p>
+<h2 id="顺序一致性内存模型"><a href="#顺序一致性内存模型" class="headerlink" title="顺序一致性内存模型"></a>顺序一致性内存模型</h2><ol>
+<li>一个线程中的所有操作必须按照程序的顺序来执行</li>
+<li>所有线程都只能看到一个单一的操作执行顺序。在顺序一致性内存模型中，每一个操作都必须原子执行且立刻对所有线程可见。</li>
+</ol>
+<p>顺序一致性模型有一个单一的全局内存，这个内存通过一个左右摆动的开关可以连接到任意一个线程。同时每一个线程必须按照程序的顺序来执行内存的读写操作。在任意时间，只有一个线程可以连接到内存。当多线程执行的时候，能够把所有操作串行化。</p>
+<p>如果两个线程同步，那么线程是按顺序执行的。线程内部也是按顺序执行的</p>
+<p>如果未同步，两个线程在整体上可能是无序的，但是每个线程内部是有序的，所有线程看到的是同一个执行顺序，因为顺序一致性可以保证每个操作对每个线程都可见</p>
+<p><strong>JMM没有这个保证。未同步的程序在jvm中不但整体的执行顺序是无序的，每个线程看到的执行顺序也不一致，因为当前操作只对当前线程可见。只有当线程将操作刷新会主存，这个才对其他线程可见</strong>这种情况下，这个线程和其他线程看到的操作顺序就不一样了。</p>
+<h1 id="volatile的内存语义"><a href="#volatile的内存语义" class="headerlink" title="volatile的内存语义"></a>volatile的内存语义</h1><h2 id="volatile的特性"><a href="#volatile的特性" class="headerlink" title="volatile的特性"></a>volatile的特性</h2><p>volatile前面已经说过了，算是一个小型的锁，可以对单个读写做了同步。对volatile变量的读，总是能看到任意线程对这个变量的写入操作。</p>
+<p>特性</p>
+<ul>
+<li><p>可见性</p>
+<p>对一个变量的读，总是能看到任意线程对这个volatile变量最后的写入操作</p>
+</li>
+<li><p>原子性</p>
+<p>对任意单个volatile变量的读写具有原子性，但类似于volatile++这种符合操作不具有原子性。</p>
+</li>
+</ul>
+<h2 id="volatile的读写的happens-before"><a href="#volatile的读写的happens-before" class="headerlink" title="volatile的读写的happens-before"></a>volatile的读写的happens-before</h2><p>volatile的写读可以实现线程之间的通信，因为内存可见</p>
+<p>当两个线程操作volatile的读写，那么线程的写操作对另一个线程的读是可见的，是happens-before的，那么根据happens-before的传递性，那么两个线程就有了顺序。</p>
+<h2 id="volatile的写读的内存语义"><a href="#volatile的写读的内存语义" class="headerlink" title="volatile的写读的内存语义"></a>volatile的写读的内存语义</h2><p>当写一个volatile的变量时，JMM会把该线程对应的本地内存中的共享变量值刷新到主内存中。</p>
+<p>当读一个volatile变量时，JMM会把该线程对应的本地内存置位无效，线程从主内存中读取共享变量。</p>
+<h1 id="锁的内存语义"><a href="#锁的内存语义" class="headerlink" title="锁的内存语义"></a>锁的内存语义</h1><h2 id="锁的释放建立的happens-before"><a href="#锁的释放建立的happens-before" class="headerlink" title="锁的释放建立的happens-before"></a>锁的释放建立的happens-before</h2><p>锁是并发最重要的同步机制。锁除了让临界区互斥执行意外，还可以发送信息</p>
+<p>当两个监视器锁也是有happens-before的，那么这两个同步块的内部更是有顺序的，那么两个线程之间的操作就是又顺序的。</p>
+<h2 id="锁的释放与获取的内存语义"><a href="#锁的释放与获取的内存语义" class="headerlink" title="锁的释放与获取的内存语义"></a>锁的释放与获取的内存语义</h2><p>当线程释放锁的时候，JMM会把该线程对应的本地内存中的共享变量刷新到主存中。</p>
+<p>当线程获取锁时，JMM会把该线程对应的本地内存置位无效。必须从主存中读取共享变量。</p>
+<h2 id="concurrent包的实现"><a href="#concurrent包的实现" class="headerlink" title="concurrent包的实现"></a>concurrent包的实现</h2><p>java线程之间的通信方式</p>
+<ol>
+<li>A线程写volatile变量，随后B线程读这个volatile变量</li>
+<li>A线程写volatile变量，随后B线程用CAS更新这个变量</li>
+<li>A线程用CAS更新一个volatile变量，随后B线程使用CAS更新变量</li>
+<li>A使用CAS更新一个volatile变量，随后b读取这个变量</li>
+</ol>
+<p>AQS 非阻塞数据结构和原子类，</p>
+<img src="/2018/12/15/并发编程-java内存模型/concurrent.png" title="concurrent">
+<h1 id="final的内存语义"><a href="#final的内存语义" class="headerlink" title="final的内存语义"></a>final的内存语义</h1><h2 id="final域的重排序规则"><a href="#final域的重排序规则" class="headerlink" title="final域的重排序规则"></a>final域的重排序规则</h2><p>要遵守两个重排序规则</p>
+<p>1.在构造函数内对一个final域的写入，与随后把这个被构造对象的引用赋值给一个引用变量，这个不能重排序</p>
+<p>2.初次读一个包含final域的对象的引用，与随后初次读这个final域，这两个操作之间不能重排序。</p>
+<h2 id="写final域的重排序规则"><a href="#写final域的重排序规则" class="headerlink" title="写final域的重排序规则"></a>写final域的重排序规则</h2><p>写final域的重排序规则禁止把final域的写重排序到构造函数之外。</p>
+<p>1.JMM禁止编译器把final域的写重排序到构造函数之外</p>
+<p>2.编译器会在final域的写之后，构造函数之前，插入一个内存屏障。这个屏障禁止处理器把final域的写重排序到构造函数之外。</p>
+<p>写final域的重排序可以确保：在对象引用为任意线程可见之前，对象的final域已经被正确初始化过了。而普通域不具有这个保证。</p>
+<h2 id="读final域的重排序"><a href="#读final域的重排序" class="headerlink" title="读final域的重排序"></a>读final域的重排序</h2><p>在一个线程中，初次读对象引用与初次读该对象包含的final域，JMM禁止重排序。</p>
+<p>读final域的重排序规则可以确保：在读一个对象的final域之前，一定会先读包含这个final域的对象的引用，如果引用不为null，那么final一定被初始化过了。</p>
+<h1 id="双重锁定的问题"><a href="#双重锁定的问题" class="headerlink" title="双重锁定的问题"></a>双重锁定的问题</h1><p>双重锁定一定要把实例定义为volatile变量，因为可能会被指令重排。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
-<li>在jdk1.7之后，将字符串常量池移动到了堆中</li>
-<li>方法区也被称为永久代，但是1.8之后被元空间取代</li>
+<li>volatile 相当于轻量级的锁，但是volatile并不能保证原子性</li>
 </ol>
 
       
@@ -618,7 +600,7 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/java虚拟机/" rel="tag"># java虚拟机</a>
+            <a href="/tags/java基础/" rel="tag"># java基础</a>
           
         </div>
       
@@ -631,8 +613,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/11/java集合-ConcurrentHashMap/" rel="next" title="java集合-ConcurrentHashMap">
-                <i class="fa fa-chevron-left"></i> java集合-ConcurrentHashMap
+              <a href="/2018/12/14/并发编程-java并发机制的底层实现原理/" rel="next" title="并发编程-java并发机制的底层实现原理">
+                <i class="fa fa-chevron-left"></i> 并发编程-java并发机制的底层实现原理
               </a>
             
           </div>
@@ -640,10 +622,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/12/深入理解java虚拟机-垃圾收集器/" rel="prev" title="深入理解java虚拟机-垃圾收集器">
-                深入理解java虚拟机-垃圾收集器 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -661,7 +639,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2018/12/12/深入理解java虚拟机-java内存区域/" title="深入理解java虚拟机-java内存区域">2018/12/12/深入理解java虚拟机-java内存区域/</a>
+          <a href="/2018/12/15/并发编程-java内存模型/" title="并发编程-java内存模型">2018/12/15/并发编程-java内存模型/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -845,7 +823,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java运行时数据区域"><span class="nav-number">1.</span> <span class="nav-text">java运行时数据区域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序计数器"><span class="nav-number">1.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java虚拟机栈"><span class="nav-number">1.2.</span> <span class="nav-text">java虚拟机栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地方法栈"><span class="nav-number">1.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java堆"><span class="nav-number">1.4.</span> <span class="nav-text">java堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法区"><span class="nav-number">1.5.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时常量池"><span class="nav-number">1.6.</span> <span class="nav-text">运行时常量池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接内存"><span class="nav-number">1.7.</span> <span class="nav-text">直接内存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#java对象分析"><span class="nav-number">2.</span> <span class="nav-text">java对象分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象创建"><span class="nav-number">2.1.</span> <span class="nav-text">对象创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的内存分布"><span class="nav-number">2.2.</span> <span class="nav-text">对象的内存分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的访问定位"><span class="nav-number">2.3.</span> <span class="nav-text">对象的访问定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实战java内存异常"><span class="nav-number">3.</span> <span class="nav-text">实战java内存异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数设置"><span class="nav-number">3.1.</span> <span class="nav-text">参数设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常"><span class="nav-number">3.2.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆溢出"><span class="nav-number">3.2.1.</span> <span class="nav-text">堆溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈异常"><span class="nav-number">3.2.2.</span> <span class="nav-text">栈异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法区异常"><span class="nav-number">3.2.3.</span> <span class="nav-text">方法区异常</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java内存模型基础"><span class="nav-number">1.</span> <span class="nav-text">java内存模型基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#并发编程模型的两个问题"><span class="nav-number">1.1.</span> <span class="nav-text">并发编程模型的两个问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java内存模型的抽象结构"><span class="nav-number">1.2.</span> <span class="nav-text">java内存模型的抽象结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令重排序"><span class="nav-number">1.3.</span> <span class="nav-text">指令重排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#happens-before"><span class="nav-number">1.4.</span> <span class="nav-text">happens-before</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重排序"><span class="nav-number">2.</span> <span class="nav-text">重排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据依赖性"><span class="nav-number">2.1.</span> <span class="nav-text">数据依赖性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#as-if-serial语义"><span class="nav-number">2.2.</span> <span class="nav-text">as-if-serial语义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令重排对多线程的影响"><span class="nav-number">2.3.</span> <span class="nav-text">指令重排对多线程的影响</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顺序一致性"><span class="nav-number">3.</span> <span class="nav-text">顺序一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据竞争与顺序一致性"><span class="nav-number">3.1.</span> <span class="nav-text">数据竞争与顺序一致性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#顺序一致性内存模型"><span class="nav-number">3.2.</span> <span class="nav-text">顺序一致性内存模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#volatile的内存语义"><span class="nav-number">4.</span> <span class="nav-text">volatile的内存语义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile的特性"><span class="nav-number">4.1.</span> <span class="nav-text">volatile的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile的读写的happens-before"><span class="nav-number">4.2.</span> <span class="nav-text">volatile的读写的happens-before</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile的写读的内存语义"><span class="nav-number">4.3.</span> <span class="nav-text">volatile的写读的内存语义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁的内存语义"><span class="nav-number">5.</span> <span class="nav-text">锁的内存语义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#锁的释放建立的happens-before"><span class="nav-number">5.1.</span> <span class="nav-text">锁的释放建立的happens-before</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁的释放与获取的内存语义"><span class="nav-number">5.2.</span> <span class="nav-text">锁的释放与获取的内存语义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#concurrent包的实现"><span class="nav-number">5.3.</span> <span class="nav-text">concurrent包的实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#final的内存语义"><span class="nav-number">6.</span> <span class="nav-text">final的内存语义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#final域的重排序规则"><span class="nav-number">6.1.</span> <span class="nav-text">final域的重排序规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写final域的重排序规则"><span class="nav-number">6.2.</span> <span class="nav-text">写final域的重排序规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读final域的重排序"><span class="nav-number">6.3.</span> <span class="nav-text">读final域的重排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双重锁定的问题"><span class="nav-number">7.</span> <span class="nav-text">双重锁定的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
