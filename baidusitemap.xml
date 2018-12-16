@@ -4,6 +4,31 @@
 
     
   <url>
+    <loc>https://itzmn.github.io/2018/12/16/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-java%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
+    <lastmod>2018-12-16T03:31:01.369Z</lastmod>
+    <data>
+        <display>
+        <title>并发编程-java线程池</title>
+        <pubTime>2018-12-16T02:29:06.000Z</pubTime>
+        
+        <tag>java</tag>
+         
+        <tag>java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="java" url="https://itzmn.github.io/categories/java/"/>
+          
+             
+              <breadCrumb title="并发编程" url="https://itzmn.github.io/categories/java/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://itzmn.github.io/2018/12/15/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-ConcurrentLinkedQueue/</loc>
     <lastmod>2018-12-15T13:39:04.806Z</lastmod>
     <data>
