@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java,java基础," />
+  <meta name="keywords" content="java,计算机基础,计算机网络," />
 
 
 
@@ -81,20 +81,22 @@
 
 
 
-<meta name="description" content="了解一下java线程池，有哪些，是怎样实现的">
-<meta name="keywords" content="java,java基础">
+<meta name="description" content="数据在网络中是如何传输的呢，我们访问浏览器是怎么实现的呢">
+<meta name="keywords" content="java,计算机基础,计算机网络">
 <meta property="og:type" content="article">
-<meta property="og:title" content="并发编程-java线程池">
-<meta property="og:url" content="https://itzmn.github.io/2018/12/16/并发编程-java线程池/index.html">
+<meta property="og:title" content="计算机网络-TCP&#x2F;UDP">
+<meta property="og:url" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/index.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="了解一下java线程池，有哪些，是怎样实现的">
+<meta property="og:description" content="数据在网络中是如何传输的呢，我们访问浏览器是怎么实现的呢">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://itzmn.github.io/2018/12/16/并发编程-java线程池/线程池执行流程.png">
-<meta property="og:updated_time" content="2018-12-16T03:31:01.369Z">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/TCP报头.png">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/握手.png">
+<meta property="og:image" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/挥手.png">
+<meta property="og:updated_time" content="2018-12-17T12:19:00.201Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="并发编程-java线程池">
-<meta name="twitter:description" content="了解一下java线程池，有哪些，是怎样实现的">
-<meta name="twitter:image" content="https://itzmn.github.io/2018/12/16/并发编程-java线程池/线程池执行流程.png">
+<meta name="twitter:title" content="计算机网络-TCP&#x2F;UDP">
+<meta name="twitter:description" content="数据在网络中是如何传输的呢，我们访问浏览器是怎么实现的呢">
+<meta name="twitter:image" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/TCP报头.png">
 
 
 
@@ -124,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/2018/12/16/并发编程-java线程池/"/>
+  <link rel="canonical" href="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/"/>
 
 
 
 
 
-  <title>并发编程-java线程池 | 七夜博客</title>
+  <title>计算机网络-TCP/UDP | 七夜博客</title>
   
 
 
@@ -311,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/16/并发编程-java线程池/">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="七夜">
@@ -328,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">并发编程-java线程池</h1>
+          <h1 class="post-title" itemprop="name headline">计算机网络-TCP/UDP</h1>
         
 
         <div class="post-meta">
@@ -340,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-16T10:29:06+08:00">
-                2018-12-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-17T15:24:24+08:00">
+                2018-12-17
               </time>
             
 
@@ -363,19 +365,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/并发编程/" itemprop="url" rel="index">
-                    <span itemprop="name">并发编程</span>
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
                   </a>
                 </span>
 
@@ -405,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.8k 字
+                  2.6k 字
                 </span>
               
 
@@ -421,7 +412,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6 分钟
+                  9 分钟
                 </span>
               
             </div>
@@ -429,7 +420,7 @@
 
           
               <div class="post-description">
-                  了解一下java线程池，有哪些，是怎样实现的
+                  数据在网络中是如何传输的呢，我们访问浏览器是怎么实现的呢
               </div>
           
 
@@ -446,106 +437,123 @@
       
 
       
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>java中的线程池是运用场景最多的并发框架，几乎所有需要异步或并发执行任务的程序都可以使用线程池。</p>
-<p>第一：降低资源消耗，通过重复利用已创建的线程降低线程创建与销毁造成的消耗。</p>
-<p>第二：提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。</p>
-<p>第三：提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性。使用线程池可以进行统一分配，调优和监控。</p>
-<h1 id="线程池的使用"><a href="#线程池的使用" class="headerlink" title="线程池的使用"></a>线程池的使用</h1><h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><p>我们可以通过ThreadPoolExecutor来创建一个线程池</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                              TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                              BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                              ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                              RejectedExecutionHandler handler)</span> </span>&#123;</span><br></pre></td></tr></table></figure>
-<p>参数</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>TCP/UDP 协议都是传输层的协议。TCP提供数据可靠传输，通过创建好的通道进行数据传输。而UDP不可靠。</p>
+<p>全双工：在接收数据的时候也可以发送数据</p>
+<p>半双工：同一时间只能做一件事</p>
+<h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1><p>优点：快，因为UDP没有连接，等其他动作，UDP是一个无状态的传输协议，</p>
+<p>缺点：不可靠，因为没有连接，所以很容易丢数据。但是，在一些只关心速度，不关心数据的场景用，聊天，视频</p>
+<p>UDP则是一种面向报文的传输方式，应用层交给UDP多长的报文，UDP就照样发送，一次发送一个报文。来多少发多少</p>
+<p>server端: 创建server-&gt;监听端口-&gt;接收发送数据-&gt;关闭</p>
+<p>客户端: 创建客户端-&gt;发送接收数据-&gt;关闭客户端</p>
+<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><h2 id="TCP报头"><a href="#TCP报头" class="headerlink" title="TCP报头"></a>TCP报头</h2><img src="/2018/12/17/计算机网络-TCP-UDP/TCP报头.png" title="TCP报头">
+<p><strong>位码即tcp标志位</strong>,有6种标示:</p>
+<p>SYN(synchronous建立联机) ：TCP规定SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。 </p>
+<p>ACK(acknowledgement 确认) ：当值为1的时候，确认号码才有效</p>
+<p>PSH(push传送) </p>
+<p>FIN(finish结束) ：TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。 </p>
+<p>RST(reset重置) </p>
+<p>URG(urgent紧急) </p>
+<p>Sequence number(顺序号码，为报文数据的第一个字节的位置) Acknowledge number(确认号码，期望下次收到的字节的位置，也就是对面发来的顺序号) </p>
+<p>源端口号：表示发送端端口号，字段长为16位</p>
+<p>目标端口号：表示接收端口号，字段长为16位。 </p>
+<p><strong>TCP连接状态：</strong></p>
+<p>LISTEN - 侦听来自远方TCP端口的连接请求； </p>
+<p>SYN-SENT 在发送连接请求后等待匹配的连接请求；  </p>
+<p>SYN-RECEIVED - 在收到和发送一个连接请求后等待对连接请求的确认；  </p>
+<p>ESTABLISHED- 代表一个打开的连接，数据可以传送给用户</p>
+<p>FIN-WAIT-1 - 等待远程TCP的连接中断请求，或先前的连接中断请求的确认； </p>
+<p>FIN-WAIT-2 - 从远程TCP等待连接中断请求；  </p>
+<p>CLOSE-WAIT - 等待从本地用户发来的连接中断请求；  </p>
+<p>CLOSING -等待远程TCP对连接中断的确认；  </p>
+<p>LAST-ACK - 等待原来发向远程TCP的连接中断请求的确认；  </p>
+<p>TIME-WAIT -等待足够的时间以确保远程TCP接收到连接中断请求的确认；  </p>
+<p>CLOSED - 没有任何连接状态； </p>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><img src="/2018/12/17/计算机网络-TCP-UDP/握手.png" title="三次握手">
+<p>简单讲一下过程，握手由客户端发起</p>
+<p>第一次：客户端什么也不能确认，服务端确认自己接收正常，对方发送正常</p>
+<p>第二次：客户端确认自己发送正常，接收正常，对方发送正常，接收正常，服务端确认自己接收正常，对方发送正常</p>
+<p>第三次：客户端确认自己发送正常，接收正常，对方发送正常，接收正常，服务端确认自己接收正常，对方发送正常，自己发送正常，对方接收正常。</p>
+<p>具体过程：(举个栗子)</p>
+<p>第一次握手：主机A发送位码为syn＝1（请求连接）,随机产生seq number=1234567的数据包到服务器，主机B由SYN=1知道，A要求建立联机；客户端状态变成同步发送（SYN-SENT）</p>
+<p>第二次握手：主机B收到请求后要确认联机信息，向A发送ack number=(主机A的seq+1),syn=1,ack=1（确认，确认号为1，则确认数据字段有效）,随机产生seq=7654321的包，服务端变成同步接收（SYN-RECEIVED）</p>
+<p>第三次握手：主机A收到后检查ack number是否正确，即第一次发送的seq number+1,以及位码ack是否为1，若正确，主机A会再发送ack number=(主机B的seq+1),ack=1，主机B收到后确认seq值与ack=1则连接建立成功。客户端变成开始监听状态(ESTABLISHED)，服务端也是这个状态</p>
+<p>总结：我请求连接(发送连接状态，产生一个序列号，)，服务端收到，返回一个数据(确认状态，连接状态，序列号(自己初始化)，确认数值（发来的序列号加1）)，我收到再发一个回去(连接状态，确认状态，序列号（上次的确认数值），确认数值(发来的序列号+1))</p>
+<p><strong>问题：</strong></p>
 <ol>
-<li><p>corePoolSize:线程池的核心线程数</p>
-<p>当提交一个任务到线程池中，线程池会创建核心线程处理任务，即使其他核心线程空闲，也会创建新线程。等到任务大于核心线程不在创建，将任务添加进队列‘。核心线程会一直存活，即使是空闲状态。</p>
-</li>
-<li><p>runnableTaskQueue：任务队列</p>
-<p>用于保存等待执行的任务的阻塞队列，可以选择以下几种</p>
-<ul>
-<li><p>ArrayBlockingQueue</p>
-<p>一个基于数组的有界阻塞队列，先入先出，可以限定队列的长度，接收到任务的时候，如果没有达到corePoolSize的值，则新建线程(核心线程)执行任务，如果达到了，则入队等候，如果队列已满，则新建线程(非核心线程)执行任务，又如果总线程数到了maximumPoolSize，并且队列也满了，则发生错误</p>
-</li>
-<li><p>LinkedBlockingQueue</p>
-<p>一个基于链表的有界阻塞队列，先入先出，最大界限是整数的最大值，这个队列接收到任务的时候，如果当前线程数小于核心线程数，则新建线程(核心线程)处理任务；如果当前线程数等于核心线程数，则进入队列等待。由于这个队列没有最大值限制，即所有超过核心线程数的任务都将被添加到队列中，这也就导致了maximumPoolSize的设定失效，因为总线程数永远不会超过corePoolSize</p>
-</li>
-<li><p>SynchronousQueue</p>
-<p>一个不存储元素的阻塞队列，当有线程取数据，他才会插入。否则插入一直阻塞。这个队列接收到任务的时候，会直接提交给线程处理，而不保留它，如果所有线程都在工作怎么办？那就新建一个线程来处理这个任务！所以为了保证不出现&lt;线程数达到了maximumPoolSize而不能新建线程&gt;的错误，使用这个类型队列的时候，maximumPoolSize一般指定成Integer.MAX_VALUE，即无限大</p>
-</li>
-<li><p>PriorityBlockingQueue</p>
-<p>一个具有优先队列的无限阻塞队列</p>
-</li>
-</ul>
-</li>
-<li><p>maximumPoolSize：线程池的最大数量</p>
-<p>线程池允许的最大线程数，如果队列满了，并且创建的线程数小于最大线程，那么就会创建新线程。如果队列是无界，那么就不可能满。</p>
-</li>
-<li><p>ThreadFactory，用于创建线程的工程</p>
-<p>可以通过线程工厂给每个线程设个名字</p>
-</li>
-<li><p>RejectedExecutionHandler ：饱和策略</p>
-<p>当队列和线程池都满了。说明线程池处于饱和状态，那么采取拒绝策略。默认是AbortPolicy，抛出异常</p>
-<ul>
-<li>AborPolicy：抛出异常</li>
-<li>CallerRunsPolicy：只用调用者所在的线程来运行任务</li>
-<li>DiscardOldestPolicy：丢弃队列最近的一个任务，执行当前任务</li>
-<li>DiscardPolicy：不处理，丢弃</li>
-</ul>
-</li>
-<li><p>KeepAliveTime：线程存活时间</p>
-<p>线程池的工作线程空闲之后，保持存活的时间。</p>
-</li>
-<li><p>TimeUnit：时间单位</p>
+<li><p>为什么要三次握手</p>
+<p>因为第三次握手，服务端才能确定自己发送正常，对方接收正常，不然第二次握手失败，没有被客户端接收到，服务端以为链接成功，那么后面发送的数据，都是无效的。</p>
 </li>
 </ol>
-<h2 id="向线程池提交任务"><a href="#向线程池提交任务" class="headerlink" title="向线程池提交任务"></a>向线程池提交任务</h2><p>使用两个方法，execute和submit</p>
-<p>execute方法用于提交没有返回值的任务。无法判断任务是否被线程池执行成功</p>
-<p>submit方法用于提交有返回值的任务。线程池会返回一个future对象。通过这个对象判断是否执行成功。</p>
-<h2 id="关闭线程池"><a href="#关闭线程池" class="headerlink" title="关闭线程池"></a>关闭线程池</h2><p>使用shutdown或者shutdownNow</p>
-<p>原理是遍历线程池中的工作线程，逐个调用中断方法会中断线程。无法响应中断的任务可能无法终止。shutdownNow首先将线程池的状态设置为STOP。然后停止线程。shutdown是将线程池的状态设置为SHUTDOWN。然后中断所有没有正在执行任务的线程。</p>
-<h2 id="线程池内部的参数方法"><a href="#线程池内部的参数方法" class="headerlink" title="线程池内部的参数方法"></a>线程池内部的参数方法</h2><ul>
-<li><p>taskCount</p>
-<p>线程池需要执行的任务数量</p>
-</li>
-<li><p>completedTaskCount</p>
-<p>线程池在运行过程中已完成的任务数量</p>
-</li>
-<li><p>largestPoolSize</p>
-<p>线程池里曾创建过的最大线程数量。可以判断线程池是否满过</p>
-</li>
-<li><p>getPoolSize</p>
-<p>线程池的线程数量</p>
-</li>
-<li><p>getActiveCount</p>
-<p>获取活动的线程数</p>
-</li>
-</ul>
-<h1 id="线程池的实现原理"><a href="#线程池的实现原理" class="headerlink" title="线程池的实现原理"></a>线程池的实现原理</h1><p>当向线程池提交了一个任务后，线程池是如何处理这个任务的呢？</p>
+<h2 id="挥手"><a href="#挥手" class="headerlink" title="挥手"></a>挥手</h2><img src="/2018/12/17/计算机网络-TCP-UDP/挥手.png" title="四次挥手">
+<p>客户端发起</p>
+<p>第一次：客户端-&gt;服务端,说我没什么要发送的数据了，客户端变成等待状态，等待服务端的数据发送完毕</p>
+<p>第二次:服务端-&gt;客户端，不管你有没有数据我都要把我的数据发给你</p>
+<p>第三次：服务端-&gt;客户端，我也没啥数据了，准备关闭了，服务端变成等待状态</p>
+<p>第四次:客户端-&gt;服务端，那就关闭了客户端关闭，服务端接收到也关闭</p>
+<p>具体过程：</p>
 <ol>
-<li>线程池判断核心线程池里的线程是否都在执行任务。如果不是，新建核心线程来执行任务（需要获取全局锁）。如果核心线程都在工作，执行下面</li>
-<li>线程池判断工作队列是否满了。如果没有满，将任务添加进队列，如果满了，进入下一个流程</li>
-<li>线程池判断线程池里的线程是否都在工作，如果没有就创建一个线程工作(需要获取全局锁)，如果都在工作。执行拒绝策略</li>
+<li>客户端发出释放报文(FIN=1,序列号为seq=10),停止发送数据，进入FIN-WAIT-1终止等待1，</li>
+<li>服务端收到释放报文，发出确认(ACK=1,确认号ack=10+1,顺序号码=100)，服务端进入ClOSE-WAIT(关闭等待状态)，TCP处于半关闭状态</li>
+<li>客户端收到服务端的确认，进入FIN-WAIT-2（终止等待2状态），等待服务端主动断开</li>
+<li>服务端发送释放报文(FIN=1,ACK=1,序列号码seq=456，确认号ack=10+1)，服务端进入LAST-ACK（最后确认状态），</li>
+<li>客户端收到报文后，发送确认消息(ACK=1，序列号seq=10+1,ack=456+1),客户端进入TIME-WAIT（时间等待状态），2MSL时间，过了等待时间。客户端服务端都进入关闭状态。</li>
 </ol>
-<img src="/2018/12/16/并发编程-java线程池/线程池执行流程.png" title="线程池执行流程">
-<h1 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h1><p>通过Executors可以创建三种线程池</p>
+<p><strong>总结</strong>：</p>
 <ol>
-<li>FixedThreadPool</li>
-<li>SingleThreadExecutor</li>
-<li>CacheThreadPool</li>
+<li><p>客户端为什么要等待2MSL的时间</p>
+<p>报文在网络中的最长生命为MSL</p>
+<ol>
+<li><p>保证客户端发送的最后一个ACK报文段能被服务端接收，使得两方都关闭</p>
+<p>不等待的话。在客户端发送的ACK服务端没有收到，服务端在超过时间，就会再次发起一次中断请求，这时候客户端已经关闭了，那么服务端就一个人在发消息了，如果等待，如果ACK没有被收到，服务端再次发送请求，就会被客户端接收到</p>
+</li>
+<li><p>防止已失效连接的报文出现在本连接</p>
+<p>当等待两个时间，那么其他的报文段都已经失效，不会影响其他的链接。</p>
+</li>
 </ol>
-<h2 id="FixedThreadPool"><a href="#FixedThreadPool" class="headerlink" title="FixedThreadPool"></a>FixedThreadPool</h2><p>是可重用固定线程数的线程池</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                      <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                      <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>当线程数大于核心线程数，如果空闲就会马上停止，因为存活时间为0.任务队列是链表，有界，是整数的最大值，算无界，很多参数无效了，也不会执行拒绝策略</p>
-<h2 id="SingleThreadExecutor"><a href="#SingleThreadExecutor" class="headerlink" title="SingleThreadExecutor"></a>SingleThreadExecutor</h2><p>这是使用单个线程的线程池</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService</span><br><span class="line">            (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                    <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                    <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>核心线程设置为1，最大线程设置为1，所以只能有一个线程执行任务，多的就要添加到队列，无界队列，不会满</p>
-<h2 id="CacheThreadPool"><a href="#CacheThreadPool" class="headerlink" title="CacheThreadPool"></a>CacheThreadPool</h2><p>这是一个根据需要创建新线程的线程池</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">                                      <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">                                      <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>核心线程为0，最大线程数最整数最大值，存活时间为60L,但是队列只能是来一个任务，取一个任务。</p>
-<p>来一个任务，创建一个线程执行。</p>
-<h2 id="ScheduleThreadPool"><a href="#ScheduleThreadPool" class="headerlink" title="ScheduleThreadPool"></a>ScheduleThreadPool</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, NANOSECONDS,</span><br><span class="line">          <span class="keyword">new</span> DelayedWorkQueue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>核心线程由用户定义，最大线程是整数的最大值。</p>
-<p>队列是DelayQueue，添加进来的任务都要事先Delay接口，当延时时间过了，才会从队列中取出执行。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
-<li><p>如何让两个线程顺序执行</p>
-<p>可以使用join，或者可以使用线程池，先入先出，两个线程顺序执行，singelThreadPool，单一时间只能有1个线程执行。</p>
+</li>
+</ol>
+<h2 id="滑动窗口协议"><a href="#滑动窗口协议" class="headerlink" title="滑动窗口协议"></a>滑动窗口协议</h2><p>窗口，对应的是一段可以被发送或者被接受的一段字节序列，因为是连续的，就称之为窗口</p>
+<p>滑动，随着发送过程，窗口移动，就是滑动。</p>
+<p><strong>概念</strong></p>
+<ol>
+<li>因为TCP协议的两端分别是客户端和服务端，都是全双工协议，所以可读可写。两边都维护着一个写缓冲区和读缓冲区。发送窗口就是发送缓存中的一部分，是即将要被发送出去的数据。</li>
+<li>发送窗口中有四部分内容，已发送已确认，已发送未确认，未发送但是可以发送，不可发送数据</li>
+<li>每次发送成功之后，发送窗口都会按顺序移动，只有数据被确认才会过去，不然就会超时重传。</li>
+</ol>
+<p>滑动过程：</p>
+<p>客户端的发送窗口为20长度，发送了前面5个数据，当收到了确认，窗口就会向前移动5个位置，如果没有收到确认，就会重传。但是发送了5个数据，接收端并不一定是按照顺序收到的，</p>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><p>流量控制就是发数据不要发的太快，</p>
+<ol>
+<li><p>流量控制</p>
+<p>接收方传递信息给发送发，不要发送数据太快，返回自己的接收窗口大小，发送端不要超过这么多。</p>
+<p><strong>问题：</strong></p>
+<p>如果b告诉a，我的缓冲区满了，不要发数据了，a停止发送数据，等了一段时间，b跟a说你发数据过来吧，但是这个信息没有被a接收到，那么ab就会相互等待。</p>
+<p><strong>解决</strong>：</p>
+<p>当a收到对方窗口满了，就启动计时器，时间到了，就发送数据问他，你有空闲了吗，如果没有就刷新计时器，如果有了，就发送数据。</p>
+</li>
+<li><p>发送效率问题</p>
+<p>如果接收方有1个位置空闲了，那发送方就发送一个数据给他，浪费性能，等空闲多了，在发送</p>
+</li>
+</ol>
+<h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>当数据过多，时候就会产生拥塞。</p>
+<p>1.慢开始，拥塞控制</p>
+<p>2.快重传，快回复</p>
+<p>发送方维持一个“拥塞窗口”的变量，这个变量和接收方的一起决定发送方的发送窗口</p>
+<p>主机发送数据，首先发送1个字节的试探报文，没问题，发送两个字节，然后4个，2的指数倍增加。然后抵达一个“快开始门槛”ssthresh</p>
+<p>cwnd(发送的数据量)&lt;ssthresh：使用慢开始算法</p>
+<p>cwnd=ssthresh：两种都行</p>
+<p>cwnd&gt;ssthresh：拥塞避免算法</p>
+<p>拥塞避免算法：每发送一次数据就把发送窗口加1，</p>
+<p>当出现网络拥塞的时候，将慢开始门槛设为原来的一半，滑动窗口数量变为0，继续发送数据。</p>
+<p>快重传：</p>
+<ol>
+<li>接收方建立这样的机制，如果一个包丢失，则对后续的包继续发送针对该包的重传请求</li>
+<li>一旦发送方接收到三个一样的确认没就知道该包之后出现了错误，立刻重传该包</li>
+<li>此时发送方执行快恢复算法<ol>
+<li>慢开始门槛减半</li>
+<li>cwnd设置为慢开始门槛减半的值</li>
+<li>执行拥塞避免算法</li>
+</ol>
 </li>
 </ol>
 
@@ -605,7 +613,9 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/java基础/" rel="tag"># java基础</a>
+            <a href="/tags/计算机基础/" rel="tag"># 计算机基础</a>
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
           
         </div>
       
@@ -618,8 +628,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/15/并发编程-java中的阻塞队列-大纲/" rel="next" title="并发编程-java中的阻塞队列(大纲)">
-                <i class="fa fa-chevron-left"></i> 并发编程-java中的阻塞队列(大纲)
+              <a href="/2018/12/16/并发编程-java线程池/" rel="next" title="并发编程-java线程池">
+                <i class="fa fa-chevron-left"></i> 并发编程-java线程池
               </a>
             
           </div>
@@ -627,10 +637,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/17/计算机网络-TCP-UDP/" rel="prev" title="计算机网络-TCP/UDP">
-                计算机网络-TCP/UDP <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -648,7 +654,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2018/12/16/并发编程-java线程池/" title="并发编程-java线程池">2018/12/16/并发编程-java线程池/</a>
+          <a href="/2018/12/17/计算机网络-TCP-UDP/" title="计算机网络-TCP/UDP">2018/12/17/计算机网络-TCP-UDP/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -832,7 +838,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程池的使用"><span class="nav-number">2.</span> <span class="nav-text">线程池的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建"><span class="nav-number">2.1.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向线程池提交任务"><span class="nav-number">2.2.</span> <span class="nav-text">向线程池提交任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭线程池"><span class="nav-number">2.3.</span> <span class="nav-text">关闭线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池内部的参数方法"><span class="nav-number">2.4.</span> <span class="nav-text">线程池内部的参数方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程池的实现原理"><span class="nav-number">3.</span> <span class="nav-text">线程池的实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Executor"><span class="nav-number">4.</span> <span class="nav-text">Executor</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FixedThreadPool"><span class="nav-number">4.1.</span> <span class="nav-text">FixedThreadPool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SingleThreadExecutor"><span class="nav-number">4.2.</span> <span class="nav-text">SingleThreadExecutor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CacheThreadPool"><span class="nav-number">4.3.</span> <span class="nav-text">CacheThreadPool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ScheduleThreadPool"><span class="nav-number">4.4.</span> <span class="nav-text">ScheduleThreadPool</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP"><span class="nav-number">2.</span> <span class="nav-text">UDP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP"><span class="nav-number">3.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP报头"><span class="nav-number">3.1.</span> <span class="nav-text">TCP报头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三次握手"><span class="nav-number">3.2.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挥手"><span class="nav-number">3.3.</span> <span class="nav-text">挥手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滑动窗口协议"><span class="nav-number">3.4.</span> <span class="nav-text">滑动窗口协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流量控制"><span class="nav-number">3.5.</span> <span class="nav-text">流量控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制"><span class="nav-number">3.6.</span> <span class="nav-text">拥塞控制</span></a></li></ol></li></ol></div>
             
 
           </div>
