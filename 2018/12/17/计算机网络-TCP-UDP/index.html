@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/TCP报头.png">
 <meta property="og:image" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/握手.png">
 <meta property="og:image" content="https://itzmn.github.io/2018/12/17/计算机网络-TCP-UDP/挥手.png">
-<meta property="og:updated_time" content="2018-12-17T12:19:00.201Z">
+<meta property="og:updated_time" content="2018-12-17T12:25:48.864Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="计算机网络-TCP&#x2F;UDP">
 <meta name="twitter:description" content="数据在网络中是如何传输的呢，我们访问浏览器是怎么实现的呢">
@@ -396,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.6k 字
+                  2.7k 字
                 </span>
               
 
@@ -522,6 +522,12 @@
 </ol>
 <p>滑动过程：</p>
 <p>客户端的发送窗口为20长度，发送了前面5个数据，当收到了确认，窗口就会向前移动5个位置，如果没有收到确认，就会重传。但是发送了5个数据，接收端并不一定是按照顺序收到的，</p>
+<h2 id="粘包"><a href="#粘包" class="headerlink" title="粘包"></a>粘包</h2><p>发送方的数据分几次发送，接收方接收也不是有序的，如果一个包被分了几次传，会对接收到的数据产生错误的解释。如果两个包被解释成一个，叫粘包，如果分两次读取了一个包，那叫拆包</p>
+<p><strong>解决:</strong></p>
+<ol>
+<li>将报文固定长度发送</li>
+<li>对每个包 增加一些分割字段。</li>
+</ol>
 <h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><p>流量控制就是发数据不要发的太快，</p>
 <ol>
 <li><p>流量控制</p>
@@ -838,7 +844,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP"><span class="nav-number">2.</span> <span class="nav-text">UDP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP"><span class="nav-number">3.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP报头"><span class="nav-number">3.1.</span> <span class="nav-text">TCP报头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三次握手"><span class="nav-number">3.2.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挥手"><span class="nav-number">3.3.</span> <span class="nav-text">挥手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滑动窗口协议"><span class="nav-number">3.4.</span> <span class="nav-text">滑动窗口协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流量控制"><span class="nav-number">3.5.</span> <span class="nav-text">流量控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制"><span class="nav-number">3.6.</span> <span class="nav-text">拥塞控制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP"><span class="nav-number">2.</span> <span class="nav-text">UDP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP"><span class="nav-number">3.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP报头"><span class="nav-number">3.1.</span> <span class="nav-text">TCP报头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三次握手"><span class="nav-number">3.2.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挥手"><span class="nav-number">3.3.</span> <span class="nav-text">挥手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滑动窗口协议"><span class="nav-number">3.4.</span> <span class="nav-text">滑动窗口协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粘包"><span class="nav-number">3.5.</span> <span class="nav-text">粘包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流量控制"><span class="nav-number">3.6.</span> <span class="nav-text">流量控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制"><span class="nav-number">3.7.</span> <span class="nav-text">拥塞控制</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -878,7 +884,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">55.7k</span>
+    <span title="Site words total count">55.8k</span>
   
 </div>
 
