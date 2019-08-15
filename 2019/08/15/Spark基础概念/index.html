@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="java,Hexo,spring,springboot,博客" />
+  <meta name="keywords" content="Java,Scala，大数据，Spark," />
 
 
 
@@ -83,18 +83,20 @@
 
 
 
-<meta name="description" content="一个java学习者，希望能认识更多志同道合的朋友">
-<meta name="keywords" content="java spring springboot redis mysql">
+<meta name="description" content="了解Spark的基本概念">
+<meta name="keywords" content="Java,Scala，大数据，Spark">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第二篇测试">
-<meta property="og:url" content="https://itzmn.github.io/2018/09/16/第二篇测试/index.html">
+<meta property="og:title" content="Spark基础概念">
+<meta property="og:url" content="https://itzmn.github.io/2019/08/15/Spark基础概念/index.html">
 <meta property="og:site_name" content="七夜博客">
-<meta property="og:description" content="一个java学习者，希望能认识更多志同道合的朋友">
+<meta property="og:description" content="了解Spark的基本概念">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-16T15:09:09.622Z">
+<meta property="og:image" content="https://itzmn.github.io/2019/08/15/Spark基础概念/架构.png">
+<meta property="og:updated_time" content="2019-08-15T13:07:27.328Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第二篇测试">
-<meta name="twitter:description" content="一个java学习者，希望能认识更多志同道合的朋友">
+<meta name="twitter:title" content="Spark基础概念">
+<meta name="twitter:description" content="了解Spark的基本概念">
+<meta name="twitter:image" content="https://itzmn.github.io/2019/08/15/Spark基础概念/架构.png">
 
 
 
@@ -124,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/2018/09/16/第二篇测试/"/>
+  <link rel="canonical" href="https://itzmn.github.io/2019/08/15/Spark基础概念/"/>
 
 
 
 
 
-  <title>第二篇测试 | 七夜博客</title>
+  <title>Spark基础概念 | 七夜博客</title>
   
 
 
@@ -311,7 +313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2018/09/16/第二篇测试/">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2019/08/15/Spark基础概念/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="七夜">
@@ -328,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">第二篇测试</h1>
+          <h1 class="post-title" itemprop="name headline">Spark基础概念</h1>
         
 
         <div class="post-meta">
@@ -340,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T23:09:09+08:00">
-                2018-09-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T21:02:07+08:00">
+                2019-08-15
               </time>
             
 
@@ -350,6 +352,61 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/大数据/Spark/" itemprop="url" rel="index">
+                    <span itemprop="name">Spark</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/大数据/Spark/Scala/" itemprop="url" rel="index">
+                    <span itemprop="name">Scala</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -372,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0 字
+                  629 字
                 </span>
               
 
@@ -388,12 +445,16 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  2 分钟
                 </span>
               
             </div>
           
 
+          
+              <div class="post-description">
+                  了解Spark的基本概念
+              </div>
           
 
         </div>
@@ -409,7 +470,32 @@
       
 
       
-        
+        <h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>Apache Spark 是一种快速的，通用的，可扩展的大数据分析引擎。是基于内存的计算</p>
+<h3 id="Spark架构"><a href="#Spark架构" class="headerlink" title="Spark架构"></a>Spark架构</h3><p>Driver是用户程序，cluster manager是集群资源管理器（每种不同的部署模式有不同的集群管理器）, Worker Node是真正运行程序的机器节点，Executor执行程序的JVM进程</p>
+<img src="/2019/08/15/Spark基础概念/架构.png" title="Spark架构">
+<p>大致运行过程:</p>
+<ol>
+<li>用户创建sparkContext时，SparkContext会连接到Cluster Manager。Cluster Manager会根据用户提交程序时设置的参数封装CPU，内存分配资源，启动Executor</li>
+<li>Driver程序会将Spark程序划分为不同的Job，每个Job划分为不同的Stage，每个Stage有一组Task，Task会被分配到Executor节点中执行</li>
+<li>Executor接收到Task之后，会下载Task执行的数据依赖，准备好之后，开始执行，并将执行状态汇报给Driver</li>
+<li>Task分两种，ShuffleMapTask，用来做数据洗牌，ResultTask负责生成结果</li>
+<li>Driver会不断的调用Task，将Task发送到Executor执行，直到所有的Task执行完毕</li>
+</ol>
+<h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>应用，用户使用Spark编写的程序</p>
+<h3 id="Driver"><a href="#Driver" class="headerlink" title="Driver"></a>Driver</h3><p>SparkContext所在的节点位置</p>
+<h3 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h3><p>封装了CPU，内存，Core等资源的容器</p>
+<h3 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h3><p>分布式弹性数据集。具有自动容错，位置感知性调度和可伸缩性等特点。生成RDD的方式一种是读取数据生成RDD，一种是从RDD转换而来</p>
+<h3 id="RDD操作（算子）"><a href="#RDD操作（算子）" class="headerlink" title="RDD操作（算子）"></a>RDD操作（算子）</h3><p>分为动作算子，转换算子</p>
+<p>转换算子将Parent RDD 转换称为新的RDD，这是一系列的逻辑</p>
+<p>动作算子是计算RDD的数据，RDD是懒计算的，当遇到动作算子，RDD才会真正的开始计算</p>
+<h3 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h3><p>Spark一般使用HDFS作为文件存储的地方，HDFS文件存储会划分为Block存储在不同的节点上，Spark读取文件生成RDD，RDD的Partition就是Block的个数</p>
+<h3 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h3><p>执行Task的JVM </p>
+<h3 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h3><p>当Spark调用了动作算子，生成一个Job</p>
+<h3 id="Dependency"><a href="#Dependency" class="headerlink" title="Dependency"></a>Dependency</h3><p>依赖，RDD要么通过读取数据而来，要么通过转换而来，通过转换来的RDD都是Parent RDD的概念，是如何从Parent RDD之间取得数据形成新的RDD的，这个就是依赖关系</p>
+<h3 id="Stage"><a href="#Stage" class="headerlink" title="Stage"></a>Stage</h3><p>依赖分为宽依赖可窄依赖，当RDD之间是宽依赖的时候，就会划分为一个Stage</p>
+<h3 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h3><p>在一个Stage中，RDD的每个Partition的计算过程是相同的，每个Partition是相互隔离的，可以将每个Partition打包封装成Task发送到节点运行</p>
+<h3 id="Shuffle"><a href="#Shuffle" class="headerlink" title="Shuffle"></a>Shuffle</h3><p>当RDD之间是宽依赖的时候，就会产生Shuffle</p>
+
       
     </div>
     
@@ -462,6 +548,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Scala，大数据，Spark/" rel="tag"># Scala，大数据，Spark</a>
+          
+        </div>
+      
 
       
       
@@ -471,8 +565,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/16/我的第一条博客/" rel="next" title="我的第一条博客">
-                <i class="fa fa-chevron-left"></i> 我的第一条博客
+              <a href="/2018/12/17/计算机网络-TCP-UDP/" rel="next" title="计算机网络-TCP/UDP">
+                <i class="fa fa-chevron-left"></i> 计算机网络-TCP/UDP
               </a>
             
           </div>
@@ -480,10 +574,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/29/笔试真题/" rel="prev" title="笔试真题">
-                笔试真题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -501,7 +591,7 @@
         </li>
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="/2018/09/16/第二篇测试/" title="第二篇测试">2018/09/16/第二篇测试/</a>
+          <a href="/2019/08/15/Spark基础概念/" title="Spark基础概念">2019/08/15/Spark基础概念/</a>
         </li>
         <li class="post-copyright-license">
           <strong>版权： </strong>
@@ -560,8 +650,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -670,6 +769,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark架构"><span class="nav-number">2.</span> <span class="nav-text">Spark架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Application"><span class="nav-number">3.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Driver"><span class="nav-number">4.</span> <span class="nav-text">Driver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Container"><span class="nav-number">5.</span> <span class="nav-text">Container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDD"><span class="nav-number">6.</span> <span class="nav-text">RDD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDD操作（算子）"><span class="nav-number">7.</span> <span class="nav-text">RDD操作（算子）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Partition"><span class="nav-number">8.</span> <span class="nav-text">Partition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Executor"><span class="nav-number">9.</span> <span class="nav-text">Executor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Job"><span class="nav-number">10.</span> <span class="nav-text">Job</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dependency"><span class="nav-number">11.</span> <span class="nav-text">Dependency</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stage"><span class="nav-number">12.</span> <span class="nav-text">Stage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task"><span class="nav-number">13.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shuffle"><span class="nav-number">14.</span> <span class="nav-text">Shuffle</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
