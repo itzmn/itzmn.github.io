@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[大数据开发环境安装之虚拟机安装配置]]></title>
+    <url>%2F2019%2F09%2F02%2F%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E4%B9%8B%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[简介本次环境搭建采用的是virtual box虚拟机，预计搭建三台虚拟机，安装大数据开发环境，后续再说，首先安装一台虚拟机，并配置好网络环境 一、 虚拟机安装虚拟机安装较为简单就不多赘述了，安装完virtual box后，下载centos的镜像，安装即可 二、网络配置大部分虚拟机的安装都卡在网络配置上，有各种问题 呀，我怎么看虚拟机ip 地址啊 我在虚拟机怎么访问不了百度啊 我在本地怎么连接不到虚拟机啊 为啥我电脑换了地方又连不上虚拟机了 各种问题， 现在我们来配置一下虚拟机的网络问题，我们会配置两块网卡给虚拟机 host_only网卡，多个虚拟机可以共用这个网卡(会给多个虚拟机分配不同ip，可手动配置ip地址)，这个是用于宿主机和虚拟机通信的 NAT网络，用于虚拟机可外网通信， 点击创建完成虚拟机后，会显示一个虚拟机 点击图中2 ，创建host_only网卡，多个虚拟机可共用这个网卡 配置虚拟机网络，指定网卡，设置网卡1 第二块网卡设置为host_only,并选择刚刚创建的网卡 配置ok，启动虚拟机 我们配置了两块网卡，所以在虚拟机/etc/sysconfig/network-scripts 目录下会生成两个网卡文件 使用ip addr命令查看虚拟机网络情况（我这个图是已经配好网络的，但是没配好的也有这个），图中划线的就是各个网卡的MAC地址，和指定网卡时候的Mac地址对比一下，就可以对应到网卡上。我们这个是0s3是NAT网卡，0s8是host_only网卡 编辑NAT网络文件 ONBOOT=YES //设置成yes。 表示虚拟机启动会使用这块网卡 编辑host_only网络文件 1234BOOTPROTO=static //设置成static表示静态获取ipONBOOT=yes // 启动使用网卡IPADDR=192.168.33.3 // 设置静态ip 这个ip地址在host-only的地址段中NETMASK=255.255.255.0 // 设置网络掩码 运行systemctl restart network网络即可正常通信了 小贴士： 如果想修改虚拟机的主机名 hostnamectl set-hostname 主机名 修改完记得配置hosts配置文件，使得127.0.0.1指向新的主机名哦 如有问题，可私聊或加群552113611]]></content>
+      <categories>
+        <category>大数据</category>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>大数据</tag>
+        <tag>虚拟机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Spark基础概念]]></title>
     <url>%2F2019%2F08%2F15%2FSpark%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%2F</url>
     <content type="text"><![CDATA[作用Apache Spark 是一种快速的，通用的，可扩展的大数据分析引擎。是基于内存的计算 Spark架构Driver是用户程序，cluster manager是集群资源管理器（每种不同的部署模式有不同的集群管理器）, Worker Node是真正运行程序的机器节点，Executor执行程序的JVM进程 大致运行过程: 用户创建sparkContext时，SparkContext会连接到Cluster Manager。Cluster Manager会根据用户提交程序时设置的参数封装CPU，内存分配资源，启动Executor Driver程序会将Spark程序划分为不同的Job，每个Job划分为不同的Stage，每个Stage有一组Task，Task会被分配到Executor节点中执行 Executor接收到Task之后，会下载Task执行的数据依赖，准备好之后，开始执行，并将执行状态汇报给Driver Task分两种，ShuffleMapTask，用来做数据洗牌，ResultTask负责生成结果 Driver会不断的调用Task，将Task发送到Executor执行，直到所有的Task执行完毕 Application应用，用户使用Spark编写的程序 DriverSparkContext所在的节点位置 Container封装了CPU，内存，Core等资源的容器 RDD分布式弹性数据集。具有自动容错，位置感知性调度和可伸缩性等特点。生成RDD的方式一种是读取数据生成RDD，一种是从RDD转换而来 RDD操作（算子）分为动作算子，转换算子 转换算子将Parent RDD 转换称为新的RDD，这是一系列的逻辑 动作算子是计算RDD的数据，RDD是懒计算的，当遇到动作算子，RDD才会真正的开始计算 PartitionSpark一般使用HDFS作为文件存储的地方，HDFS文件存储会划分为Block存储在不同的节点上，Spark读取文件生成RDD，RDD的Partition就是Block的个数 Executor执行Task的JVM Job当Spark调用了动作算子，生成一个Job Dependency依赖，RDD要么通过读取数据而来，要么通过转换而来，通过转换来的RDD都是Parent RDD的概念，是如何从Parent RDD之间取得数据形成新的RDD的，这个就是依赖关系 Stage依赖分为宽依赖可窄依赖，当RDD之间是宽依赖的时候，就会划分为一个Stage Task在一个Stage中，RDD的每个Partition的计算过程是相同的，每个Partition是相互隔离的，可以将每个Partition打包封装成Task发送到节点运行 Shuffle当RDD之间是宽依赖的时候，就会产生Shuffle]]></content>
@@ -51,8 +65,8 @@
       </categories>
       <tags>
         <tag>java</tag>
-        <tag>java基础</tag>
         <tag>java集合</tag>
+        <tag>java基础</tag>
       </tags>
   </entry>
   <entry>
