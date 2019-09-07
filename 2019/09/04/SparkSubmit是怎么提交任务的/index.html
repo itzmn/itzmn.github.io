@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Scala,Spark,大数据," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="七夜博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="平时使用Spark提交任务，使用SparkSubmit脚本，可是究竟任务是怎么提交的呢">
+<meta name="keywords" content="Scala,Spark,大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SparkSubmit是怎么提交任务的">
+<meta property="og:url" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/index.html">
+<meta property="og:site_name" content="七夜博客">
+<meta property="og:description" content="平时使用Spark提交任务，使用SparkSubmit脚本，可是究竟任务是怎么提交的呢">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/sparksubmit总览.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/spark源码结构.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/org.apache.spark.launcher.Main的main方法.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/SparkSubmitCommandBuilder.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/buildSparkSubmitCommand.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/SparkSubmitArguments.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/sparksubmit_submit.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/sparksubmit_runmain.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/client.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/client_submitapplication.png">
+<meta property="og:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/applicationmaster_rundriver.png">
+<meta property="og:updated_time" content="2019-09-07T07:20:44.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SparkSubmit是怎么提交任务的">
+<meta name="twitter:description" content="平时使用Spark提交任务，使用SparkSubmit脚本，可是究竟任务是怎么提交的呢">
+<meta name="twitter:image" content="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/sparksubmit总览.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/"/>
+
+
+
+
+
+  <title>SparkSubmit是怎么提交任务的 | 七夜博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">七夜博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好好学习，天天向上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photos">
+          <a href="/photos/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />
+            
+            photos
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2019/09/04/SparkSubmit是怎么提交任务的/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="七夜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七夜博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SparkSubmit是怎么提交任务的</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T20:50:18+08:00">
+                2019-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/" itemprop="url" rel="index">
+                    <span itemprop="name">Spark</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14 分钟
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  平时使用Spark提交任务，使用SparkSubmit脚本，可是究竟任务是怎么提交的呢
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>我们平时提交计算任务，都是使用SparkSubmit脚本提交任务，可是任务究竟是怎么提交的呢，跟着一个案例看看究竟</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">spark-submit --master yarn \</span><br><span class="line">  --name $&#123;applicationName&#125; \</span><br><span class="line">  --deploy-mode cluster \</span><br><span class="line">  --queue $&#123;queue_name&#125; \</span><br><span class="line">  --conf spark.rdd.compress=true \</span><br><span class="line">  --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \</span><br><span class="line">  --conf spark.driver.extraJavaOptions="-XX:PermSize=128M -XX:MaxPermSize=256M" \</span><br><span class="line">  --executor-memory 4G \</span><br><span class="line">  --driver-memory 3G \</span><br><span class="line">  --num-executors 100 \</span><br><span class="line">  --conf spark.hadoop.mapred.ignore.badcompress=true \</span><br><span class="line">  --conf spark.files.ignoreCorruptFiles=true \</span><br><span class="line">  --conf spark.sql.files.ignoreCorruptFiles=true \</span><br><span class="line">  --conf spark.yarn.executor.memoryOverhead=1024 \</span><br><span class="line">  --conf spark.dynamicAllocation.minExecutors=100 \</span><br><span class="line">  --conf spark.dynamicAllocation.maxExecutors=200 \</span><br><span class="line">  --executor-cores 1 \</span><br><span class="line">  --conf spark.hadoop.mapred.linerecordreader.maxlength=10000000 \</span><br><span class="line">  --class com.ishumei.refinery.sos.manager.MetricsManager \</span><br><span class="line">  --files $&#123;CONF_FILES&#125; \</span><br><span class="line"><span class="meta">  $</span>&#123;BASE_DIR&#125;/original-sos-1.0-SNAPSHOT.jar $&#123;schema_file_name&#125; $&#123;date&#125;</span><br></pre></td></tr></table></figure>
+<p>这是我们线上的一个任务提交案例，跟着这个案例来看看</p>
+<p>这里先放一个总图，大家先看看，后面在一一对应</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/sparksubmit总览.png" title="sparksubmit总览">
+<p>大致流程</p>
+<ol>
+<li>sparksubmit提交程序，在client端，也就是提交任务的机器上会有一个Client对象，内部包含Yarn ResourceManger的通信引用</li>
+<li>Client向ResourceManger提交申请，启动ApplicationMaster</li>
+<li>ResourceManger在其中一个NodeManager启动ApplicationMaster，ApplicationMaster内部会启动一个名叫Driver的线程，执行用户自定义Class</li>
+<li>ApplicationMaster启动之后会向ResourceManger注册，并申请资源</li>
+<li>ResourceManger返回集群可用列表</li>
+<li>ApplicationMaster请求分配需要的资源，分配之后，启动这些container</li>
+<li>Driver线程启动，执行用户逻辑</li>
+</ol>
+<h2 id="源码跟踪"><a href="#源码跟踪" class="headerlink" title="源码跟踪"></a>源码跟踪</h2><p>先来张spark源码结构图</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/spark源码结构.png" title="spark源码结构">
+<h3 id="Spark-Submit-sh"><a href="#Spark-Submit-sh" class="headerlink" title="Spark-Submit.sh"></a>Spark-Submit.sh</h3><p>sparksubmit 脚本中就一句很重要的话</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec "$&#123;SPARK_HOME&#125;"/bin/spark-class org.apache.spark.deploy.SparkSubmit "$@"</span><br></pre></td></tr></table></figure>
+<p>使用exec 启动了另一个脚本， 将这个脚本中的参数统统传给下一个脚本”$@”</p>
+<h3 id="spark-class-sh"><a href="#spark-class-sh" class="headerlink" title="spark-class.sh"></a>spark-class.sh</h3><p>我们倒过来看脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">exec "$&#123;CMD[@]&#125;"</span><br><span class="line">CMD=("$&#123;CMD[@]:0:$LAST&#125;")</span><br><span class="line">CMD=()</span><br><span class="line">while IFS= read -d '' -r ARG; do</span><br><span class="line">  CMD+=("$ARG")</span><br><span class="line">done &lt; &lt;(build_command "$@")</span><br><span class="line">build_command() &#123;</span><br><span class="line">  "$RUNNER" -Xmx128m -cp "$LAUNCH_CLASSPATH" org.apache.spark.launcher.Main "$@"</span><br><span class="line">  printf "%d\0" $?</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">RUNNER="$&#123;JAVA_HOME&#125;/bin/java"</span><br></pre></td></tr></table></figure>
+<p>还是 使用 bin/java 启动了一个类org.apache.spark.launcher.Main  这个启动了一个java进程 并且将前面传给这个脚本的全部参数都传了进来 “$@”   参数就是 org.apache.spark.deploy.SparkSubmit “$@”</p>
+<p>然后使用exec执行 这段shell 代码</p>
+<p>看一下这个类</p>
+<h3 id="org-apache-spark-launcher-Main"><a href="#org-apache-spark-launcher-Main" class="headerlink" title="org.apache.spark.launcher.Main"></a>org.apache.spark.launcher.Main</h3><img src="/2019/09/04/SparkSubmit是怎么提交任务的/org.apache.spark.launcher.Main的main方法.png" title="org.apache.spark.launcher.Main的main方法">
+<p>我们使用/bin/java/ 启动一个java类，执行这个类的main方法，我们看一下这个main方法</p>
+<ol>
+<li><p>得到 参数中的class</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String className = args.remove(0); // org.apache.spark.deploy.SparkSubmit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解析传入的参数，得到命令的构建类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder = new SparkSubmitCommandBuilder(args);</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>解析参数，得到builder</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/SparkSubmitCommandBuilder.png" title="SparkSubmitCommandBuilder">
+</li>
+<li><p>parser类内容，被子类重写了方法调用子类的handler方法解析参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 解析 spark-submit提交参数</span><br><span class="line">  private class OptionParser extends SparkSubmitOptionParser &#123;</span><br><span class="line"></span><br><span class="line">    boolean isAppResourceReq = true;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected boolean handle(String opt, String value) &#123;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>构建命令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构建命令行 bin/java org.apache.spark.deploy.SparkSubmit</span></span><br><span class="line">    List&lt;String&gt; cmd = builder.buildCommand(env);</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>调用了上面的命令构造类的构造命令的方法</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/buildSparkSubmitCommand.png" title="buildSparkSubmitCommand">
+</li>
+<li><p>构造出启动命令</p>
+</li>
+</ol>
+</li>
+<li><p>将命令打印出去</p>
+</li>
+</ol>
+<p>我们前面是使用exec 执行了这段代码，那么我们会执行这个启动命令</p>
+<p>进入新的类org.apache.spark.deploy.SparkSubmit</p>
+<h3 id="org-apache-spark-deploy-SparkSubmit"><a href="#org-apache-spark-deploy-SparkSubmit" class="headerlink" title="org.apache.spark.deploy.SparkSubmit"></a>org.apache.spark.deploy.SparkSubmit</h3><p>/bin/java 启动类，执行类的main方法  生成一个java进程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">    val appArgs = <span class="keyword">new</span> SparkSubmitArguments(args)</span><br><span class="line">    <span class="keyword">if</span> (appArgs.verbose) &#123;</span><br><span class="line">      <span class="comment">// scalastyle:off println</span></span><br><span class="line">      printStream.println(appArgs)</span><br><span class="line">      <span class="comment">// scalastyle:on println</span></span><br><span class="line">    &#125;</span><br><span class="line">    appArgs.action match &#123;</span><br><span class="line">      <span class="keyword">case</span> SparkSubmitAction.SUBMIT =&gt; submit(appArgs)</span><br><span class="line">      <span class="keyword">case</span> SparkSubmitAction.KILL =&gt; kill(appArgs)</span><br><span class="line">      <span class="keyword">case</span> SparkSubmitAction.REQUEST_STATUS =&gt; requestStatus(appArgs)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>封装传入的参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val appArgs = new SparkSubmitArguments(args)</span><br></pre></td></tr></table></figure>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/SparkSubmitArguments.png" title="SparkSubmitArguments">
+</li>
+<li><p>action 默认为 submit</p>
+<p>解析传入的参数，得到将要启动的类(childArgs, childClasspath, sysProps, childMainClass)，执行后序的方法</p>
+<ol>
+<li><p>sparksubmit 提交 submit</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/sparksubmit_submit.png" title="sparksubmit_submit">
+<ol>
+<li><p>解析参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val (childArgs, childClasspath, sysProps, childMainClass) = prepareSubmitEnvironment(args)</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>根据资源管理和运行模式，得到运行的类</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isYarnCluster) &#123;</span><br><span class="line">      childMainClass = <span class="string">"org.apache.spark.deploy.yarn.Client"</span></span><br><span class="line">      <span class="keyword">if</span> (args.isPython) &#123;</span><br><span class="line">        childArgs += (<span class="string">"--primary-py-file"</span>, args.primaryResource)</span><br><span class="line">        childArgs += (<span class="string">"--class"</span>, <span class="string">"org.apache.spark.deploy.PythonRunner"</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (args.isR) &#123;</span><br><span class="line">        <span class="keyword">val</span> mainFile = <span class="keyword">new</span> <span class="type">Path</span>(args.primaryResource).getName</span><br><span class="line">        childArgs += (<span class="string">"--primary-r-file"</span>, mainFile)</span><br><span class="line">        childArgs += (<span class="string">"--class"</span>, <span class="string">"org.apache.spark.deploy.RRunner"</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (args.primaryResource != <span class="type">SparkLauncher</span>.<span class="type">NO_RESOURCE</span>) &#123;</span><br><span class="line">          childArgs += (<span class="string">"--jar"</span>, args.primaryResource)</span><br><span class="line">        &#125;</span><br><span class="line">        childArgs += (<span class="string">"--class"</span>, args.mainClass)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (args.childArgs != <span class="literal">null</span>) &#123;</span><br><span class="line">        args.childArgs.foreach &#123; arg =&gt; childArgs += (<span class="string">"--arg"</span>, arg) &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>我们是yarn资源管理器，cluster模式，所以返回的类是org.apache.spark.deploy.yarn.Client</p>
+</li>
+</ol>
+</li>
+<li><p>执行后序方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runMain(childArgs, childClasspath, sysProps, childMainClass, args.verbose)</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>执行方法</p>
+<p>得到类加载器，加载传入的类，得到这个类的main方法，反射执行这个类的main方法，</p>
+<p>这个类就是刚刚传入的类，也就是yarncluster的类org.apache.spark.deploy.yarn.Client，<strong>反射执行只是调用这个类的方法，并不会产生新的进程</strong></p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/sparksubmit_runmain.png" title="sparksubmit_runmain">
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="org-apache-spark-deploy-yarn-Client"><a href="#org-apache-spark-deploy-yarn-Client" class="headerlink" title="org.apache.spark.deploy.yarn.Client"></a>org.apache.spark.deploy.yarn.Client</h3><ol>
+<li><p>反射执行了main方法, 封装启动ApplicationMaster的命令，启动ApplicationMaster</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(argStrings: <span class="type">Array</span>[<span class="type">String</span>]) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!sys.props.contains(<span class="string">"SPARK_SUBMIT"</span>)) &#123;</span><br><span class="line">    logWarning(<span class="string">"WARNING: This client is deprecated and will be removed in a "</span> +</span><br><span class="line">      <span class="string">"future version of Spark. Use ./bin/spark-submit with \"--master yarn\""</span>)</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  <span class="comment">// Set an env variable indicating we are running in YARN mode.</span></span><br><span class="line">  <span class="comment">// Note that any env variable with the SPARK_ prefix gets propagated to all (remote) processes</span></span><br><span class="line">  <span class="type">System</span>.setProperty(<span class="string">"SPARK_YARN_MODE"</span>, <span class="string">"true"</span>)</span><br><span class="line">  <span class="keyword">val</span> sparkConf = <span class="keyword">new</span> <span class="type">SparkConf</span></span><br><span class="line">  <span class="comment">// SparkSubmit would use yarn cache to distribute files &amp; jars in yarn mode,</span></span><br><span class="line">  <span class="comment">// so remove them from sparkConf here for yarn mode.</span></span><br><span class="line">  sparkConf.remove(<span class="string">"spark.jars"</span>)</span><br><span class="line">  sparkConf.remove(<span class="string">"spark.files"</span>)</span><br><span class="line">  <span class="keyword">val</span> args = <span class="keyword">new</span> <span class="type">ClientArguments</span>(argStrings)</span><br><span class="line">  <span class="keyword">new</span> <span class="type">Client</span>(args, sparkConf).run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>封装请求参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val args = new ClientArguments(argStrings)</span><br></pre></td></tr></table></figure>
+<p>解析参数</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>[spark] <span class="class"><span class="keyword">class</span> <span class="title">ClientArguments</span>(<span class="params">args: <span class="type">Array</span>[<span class="type">String</span>]</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> userJar: <span class="type">String</span> = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">var</span> userClass: <span class="type">String</span> = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">var</span> primaryPyFile: <span class="type">String</span> = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">var</span> primaryRFile: <span class="type">String</span> = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">var</span> userArgs: <span class="type">ArrayBuffer</span>[<span class="type">String</span>] = <span class="keyword">new</span> <span class="type">ArrayBuffer</span>[<span class="type">String</span>]()</span><br><span class="line"></span><br><span class="line">  parseArgs(args.toList)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">parseArgs</span></span>(inputArgs: <span class="type">List</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">var</span> args = inputArgs</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!args.isEmpty) &#123;</span><br><span class="line">      args <span class="keyword">match</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> (<span class="string">"--jar"</span>) :: value :: tail =&gt;</span><br><span class="line">          userJar = value</span><br><span class="line">          args = tail</span><br><span class="line">          </span><br><span class="line">       .... 省略部分</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建Client对象，并执行run方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Client(args, sparkConf).run()</span><br></pre></td></tr></table></figure>
+<p>创建Client对象，内部包含与ResourceManger联系的客户端</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/client.png" title="client">
+</li>
+<li><p>执行run方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def run(): Unit = &#123;</span><br><span class="line">    this.appId = submitApplication()</span><br></pre></td></tr></table></figure>
+<p>执行对象内部submitApplication()  方法</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/client_submitapplication.png" title="client_submitapplication">
+<ol>
+<li><p>封装启动ApplicationMaster的命令的上下文</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val containerContext = createContainerLaunchContext(newAppResponse)</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> amContainer = <span class="type">Records</span>.newRecord(classOf[<span class="type">ContainerLaunchContext</span>]) <span class="comment">// 创建一个ApplicationMasterContainer的对象</span></span><br><span class="line">amContainer.setEnvironment(launchEnv.asJava) <span class="comment">// 设置环境</span></span><br><span class="line"><span class="comment">// 如果是cluster模式</span></span><br><span class="line"><span class="keyword">val</span> amClass =</span><br><span class="line">      <span class="keyword">if</span> (isClusterMode) &#123;</span><br><span class="line">        <span class="type">Utils</span>.classForName(<span class="string">"org.apache.spark.deploy.yarn.ApplicationMaster"</span>).getName</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">Utils</span>.classForName(<span class="string">"org.apache.spark.deploy.yarn.ExecutorLauncher"</span>).getName</span><br><span class="line">      &#125;</span><br><span class="line"><span class="comment">// 封装参数</span></span><br><span class="line"><span class="keyword">val</span> amArgs =</span><br><span class="line">      <span class="type">Seq</span>(amClass) ++ userClass ++ userJar ++ primaryPyFile ++ primaryRFile ++</span><br><span class="line">        userArgs ++ <span class="type">Seq</span>(</span><br><span class="line">          <span class="string">"--properties-file"</span>, buildPath(<span class="type">YarnSparkHadoopUtil</span>.expandEnvironment(<span class="type">Environment</span>.<span class="type">PWD</span>),</span><br><span class="line">            <span class="type">LOCALIZED_CONF_DIR</span>, <span class="type">SPARK_CONF_FILE</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 封装启动脚本</span></span><br><span class="line"> <span class="keyword">val</span> commands = prefixEnv ++ <span class="type">Seq</span>(</span><br><span class="line">        <span class="type">YarnSparkHadoopUtil</span>.expandEnvironment(<span class="type">Environment</span>.<span class="type">JAVA_HOME</span>) + <span class="string">"/bin/java"</span>, <span class="string">"-server"</span></span><br><span class="line">      ) ++</span><br><span class="line">      javaOpts ++ amArgs ++</span><br><span class="line">      <span class="type">Seq</span>(</span><br><span class="line">        <span class="string">"1&gt;"</span>, <span class="type">ApplicationConstants</span>.<span class="type">LOG_DIR_EXPANSION_VAR</span> + <span class="string">"/stdout"</span>,</span><br><span class="line">        <span class="string">"2&gt;"</span>, <span class="type">ApplicationConstants</span>.<span class="type">LOG_DIR_EXPANSION_VAR</span> + <span class="string">"/stderr"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>封装上下文</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val appContext = createApplicationSubmissionContext(newApp, containerContext)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>yarn客户端提交应用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarnClient.submitApplication(appContext)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="org-apache-spark-deploy-yarn-ApplicationMaster"><a href="#org-apache-spark-deploy-yarn-ApplicationMaster" class="headerlink" title="org.apache.spark.deploy.yarn.ApplicationMaster"></a>org.apache.spark.deploy.yarn.ApplicationMaster</h3><p> /bin/java 执行命令， 执行main方法，生成新的进程</p>
+<ol>
+<li><p>main方法</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">  <span class="type">SignalUtils</span>.registerLogger(log)</span><br><span class="line">  <span class="keyword">val</span> amArgs = <span class="keyword">new</span> <span class="type">ApplicationMasterArguments</span>(args)</span><br><span class="line">   </span><br><span class="line">  <span class="comment">// Load the properties file with the Spark configuration and set entries as system properties,</span></span><br><span class="line">  <span class="comment">// so that user code run inside the AM also has access to them.</span></span><br><span class="line">  <span class="comment">// Note: we must do this before SparkHadoopUtil instantiated</span></span><br><span class="line">  <span class="keyword">if</span> (amArgs.propertiesFile != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="type">Utils</span>.getPropertiesFromFile(amArgs.propertiesFile).foreach &#123; <span class="keyword">case</span> (k, v) =&gt;</span><br><span class="line">      sys.props(k) = v</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">SparkHadoopUtil</span>.get.runAsSparkUser &#123; () =&gt;</span><br><span class="line">    master = <span class="keyword">new</span> <span class="type">ApplicationMaster</span>(amArgs, <span class="keyword">new</span> <span class="type">YarnRMClient</span>)</span><br><span class="line">    <span class="type">System</span>.exit(master.run())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建ApplicationMaster对象</p>
+</li>
+<li><p>执行run方法</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 如果是cluster模式，运行driver</span></span><br><span class="line"><span class="keyword">if</span> (isClusterMode) &#123;</span><br><span class="line">        runDriver(securityMgr)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        runExecutorLauncher(securityMgr)</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>查看rundriver代码</p>
+<p>大致内容是，在ApplicationMaster进程内部，启动用户代码的主类作为一个线程，称为Driver，将ApplicationMaster注册到ResourceManger中，执行Driver线程</p>
+<img src="/2019/09/04/SparkSubmit是怎么提交任务的/applicationmaster_rundriver.png" title="applicationmaster_rundriver">
+<ol>
+<li><p>创建用户线程，即Driver</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userClassThread = startUserApplication()</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">startUserApplication</span></span>(): <span class="type">Thread</span> = &#123;</span><br><span class="line">    logInfo(<span class="string">"Starting the user application in a separate Thread"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> classpath = <span class="type">Client</span>.getUserClasspath(sparkConf)</span><br><span class="line">    <span class="keyword">val</span> urls = classpath.map &#123; entry =&gt;</span><br><span class="line">      <span class="keyword">new</span> <span class="type">URL</span>(<span class="string">"file:"</span> + <span class="keyword">new</span> <span class="type">File</span>(entry.getPath()).getAbsolutePath())</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 获取类加载器</span></span><br><span class="line">    <span class="keyword">val</span> userClassLoader =</span><br><span class="line">      <span class="keyword">if</span> (<span class="type">Client</span>.isUserClassPathFirst(sparkConf, isDriver = <span class="literal">true</span>)) &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ChildFirstURLClassLoader</span>(urls, <span class="type">Utils</span>.getContextOrSparkClassLoader)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="type">MutableURLClassLoader</span>(urls, <span class="type">Utils</span>.getContextOrSparkClassLoader)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    .... 省略部分代码</span><br><span class="line">    <span class="keyword">if</span> (args.primaryRFile != <span class="literal">null</span> &amp;&amp; args.primaryRFile.endsWith(<span class="string">".R"</span>)) &#123;</span><br><span class="line">      <span class="comment">// TODO(davies): add R dependencies here</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 加载用户传入的主类，也就是spark-submit脚本中，设置的--class，获取main方法</span></span><br><span class="line">    <span class="keyword">val</span> mainMethod = userClassLoader.loadClass(args.userClass)</span><br><span class="line">      .getMethod(<span class="string">"main"</span>, classOf[<span class="type">Array</span>[<span class="type">String</span>]])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> userThread = <span class="keyword">new</span> <span class="type">Thread</span> &#123;</span><br><span class="line">      <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">run</span></span>() &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 反射执行main方法</span></span><br><span class="line">          mainMethod.invoke(<span class="literal">null</span>, userArgs.toArray)</span><br><span class="line">          finish(<span class="type">FinalApplicationStatus</span>.<span class="type">SUCCEEDED</span>, <span class="type">ApplicationMaster</span>.<span class="type">EXIT_SUCCESS</span>)</span><br><span class="line">          logDebug(<span class="string">"Done running users class"</span>)</span><br><span class="line">        &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">          .....省略部分代码</span><br><span class="line">          sparkContextPromise.trySuccess(<span class="literal">null</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    userThread.setContextClassLoader(userClassLoader)</span><br><span class="line">    <span class="comment">// 设置线程名称为Driver</span></span><br><span class="line">    userThread.setName(<span class="string">"Driver"</span>)</span><br><span class="line">    userThread.start()</span><br><span class="line">    userThread</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注册ApplicationMaster</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">registerAM(sc.getConf, rpcEnv, driverRef, sc.ui.map(_.appUIAddress).getOrElse(<span class="string">""</span>),</span><br><span class="line">          securityMgr)</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">def</span> <span class="title">registerAM</span></span>(</span><br><span class="line">      _sparkConf: <span class="type">SparkConf</span>,</span><br><span class="line">      _rpcEnv: <span class="type">RpcEnv</span>,</span><br><span class="line">      driverRef: <span class="type">RpcEndpointRef</span>,</span><br><span class="line">      uiAddress: <span class="type">String</span>,</span><br><span class="line">      securityMgr: <span class="type">SecurityManager</span>) = &#123;</span><br><span class="line">    <span class="keyword">val</span> appId = client.getAttemptId().getApplicationId().toString()</span><br><span class="line">    <span class="keyword">val</span> attemptId = client.getAttemptId().getAttemptId().toString()</span><br><span class="line">    <span class="keyword">val</span> historyAddress =</span><br><span class="line">      _sparkConf.get(<span class="type">HISTORY_SERVER_ADDRESS</span>)</span><br><span class="line">        .map &#123; text =&gt; <span class="type">SparkHadoopUtil</span>.get.substituteHadoopVariables(text, yarnConf) &#125;</span><br><span class="line">        .map &#123; address =&gt; <span class="string">s"<span class="subst">$&#123;address&#125;</span><span class="subst">$&#123;HistoryServer.UI_PATH_PREFIX&#125;</span>/<span class="subst">$&#123;appId&#125;</span>/<span class="subst">$&#123;attemptId&#125;</span>"</span> &#125;</span><br><span class="line">        .getOrElse(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> driverUrl = <span class="type">RpcEndpointAddress</span>(</span><br><span class="line">      _sparkConf.get(<span class="string">"spark.driver.host"</span>),</span><br><span class="line">      _sparkConf.get(<span class="string">"spark.driver.port"</span>).toInt,</span><br><span class="line">      <span class="type">CoarseGrainedSchedulerBackend</span>.<span class="type">ENDPOINT_NAME</span>).toString</span><br><span class="line">... 省略部分代码</span><br><span class="line">    <span class="comment">// 注册AM 返回可用资源</span></span><br><span class="line">    allocator = client.register(driverUrl,</span><br><span class="line">      driverRef,</span><br><span class="line">      yarnConf,</span><br><span class="line">      _sparkConf,</span><br><span class="line">      uiAddress,</span><br><span class="line">      historyAddress,</span><br><span class="line">      securityMgr,</span><br><span class="line">      localResources)</span><br><span class="line">    <span class="comment">// 申请资源</span></span><br><span class="line">    allocator.allocateResources()</span><br><span class="line">    reporterThread = launchReporterThread()</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>想ResourceManger注册ApplicationMaster。ResourceManger返回集群可用资源，一个资源集合，然后通过资源集合申请自己需要的资源</p>
+<ol>
+<li><p>向ResourceManger注册ApplicationMaster</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">allocator = client.register(driverUrl,</span><br><span class="line">      driverRef,</span><br><span class="line">      yarnConf,</span><br><span class="line">      _sparkConf,</span><br><span class="line">      uiAddress,</span><br><span class="line">      historyAddress,</span><br><span class="line">      securityMgr,</span><br><span class="line">      localResources)</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回一个资源集合</span></span><br><span class="line"><span class="keyword">new</span> <span class="type">YarnAllocator</span>(driverUrl, driverRef, conf, sparkConf, amClient, </span><br><span class="line">   getAttemptId(), securityMgr,</span><br><span class="line">      localResources, <span class="keyword">new</span> <span class="type">SparkRackResolver</span>())</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过这个资源集合申请自己需要的资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">allocator.allocateResources()</span><br></pre></td></tr></table></figure>
+<p>我们看看他是如何分配资源的,看看allocateResources()内部实现</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">allocateResources</span></span>(): <span class="type">Unit</span> = synchronized &#123;</span><br><span class="line">    updateResourceRequests()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> progressIndicator = <span class="number">0.1</span>f</span><br><span class="line">    <span class="comment">// Poll the ResourceManager. This doubles as a heartbeat if there are no pending container</span></span><br><span class="line">    <span class="comment">// requests.</span></span><br><span class="line">    <span class="comment">// 请求分配资源</span></span><br><span class="line">    <span class="keyword">val</span> allocateResponse = amClient.allocate(progressIndicator)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回新分配的container</span></span><br><span class="line">    <span class="keyword">val</span> allocatedContainers = allocateResponse.getAllocatedContainers()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (allocatedContainers.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      logDebug(<span class="string">"Allocated containers: %d. Current executor count: %d. Cluster resources: %s."</span></span><br><span class="line">        .format(</span><br><span class="line">          allocatedContainers.size,</span><br><span class="line">          numExecutorsRunning,</span><br><span class="line">          allocateResponse.getAvailableResources))</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 处理分配到的container</span></span><br><span class="line">      handleAllocatedContainers(allocatedContainers.asScala)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> completedContainers = allocateResponse.getCompletedContainersStatuses()</span><br><span class="line">    <span class="keyword">if</span> (completedContainers.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      logDebug(<span class="string">"Completed %d containers"</span>.format(completedContainers.size))</span><br><span class="line">      processCompletedContainers(completedContainers.asScala)</span><br><span class="line">      logDebug(<span class="string">"Finished processing %d completed containers. Current running executor count: %d."</span></span><br><span class="line">        .format(completedContainers.size, numExecutorsRunning))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>上面这个方法一共做了三件事1. ApplicationMaster请求分配资源，2. 返回可用的container 3. 处理这些返回的container</p>
+<ol>
+<li><p>ApplicationMaster请求分配资源</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> allocateResponse = amClient.allocate(progressIndicator)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>返回可用的container</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> allocatedContainers = allocateResponse.getAllocatedContainers()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>处理这些返回的container</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">handleAllocatedContainers(allocatedContainers.asScala)</span><br></pre></td></tr></table></figure>
+<p>我们看一下，这个具体是怎么处理的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runAllocatedContainers(containersToUse) // 启动所有的container</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">private def runAllocatedContainers(containersToUse: ArrayBuffer[Container]): Unit = &#123;</span><br><span class="line">    for (container &lt;- containersToUse) &#123;</span><br><span class="line">      executorIdCounter += 1</span><br><span class="line">      val executorHostname = container.getNodeId.getHost</span><br><span class="line">      val containerId = container.getId</span><br><span class="line">      val executorId = executorIdCounter.toString</span><br><span class="line">      assert(container.getResource.getMemory &gt;= resource.getMemory)</span><br><span class="line">      logInfo(s&quot;Launching container $containerId on host $executorHostname&quot;)</span><br><span class="line"></span><br><span class="line">      def updateInternalState(): Unit = synchronized &#123;</span><br><span class="line">        numExecutorsRunning += 1</span><br><span class="line">        executorIdToContainer(executorId) = container</span><br><span class="line">        containerIdToExecutorId(container.getId) = executorId</span><br><span class="line"></span><br><span class="line">        val containerSet = allocatedHostToContainersMap.getOrElseUpdate(executorHostname,</span><br><span class="line">          new HashSet[ContainerId])</span><br><span class="line">        containerSet += containerId</span><br><span class="line">        allocatedContainerToHostMap.put(containerId, executorHostname)</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      if (numExecutorsRunning &lt; targetNumExecutors) &#123;</span><br><span class="line">        if (launchContainers) &#123;</span><br><span class="line">          // container启动器线程池</span><br><span class="line">          launcherPool.execute(new Runnable &#123;</span><br><span class="line">            override def run(): Unit = &#123;</span><br><span class="line">              try &#123;</span><br><span class="line">                new ExecutorRunnable(</span><br><span class="line">                  Some(container),</span><br><span class="line">                  conf,</span><br><span class="line">                  sparkConf,</span><br><span class="line">                  driverUrl,</span><br><span class="line">                  executorId,</span><br><span class="line">                  executorHostname,</span><br><span class="line">                  executorMemory,</span><br><span class="line">                  executorCores,</span><br><span class="line">                  appAttemptId.getApplicationId.toString,</span><br><span class="line">                  securityMgr,</span><br><span class="line">                  localResources</span><br><span class="line">                ).run()</span><br><span class="line">                updateInternalState()</span><br><span class="line">              &#125; catch &#123;</span><br><span class="line">                case NonFatal(e) =&gt;</span><br><span class="line">                  logError(s&quot;Failed to launch executor $executorId on container $containerId&quot;, e)</span><br><span class="line">                  // Assigned container should be released immediately to avoid unnecessary resource</span><br><span class="line">                  // occupation.</span><br><span class="line">                  amClient.releaseAssignedContainer(containerId)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          // For test only</span><br><span class="line">          updateInternalState()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        logInfo((&quot;Skip launching executorRunnable as runnning Excecutors count: %d &quot; +</span><br><span class="line">          &quot;reached target Executors count: %d.&quot;).format(numExecutorsRunning, targetNumExecutors))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>将所有的container都启动起来，是一个ExecutorRunnable 线程，启动这些线程，等这些准备就绪之后，Driver线程启动执行用户逻辑</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Spark提交应用程序，首先先将环境准备好，客户端提交应用程序，申请可用资源，启动这些资源，当执行环境准备就绪之后，Driver线程执行，后序开始执行用户自定义逻辑，这就是sparksubmit做的事情</p>
+<p>后面我们会剖析driver线程执行，究竟干了什么事情，用户的逻辑是怎么执行的</p>
+<h1 id="小贴士"><a href="#小贴士" class="headerlink" title="小贴士"></a>小贴士</h1><ol>
+<li>使用 /bin/java  启动java类，会执行这个类的main方法，会启动一个JVM虚拟机，也就是一个java进程，使用反射执行一个类的方法的时候，只是调用方法，不会产生新的进程</li>
+<li>启动shell脚本的几种方式和区别<ol>
+<li>使用exec启动a脚本的时候，会用a脚本进程替换当前shell进程，进程id不变，执行完毕之后，直接退出，不会回到当前进程环境</li>
+<li>使用sh 或者./ 执行脚本的时候，当前shell是父进程，生成一个子shell进程，子shell继承父shell环境变量和，变量定义，子shell执行完毕之后，会回到当前进程</li>
+</ol>
+</li>
+</ol>
+<p>如有问题，欢迎探讨，可以私聊或者加群<strong>552113611</strong></p>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>技术活儿，该赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="七夜 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="七夜 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Scala/" rel="tag"># Scala</a>
+          
+            <a href="/tags/Spark/" rel="tag"># Spark</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/04/大数据环境安装篇/" rel="next" title="大数据环境安装篇">
+                <i class="fa fa-chevron-left"></i> 大数据环境安装篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+
+      <div>    
+       
+       
+      <ul class="post-copyright">
+        <li class="post-copyright-author">
+            <strong>本文作者：</strong>七夜
+        </li>
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="/2019/09/04/SparkSubmit是怎么提交任务的/" title="SparkSubmit是怎么提交任务的">2019/09/04/SparkSubmit是怎么提交任务的/</a>
+        </li>
+        <li class="post-copyright-license">
+          <strong>版权： </strong>
+          本站文章均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议，请勿用于商业，转载注明出处！
+        </li>
+      </ul>
+      
+      </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+   <div id="gitalk-container"></div>
+
+  
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="七夜" />
+            
+              <p class="site-author-name" itemprop="name">七夜</p>
+              <p class="site-description motion-element" itemprop="description">一个java学习者，希望能认识更多志同道合的朋友</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/d611be10d1a6" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.itzmn.com/" title="七夜首页" target="_blank">七夜首页</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://asdfv1929.github.io" title="asdfv1929" target="_blank">asdfv1929</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.aisky.cc/" title="天空博客" target="_blank">天空博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码跟踪"><span class="nav-number">2.</span> <span class="nav-text">源码跟踪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spark-Submit-sh"><span class="nav-number">2.1.</span> <span class="nav-text">Spark-Submit.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-class-sh"><span class="nav-number">2.2.</span> <span class="nav-text">spark-class.sh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org-apache-spark-launcher-Main"><span class="nav-number">2.3.</span> <span class="nav-text">org.apache.spark.launcher.Main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org-apache-spark-deploy-SparkSubmit"><span class="nav-number">2.4.</span> <span class="nav-text">org.apache.spark.deploy.SparkSubmit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org-apache-spark-deploy-yarn-Client"><span class="nav-number">2.5.</span> <span class="nav-text">org.apache.spark.deploy.yarn.Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org-apache-spark-deploy-yarn-ApplicationMaster"><span class="nav-number">2.6.</span> <span class="nav-text">org.apache.spark.deploy.yarn.ApplicationMaster</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小贴士"><span class="nav-number"></span> <span class="nav-text">小贴士</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七夜</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">61.7k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '309dd5496c29c3545ad7',
+          clientSecret: 'adb0f110788297e3d645e7488af6cc0e09eb04a6',
+          repo: 'itzmn.github.io',
+          owner: 'itzmn',
+          admin: ['itzmn'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

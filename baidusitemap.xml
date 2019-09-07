@@ -4,18 +4,45 @@
 
     
   <url>
+    <loc>https://itzmn.github.io/2019/09/04/SparkSubmit%E6%98%AF%E6%80%8E%E4%B9%88%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1%E7%9A%84/</loc>
+    <lastmod>2019-09-07T07:20:44.609Z</lastmod>
+    <data>
+        <display>
+        <title>SparkSubmit是怎么提交任务的</title>
+        <pubTime>2019-09-04T12:50:18.000Z</pubTime>
+        
+        <tag>Scala</tag>
+         
+        <tag>Spark</tag>
+         
+        <tag>大数据</tag>
+         
+         
+           
+             
+              <breadCrumb title="Spark" url="https://itzmn.github.io/categories/Spark/"/>
+          
+             
+              <breadCrumb title="大数据" url="https://itzmn.github.io/categories/Spark/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://itzmn.github.io/2019/09/04/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E7%AF%87/</loc>
-    <lastmod>2019-09-04T03:09:50.227Z</lastmod>
+    <lastmod>2019-09-07T07:20:29.524Z</lastmod>
     <data>
         <display>
         <title>大数据环境安装篇</title>
         <pubTime>2019-09-04T03:05:11.000Z</pubTime>
         
-        <tag>java</tag>
+        <tag>Spark</tag>
          
         <tag>大数据</tag>
          
-        <tag>Spark</tag>
+        <tag>java</tag>
          
         <tag>Zookeeper</tag>
          
@@ -46,9 +73,9 @@
         <title>大数据开发环境安装之虚拟机安装配置</title>
         <pubTime>2019-09-02T07:33:25.000Z</pubTime>
         
-        <tag>java</tag>
-         
         <tag>大数据</tag>
+         
+        <tag>java</tag>
          
         <tag>虚拟机</tag>
          
