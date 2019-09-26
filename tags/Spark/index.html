@@ -87,7 +87,7 @@
 <meta name="keywords" content="java spring springboot redis mysql">
 <meta property="og:type" content="website">
 <meta property="og:title" content="七夜博客">
-<meta property="og:url" content="https://itzmn.github.io/tags/Spark/index.html">
+<meta property="og:url" content="https://itzmn.github.io/tags/spark/index.html">
 <meta property="og:site_name" content="七夜博客">
 <meta property="og:description" content="一个java学习者，希望能认识更多志同道合的朋友">
 <meta property="og:locale" content="zh-Hans">
@@ -123,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://itzmn.github.io/tags/Spark/"/>
+  <link rel="canonical" href="https://itzmn.github.io/tags/spark/"/>
 
 
 
 
 
-  <title>标签: Spark | 七夜博客</title>
+  <title>标签: spark | 七夜博客</title>
   
 
 
@@ -303,7 +303,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>Spark<small>标签</small>
+        <h1>spark<small>标签</small>
         </h1>
       </div>
 
@@ -315,37 +315,9 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/2019/09/04/SparkSubmit是怎么提交任务的/" itemprop="url">
+            <a class="post-title-link" href="/2019/09/26/大数据项目之仿天猫数据分析/" itemprop="url">
               
-                <span itemprop="name">SparkSubmit是怎么提交任务的</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-09-04T20:50:18+08:00"
-              content="2019-09-04" >
-          09-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/04/大数据环境安装篇/" itemprop="url">
-              
-                <span itemprop="name">大数据环境安装篇</span>
+                <span itemprop="name">大数据项目之仿天猫数据分析</span>
               
             </a>
         
@@ -353,9 +325,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2019-09-04T11:05:11+08:00"
-              content="2019-09-04" >
-          09-04
+              datetime="2019-09-26T17:29:36+08:00"
+              content="2019-09-26" >
+          09-26
         </time>
       </div>
 
@@ -421,7 +393,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -432,7 +404,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -443,7 +415,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -541,7 +513,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">61.7k</span>
+    <span title="Site words total count">64.1k</span>
   
 </div>
 
@@ -1000,6 +972,50 @@
     }
 
     // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+er popup window;
     $('.popup-trigger').click(function(e) {
       e.stopPropagation();
       if (isfetched === false) {

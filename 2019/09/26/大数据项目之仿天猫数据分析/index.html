@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="大数据,java,scala,kafka,flume,spark," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="七夜博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="大数据数据处理项目，一套流程，数据采集，数据持久化，数据实时分析，数据报表">
+<meta name="keywords" content="大数据,java,scala,kafka,flume,spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据项目之仿天猫数据分析">
+<meta property="og:url" content="https://itzmn.github.io/2019/09/26/大数据项目之仿天猫数据分析/index.html">
+<meta property="og:site_name" content="七夜博客">
+<meta property="og:description" content="大数据数据处理项目，一套流程，数据采集，数据持久化，数据实时分析，数据报表">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-26T09:32:04.916Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据项目之仿天猫数据分析">
+<meta name="twitter:description" content="大数据数据处理项目，一套流程，数据采集，数据持久化，数据实时分析，数据报表">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://itzmn.github.io/2019/09/26/大数据项目之仿天猫数据分析/"/>
+
+
+
+
+
+  <title>大数据项目之仿天猫数据分析 | 七夜博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">七夜博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">好好学习，天天向上</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photos">
+          <a href="/photos/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />
+            
+            photos
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://itzmn.github.io/2019/09/26/大数据项目之仿天猫数据分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="七夜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七夜博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">大数据项目之仿天猫数据分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T17:29:36+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/java/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.4k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11 分钟
+                </span>
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  大数据数据处理项目，一套流程，数据采集，数据持久化，数据实时分析，数据报表
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h4 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h4><p>此项目是实现仿大数据项目流程，包括，日志收集传输，日志格式化，数据实时分析，数据持久化到HDFS，数据离线报表统计，离线任务调度，日志记录搜索几大部分</p>
+<p>首先说一下这个项目的大致流程，这个项目是仿天猫数据分析，是自己模拟用户购买浏览商品，生成日志，对日志进行收集，然后分两部分，一部分对数据实时分析，生成日用户活跃地理位置，第二部分是数据持久化之后，T+1对数据进行分析，统计各省销量以及各省活跃用户数</p>
+<h4 id="项目数据流"><a href="#项目数据流" class="headerlink" title="项目数据流"></a>项目数据流</h4><ol>
+<li><p>日志数据生成</p>
+<p>日志格式: requestid, ts, userid, 城市,经度,纬度,操作(浏览,购买)</p>
+</li>
+<li><p>flume采集日志数据进入kafka log topic</p>
+</li>
+<li><p>kafkastream消费log topic日志,写入process topic</p>
+<p>对数据进行格式化处理，以及过滤数据。格式化后的数据格式: requestid, ts, userid, 城市,经度,纬度,操作</p>
+</li>
+<li><p>实时模块</p>
+<p>sparkstreaming处理process topic日志，扔进realtime topic<br>   格式化数据，写到process topic中，得到城市和用户id</p>
+</li>
+<li><p>flume采集process topic数据，写入hdfs</p>
+<p>持久化日志到hdfs中</p>
+</li>
+<li><p>report模块(离线处理模块)</p>
+<p>T+1离线处理模块，spark计算hdfs中的数据,统计前一天的各省销售记录,写入mysql</p>
+</li>
+<li><p>azkaban调度任务</p>
+</li>
+<li><p>ElasticSearch查询历史记录</p>
+</li>
+<li><p>web页面实时展示活跃用户，和报表页面</p>
+</li>
+</ol>
+<p>然而。。电脑垃圾，扛不住，只做了一部分 </p>
+<p>azkaban，elasticsearch，web页面没有做</p>
+<h4 id="项目构成"><a href="#项目构成" class="headerlink" title="项目构成"></a>项目构成</h4><ol>
+<li><p>logbuilder  </p>
+<p>模拟日志生成(后面为了方便，写了一个shell用于日志生成)</p>
+</li>
+<li><p>kafkastream</p>
+<p>kafkastream清洗日志</p>
+</li>
+<li><p>sparkstream</p>
+<p>sparkstream实时处理日志显示操作用户的地理位置</p>
+</li>
+<li><p>report</p>
+<p>T+1报表项目,批处理日志，分析各省销售量对比,写入mysql</p>
+</li>
+</ol>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我们按照数据流的方式来写实现</p>
+<h4 id="1-日志生成"><a href="#1-日志生成" class="headerlink" title="1. 日志生成"></a>1. 日志生成</h4><p>使用SpringBoot做了一个日志生成器。模拟生成日志，日志格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger:&gt;&gt;&gt;&gt; requestid,userid,ts,城市，经度，维度，操作(0浏览 1购买)</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        SpringApplication.run(LogBuilderApplication.class);</span><br><span class="line"></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap&lt;Integer, String[]&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 存储城市，经纬度</span></span><br><span class="line">        map.put(<span class="number">0</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"海门"</span>,<span class="string">"121.15"</span>,<span class="string">"31.89"</span>&#125;);</span><br><span class="line">        map.put(<span class="number">1</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"盐城"</span>,<span class="string">"120.13"</span>,<span class="string">"33.38"</span>&#125;);</span><br><span class="line">        map.put(<span class="number">2</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"上海"</span>,<span class="string">"121.48"</span>,<span class="string">"31.22"</span>&#125;);</span><br><span class="line">        map.put(<span class="number">3</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"厦门"</span>,<span class="string">"118.1"</span>,<span class="string">"24.46"</span>&#125;);</span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> i1 = random.nextInt(map.size());</span><br><span class="line">            String[] o = (String[]) map.get(i1);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">500</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">long</span> ts = System.currentTimeMillis();</span><br><span class="line">            String requestid = UUID.randomUUID().toString();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> userid = random.nextInt(<span class="number">100000</span>);</span><br><span class="line">            <span class="comment">// requestid,userid, 城市,经度,纬度,操作(浏览,购买)0 浏览 1 购买</span></span><br><span class="line">            logger.info(<span class="string">"logger:&gt;&gt;&gt;&gt;&#123;&#125;,&#123;&#125;,&#123;&#125;,&#123;&#125;,&#123;&#125;,&#123;&#125;,&#123;&#125;"</span>,requestid, ts, userid, o[<span class="number">0</span>],o[<span class="number">1</span>],o[<span class="number">2</span>],random.nextInt(<span class="number">2</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>由于不想打包，重启，就自己用shell写了一个日志生成器，更好使用 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">二维数组</span></span><br><span class="line">city=('海门 121.15 31.89' '盐城 120.13 33.38' '上海 121.48 31.22' '厦门 118.1 24.46')</span><br><span class="line"><span class="meta">#</span><span class="bash">city=(<span class="string">'海门 121.15" "31.89"'</span> <span class="string">'"盐城" "120.13" "33.38"'</span> <span class="string">'"上海" "121.48" "31.22"'</span> <span class="string">'"厦门" "118.1" "24.46"'</span>)</span></span><br><span class="line"><span class="meta">#</span><span class="bash">获取数组长度</span></span><br><span class="line">echo $&#123;#city[@]&#125;</span><br><span class="line">len=$(($&#123;#city[@]&#125;-1))</span><br><span class="line">echo $len</span><br><span class="line"><span class="meta">#</span><span class="bash">死循环，随机数0-数组长度</span></span><br><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    rand=`shuf -i0-$&#123;len&#125; -n1`</span><br><span class="line">    echo $rand</span><br><span class="line">    echo $&#123;city[$&#123;rand&#125;]&#125;</span><br><span class="line"> c=($&#123;city[$&#123;rand&#125;]&#125;)</span><br><span class="line">ci=$&#123;c[0]&#125;</span><br><span class="line">cj=$&#123;c[1]&#125;</span><br><span class="line">cw=$&#123;c[2]&#125;</span><br><span class="line">  req=$(cat /proc/sys/kernel/random/uuid)</span><br><span class="line">date=`date -d 'day' +%Y%m%d`</span><br><span class="line">ts=`date -d $date +%s`</span><br><span class="line">userid=`shuf -i1-100000 -n1`</span><br><span class="line">action=`shuf -i0-1 -n1`</span><br><span class="line">    echo "logger:&gt;&gt;&gt;&gt;$req,$ts,$userid,$&#123;ci&#125;,$&#123;cj&#125;,$&#123;cw&#125;,$&#123;action&#125;"</span><br><span class="line">    sleep 3</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h4 id="2-日志采集"><a href="#2-日志采集" class="headerlink" title="2. 日志采集"></a>2. 日志采集</h4><p>日志采集使用Flume，将日志文件数据采集到Kafka中，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 监控本地文件写到kafka</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line">#设置source</span><br><span class="line">a1.sources.r1.type = exec</span><br><span class="line">a1.sources.r1.command = tail -F /root/test_flume_file/test_flume_file</span><br><span class="line"></span><br><span class="line">#设置Sink</span><br><span class="line">a1.sinks.k1.type = org.apache.flume.sink.kafka.KafkaSink</span><br><span class="line">a1.sinks.k1.kafka.topic = test</span><br><span class="line">a1.sinks.k1.kafka.bootstrap.servers = 192.168.33.4:9092</span><br><span class="line">a1.sinks.k1.kafka.flumeBatchSize = 20</span><br><span class="line">a1.sinks.k1.kafka.producer.acks = 1</span><br><span class="line">a1.sinks.k1.kafka.producer.linger.ms = 1</span><br><span class="line">a1.sinks.k1.kafka.producer.compression.type = snappy</span><br><span class="line"></span><br><span class="line">#设置channels</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 1000</span><br><span class="line">a1.channels.c1.transactionCapacity = 100</span><br><span class="line"></span><br><span class="line">#连接</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">#注意，是channel</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<h4 id="3-KafkaStream进行数据清洗"><a href="#3-KafkaStream进行数据清洗" class="headerlink" title="3. KafkaStream进行数据清洗"></a>3. KafkaStream进行数据清洗</h4><p>这一步主要是对日志数据进行清洗，过滤掉不符合规范的日志，</p>
+<p>过滤后的日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requestid,userid,ts,城市，经度，维度，操作(0浏览 1购买)</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        String from = <span class="string">"log"</span>;</span><br><span class="line">        String to = <span class="string">"process"</span>;</span><br><span class="line">        Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置application id</span></span><br><span class="line">        properties.setProperty(StreamsConfig.APPLICATION_ID_CONFIG,<span class="string">"stream-tmall"</span>);</span><br><span class="line">        <span class="comment">// 设置kafka地址</span></span><br><span class="line">        properties.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,<span class="string">"192.168.33.3:9092,192.168.33.4:9092,192.168.33.5:9092"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建拓扑结构</span></span><br><span class="line">        Topology topology = <span class="keyword">new</span> Topology();</span><br><span class="line">        <span class="comment">// 构建数据来源，数据处理逻辑，数据去向</span></span><br><span class="line">        topology.addSource(<span class="string">"SOURCE"</span>,from)</span><br><span class="line">                .addProcessor(<span class="string">"PROCESS"</span>, ()-&gt; <span class="keyword">new</span> LogProcesser(), <span class="string">"SOURCE"</span>)</span><br><span class="line">                .addSink(<span class="string">"SINK"</span>, to, <span class="string">"PROCESS"</span>);</span><br><span class="line">        <span class="comment">//过时</span></span><br><span class="line"><span class="comment">//        TopologyBuilder builder = new TopologyBuilder();</span></span><br><span class="line"><span class="comment">//        builder.addSource("SOURCE",from)</span></span><br><span class="line"><span class="comment">//                .addProcessor("PROCESS", ()-&gt;new LogProcesser(), "SOURCE")</span></span><br><span class="line"><span class="comment">//                .addSink("SINK",to);</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//        // 创建kafkastream</span></span><br><span class="line">        KafkaStreams streams = <span class="keyword">new</span> KafkaStreams(topology,properties);</span><br><span class="line">        <span class="comment">// 开启流处理</span></span><br><span class="line">        streams.start();</span><br><span class="line">        System.out.println(<span class="string">"kafkaStream is start!!!"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class LogProcesser implements Processor&lt;byte[],byte[]&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ProcessorContext context;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ProcessorContext context)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.context = context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">byte</span>[] key, <span class="keyword">byte</span>[] value)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 核心流程,处理日志</span></span><br><span class="line">        String line = <span class="keyword">new</span> String(value);</span><br><span class="line">        <span class="keyword">if</span> (line.contains(<span class="string">"logger:&gt;&gt;&gt;&gt;"</span>))&#123;</span><br><span class="line">            System.out.println(<span class="string">"LogProcess process data:"</span> + line);</span><br><span class="line">            String[] split = line.split(<span class="string">"logger:&gt;&gt;&gt;&gt;"</span>);</span><br><span class="line">            <span class="comment">// 转发</span></span><br><span class="line">            context.forward(<span class="string">"LogProcess"</span>.getBytes(), split[<span class="number">1</span>].trim().getBytes());</span><br><span class="line">        &#125;</span><br><span class="line">        context.commit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">punctuate</span><span class="params">(<span class="keyword">long</span> timestamp)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将Kafka log topic中的数据消费，将日志数据进行格式化，写到Process topic中</p>
+<h4 id="4-SparkStreaming数据实时处理"><a href="#4-SparkStreaming数据实时处理" class="headerlink" title="4. SparkStreaming数据实时处理"></a>4. SparkStreaming数据实时处理</h4><p>我们实时部分，是消费Kafka中process topic中的数据，每一条数据都是今天用户的操作，所以我们将每一条日志的城市取出来，放到realtime topic中，等待后序消费，把数据推送到前端进行实时展示(这部分没做，页面不好写)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SparkStreamingProcesser</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String brokers = <span class="string">"192.168.33.3:9092,192.168.33.4:9092,192.168.33.5:9092"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String group_id = <span class="string">"tmall_online"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> List&lt;String&gt; topic = <span class="keyword">new</span> ArrayList&lt;String&gt;(Arrays.asList(<span class="string">"process"</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String toTopic = <span class="string">"realtime"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1. 得到spark上下文</span></span><br><span class="line">        SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"tmall_online"</span>).setMaster(<span class="string">"local[*]"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 创建sparkstreamingcontext。每隔2钟会处理一次收集到的数据</span></span><br><span class="line">        JavaStreamingContext jssc = <span class="keyword">new</span> JavaStreamingContext(conf, Durations.seconds(<span class="number">10</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3. 创建kafka的参数</span></span><br><span class="line">        HashMap&lt;String, Object&gt; kafkaParams = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置kafka集群地址</span></span><br><span class="line">        kafkaParams.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokers);</span><br><span class="line">        <span class="comment">// 设置消费者组</span></span><br><span class="line">        kafkaParams.put(ConsumerConfig.GROUP_ID_CONFIG, group_id);</span><br><span class="line">        <span class="comment">// 设置key反序列化类</span></span><br><span class="line">        kafkaParams.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);</span><br><span class="line">        kafkaParams.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 通过参数创建一个kafka stream</span></span><br><span class="line">        JavaInputDStream&lt;ConsumerRecord&lt;Object, Object&gt;&gt; stream = KafkaUtils.createDirectStream(</span><br><span class="line">                jssc,</span><br><span class="line">                LocationStrategies.PreferConsistent(),</span><br><span class="line">                ConsumerStrategies.Subscribe(topic, kafkaParams));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5.获取数据并处理</span></span><br><span class="line">        JavaDStream&lt;String&gt; map = stream.map(msg-&gt; msg.value().toString());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        JavaDStream&lt;Object&gt; map1 = map.map(x -&gt; &#123;</span><br><span class="line">            KafkaProducerUtils producerUtils = <span class="keyword">new</span> KafkaProducerUtils();</span><br><span class="line">            String[] split = x.split(<span class="string">","</span>);</span><br><span class="line">            System.out.println(<span class="string">"接收到："</span> + split[<span class="number">1</span>]+<span class="string">","</span>+split[<span class="number">2</span>]);</span><br><span class="line">            producerUtils.sendMessage(toTopic, split[<span class="number">3</span>]+<span class="string">","</span>+split[<span class="number">4</span>]+<span class="string">","</span>+split[<span class="number">5</span>]);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"a"</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        map1.print();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        jssc.start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            jssc.awaitTermination();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            jssc.close();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-日志持久化"><a href="#5-日志持久化" class="headerlink" title="5. 日志持久化"></a>5. 日志持久化</h4><p>我们需要将用户操作日志持久化到HDFS中，我们将格式化之后的数据采集到HDFS，所以我们使用Flume将Kafka中process topic的数据采集到HDFS</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># 监控kafka写到hdfs</span><br><span class="line">a1.sources = r1</span><br><span class="line">a1.channels = c1</span><br><span class="line">a1.sinks = k1</span><br><span class="line"></span><br><span class="line">#设置source</span><br><span class="line"></span><br><span class="line">a1.sources.r1.type = org.apache.flume.source.kafka.KafkaSource</span><br><span class="line">a1.sources.r1.batchSize = 500</span><br><span class="line">a1.sources.r1.batchDurationMillis = 2000</span><br><span class="line">a1.sources.r1.kafka.bootstrap.servers = 192.168.33.3:9092,192.168.33.4:9092,192.168.33.5:9092</span><br><span class="line">a1.sources.r1.kafka.topics = process</span><br><span class="line">a1.sources.r1.kafka.consumer.group.id = c_flume</span><br><span class="line"></span><br><span class="line">#设置Sink</span><br><span class="line">a1.sinks.k1.type = hdfs</span><br><span class="line">a1.sinks.k1.hdfs.path = /user/customfile/tmall/dt=%Y%m%d</span><br><span class="line">a1.sinks.k1.hdfs.filePrefix = hadoop1_%H_events_</span><br><span class="line">a1.sinks.k1.hdfs.fileSuffix=.log</span><br><span class="line">a1.sinks.k1.hdfs.rollSize = 102400000</span><br><span class="line">a1.sinks.k1.hdfs.rollCount = 0</span><br><span class="line">a1.sinks.k1.hdfs.rollInterval = 3600</span><br><span class="line">a1.sinks.k1.hdfs.idleTimeout = 5400</span><br><span class="line">#是否使用本地时间戳</span><br><span class="line">a1.sinks.k1.hdfs.useLocalTimeStamp = true</span><br><span class="line">#设置文件相关 文件类型为纯文本</span><br><span class="line">a1.sinks.k1.hdfs.fileType = DataStream</span><br><span class="line">#设置channels</span><br><span class="line">a1.channels.c1.type = memory</span><br><span class="line">a1.channels.c1.capacity = 1000</span><br><span class="line">a1.channels.c1.transactionCapacity = 1000</span><br><span class="line"></span><br><span class="line">#连接</span><br><span class="line">a1.sources.r1.channels = c1</span><br><span class="line">#注意，是channel</span><br><span class="line">a1.sinks.k1.channel = c1</span><br></pre></td></tr></table></figure>
+<h4 id="6-报表项目"><a href="#6-报表项目" class="headerlink" title="6. 报表项目"></a>6. 报表项目</h4><p>当每天数据采集到HDFS之后，我们需要T+1处理这些日志，产生报表，我们这里主要产生两个指标</p>
+<ol>
+<li>各省活跃用户</li>
+<li>各省销售量</li>
+</ol>
+<p>这里我们使用Scala编写Spark程序，做报表，并没有写到mysql，将csv数据写到hdfs中，后序可以导入mysql，电脑带不起了</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">ReportStatistics</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> spark = <span class="type">SparkSession</span>.builder()</span><br><span class="line">      .appName(<span class="string">"report_statistics"</span>)</span><br><span class="line">      .enableHiveSupport()</span><br><span class="line">      .getOrCreate()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> date = args(<span class="number">0</span>)</span><br><span class="line">    <span class="comment">//1. 读取前一天数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">import</span> spark.implicits._</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> df = spark.sparkContext.textFile(<span class="string">s"/user/custom/tmall/dt=<span class="subst">$date</span>"</span>)</span><br><span class="line">      .filter(x=&gt;&#123;</span><br><span class="line">        <span class="keyword">val</span> strings: <span class="type">Array</span>[<span class="type">String</span>] = x.split(<span class="string">","</span>)</span><br><span class="line">        strings.length == <span class="number">7</span></span><br><span class="line">      &#125;)</span><br><span class="line">      .map(x=&gt;&#123;</span><br><span class="line">        <span class="keyword">val</span> strings: <span class="type">Array</span>[<span class="type">String</span>] = x.split(<span class="string">","</span>)</span><br><span class="line">        (strings(<span class="number">0</span>),strings(<span class="number">1</span>),strings(<span class="number">2</span>),strings(<span class="number">3</span>),strings(<span class="number">6</span>))</span><br><span class="line">      &#125;).toDF(<span class="string">"requestid"</span>, <span class="string">"ts"</span>, <span class="string">"userid"</span>, <span class="string">"provice"</span>, <span class="string">"action"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    df.cache().createOrReplaceTempView(<span class="string">"t1"</span>)</span><br><span class="line">    <span class="comment">// 统计各省用户日活</span></span><br><span class="line">    spark.sql(</span><br><span class="line">      <span class="string">s""</span><span class="string">"</span></span><br><span class="line"><span class="string">         |select count(distinct(userid)) as users,provice from t1 group by provice</span></span><br><span class="line"><span class="string">         |union all</span></span><br><span class="line"><span class="string">         |select count(distinct(userid)) as users,"</span><span class="string">all" as provice</span></span><br><span class="line"><span class="string">       "</span><span class="string">""</span>.stripMargin).repartition(<span class="number">1</span>).write</span><br><span class="line">      .mode(<span class="type">SaveMode</span>.<span class="type">Overwrite</span>).csv(<span class="string">s"/user/data/reporting/tmall/dt=<span class="subst">$date</span>/users"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 统计各省销售量</span></span><br><span class="line"></span><br><span class="line">    spark.sql(</span><br><span class="line">      <span class="string">s""</span><span class="string">"</span></span><br><span class="line"><span class="string">         |select count(requestid) as cnt,provice from t1 where action=0 group by provice</span></span><br><span class="line"><span class="string">         |union all</span></span><br><span class="line"><span class="string">         |select count(requestid) as cnt from t1 where action=0</span></span><br><span class="line"><span class="string">       "</span><span class="string">""</span>.stripMargin).repartition(<span class="number">1</span>).write</span><br><span class="line">      .mode(<span class="type">SaveMode</span>.<span class="type">Overwrite</span>).csv(<span class="string">s"/user/data/reporting/tmall/dt=<span class="subst">$date</span>/sales"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>项目现在就是做到现在这样，后面还有Azkaban任务调度，Flume将数据采集到ElasticSearch中，用于试试查询，还有web显示页面。</p>
+<p>显示的话，报表基本做完，一个web项目读取mysql展示就行，如果有想完善的，可以完善一下，</p>
+<p>项目中遇到的问题</p>
+<ol>
+<li>Flume将数据采集到HDFS的时候产生了大量的小文件，后面调整了配置参数</li>
+</ol>
+<p>源码看这里:  <a href="https://gitee.com/zhangqiye/tmall" target="_blank" rel="noopener">https://gitee.com/zhangqiye/tmall</a> </p>
+<p>如有问题，可以加群:  552113611</p>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>技术活儿，该赏</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="七夜 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="七夜 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/scala/" rel="tag"># scala</a>
+          
+            <a href="/tags/kafka/" rel="tag"># kafka</a>
+          
+            <a href="/tags/flume/" rel="tag"># flume</a>
+          
+            <a href="/tags/spark/" rel="tag"># spark</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/04/SparkSubmit是怎么提交任务的/" rel="next" title="SparkSubmit是怎么提交任务的">
+                <i class="fa fa-chevron-left"></i> SparkSubmit是怎么提交任务的
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+
+      <div>    
+       
+       
+      <ul class="post-copyright">
+        <li class="post-copyright-author">
+            <strong>本文作者：</strong>七夜
+        </li>
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="/2019/09/26/大数据项目之仿天猫数据分析/" title="大数据项目之仿天猫数据分析">2019/09/26/大数据项目之仿天猫数据分析/</a>
+        </li>
+        <li class="post-copyright-license">
+          <strong>版权： </strong>
+          本站文章均采用 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0 CN</a> 许可协议，请勿用于商业，转载注明出处！
+        </li>
+      </ul>
+      
+      </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+   <div id="gitalk-container"></div>
+
+  
+
+
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="七夜" />
+            
+              <p class="site-author-name" itemprop="name">七夜</p>
+              <p class="site-description motion-element" itemprop="description">一个java学习者，希望能认识更多志同道合的朋友</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/d611be10d1a6" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-book"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.itzmn.com/" title="七夜首页" target="_blank">七夜首页</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://asdfv1929.github.io" title="asdfv1929" target="_blank">asdfv1929</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.aisky.cc/" title="天空博客" target="_blank">天空博客</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#项目简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">项目简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目数据流"><span class="nav-number">1.0.2.</span> <span class="nav-text">项目数据流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目构成"><span class="nav-number">1.0.3.</span> <span class="nav-text">项目构成</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-日志生成"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. 日志生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-日志采集"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 日志采集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-KafkaStream进行数据清洗"><span class="nav-number">2.0.3.</span> <span class="nav-text">3. KafkaStream进行数据清洗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-SparkStreaming数据实时处理"><span class="nav-number">2.0.4.</span> <span class="nav-text">4. SparkStreaming数据实时处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-日志持久化"><span class="nav-number">2.0.5.</span> <span class="nav-text">5. 日志持久化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-报表项目"><span class="nav-number">2.0.6.</span> <span class="nav-text">6. 报表项目</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+
+
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七夜</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">64.1k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '309dd5496c29c3545ad7',
+          clientSecret: 'adb0f110788297e3d645e7488af6cc0e09eb04a6',
+          repo: 'itzmn.github.io',
+          owner: 'itzmn',
+          admin: ['itzmn'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
