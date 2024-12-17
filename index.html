@@ -164,6 +164,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/12/17/zap%E6%97%A5%E5%BF%97%E5%BA%93%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhangmengnan">
+      <meta itemprop="description" content="hahaha">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/17/zap%E6%97%A5%E5%BF%97%E5%BA%93%E5%AE%9E%E6%88%98/" class="post-title-link" itemprop="url">zap日志库实战</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-12-17 10:40:14 / 修改时间：14:27:37" itemprop="dateCreated datePublished" datetime="2024-12-17T10:40:14+08:00">2024-12-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>Golang项目中日志打印是很重要的功能。方便记录和定位程序执行过程及发生的错误。Golang提供了基础的log功能，但是功能不够强大，无法支持如日志格式或者日志归档功能。此次介绍的为zap日志库</p>
+<h1 id="zap案例"><a href="#zap案例" class="headerlink" title="zap案例"></a>zap案例</h1><p>json类型日志打印在控制台</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createJsonLogger</span><span class="params">()</span></span> *zap.Logger &#123;</span><br><span class="line">	<span class="comment">// 1、 创建logger配置</span></span><br><span class="line">	config := zapcore.EncoderConfig&#123;</span><br><span class="line">		MessageKey:    <span class="string">&quot;msg&quot;</span>, <span class="comment">// json中msg信息的key名字，如果为空串，则json不会打印该信息</span></span><br><span class="line">		LevelKey:      <span class="string">&quot;level&quot;</span>, <span class="comment">// 日志级别的key名字</span></span><br><span class="line">		TimeKey:       <span class="string">&quot;ts&quot;</span>, <span class="comment">// 时间的key名字</span></span><br><span class="line">		CallerKey:     <span class="string">&quot;file&quot;</span>, <span class="comment">// 日志打印的文件及行号的key名字</span></span><br><span class="line">		StacktraceKey: <span class="string">&quot;stacktrace&quot;</span>, <span class="comment">// 堆栈调用信息的key名字</span></span><br><span class="line">		EncodeTime:    zapcore.ISO8601TimeEncoder,</span><br><span class="line">		EncodeLevel:   zapcore.CapitalLevelEncoder, <span class="comment">// 日志级别大写</span></span><br><span class="line">		EncodeCaller:  zapcore.ShortCallerEncoder,  <span class="comment">// 短路径，文件名+行号</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 2、创建日志编码器</span></span><br><span class="line">	jsonEncoder := zapcore.NewJSONEncoder(config)</span><br><span class="line">	<span class="comment">// 2、 创建日志 core</span></span><br><span class="line">	core := zapcore.NewCore(jsonEncoder, zapcore.AddSync(os.Stdout), zapcore.DebugLevel)</span><br><span class="line"></span><br><span class="line">	logger := zap.New(core, zap.AddCaller())</span><br><span class="line">	<span class="keyword">return</span> logger</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">logger := createJsonLogger()</span><br><span class="line">logger.Info(<span class="string">&quot;haha&quot;</span>)</span><br><span class="line"></span><br><span class="line">输出为</span><br><span class="line">&#123;<span class="string">&quot;level&quot;</span>:<span class="string">&quot;INFO&quot;</span>,<span class="string">&quot;ts&quot;</span>:<span class="string">&quot;2024-12-17T14:24:10.092+0800&quot;</span>,<span class="string">&quot;file&quot;</span>:<span class="string">&quot;logs/zlog_test.go:12&quot;</span>,<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;haha&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="自定义日志输出实战"><a href="#自定义日志输出实战" class="headerlink" title="自定义日志输出实战"></a>自定义日志输出实战</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/12/17/zap%E6%97%A5%E5%BF%97%E5%BA%93%E5%AE%9E%E6%88%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/01/Golang%E7%A8%8B%E5%BA%8F%E4%B8%8Edocker%E5%AE%B9%E5%99%A8%E7%BB%93%E5%90%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -187,10 +290,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-08-01 16:03:43 / 修改时间：16:56:25" itemprop="dateCreated datePublished" datetime="2024-08-01T16:03:43+08:00">2024-08-01</time>
+              <time title="创建时间：2024-08-01 16:03:43" itemprop="dateCreated datePublished" datetime="2024-08-01T16:03:43+08:00">2024-08-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-17 14:05:48" itemprop="dateModified" datetime="2024-12-17T14:05:48+08:00">2024-12-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -261,86 +370,14 @@
 </ul>
 </li>
 </ol>
-<h1 id="Golang与docker结合"><a href="#Golang与docker结合" class="headerlink" title="Golang与docker结合"></a>Golang与docker结合</h1><h2 id="基于镜像部署Golang程序"><a href="#基于镜像部署Golang程序" class="headerlink" title="基于镜像部署Golang程序"></a>基于镜像部署Golang程序</h2><p>此方式逻辑为，将Golang项目整体拷贝到docker容器中，编译，然后运行。最终容器内文件如图</p>
-<img src="/2024/08/01/Golang%E7%A8%8B%E5%BA%8F%E4%B8%8Edocker%E5%AE%B9%E5%99%A8%E7%BB%93%E5%90%88/docker%E5%AE%B9%E5%99%A8%E7%9B%AE%E5%BD%95-1.png" class="" title="This is an example image">
-
-
-
-<h3 id="1-创建Golang项目"><a href="#1-创建Golang项目" class="headerlink" title="1) 创建Golang项目"></a>1) 创建Golang项目</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">go-docker-test</span><br><span class="line"> - Dockerfile</span><br><span class="line"> - server.go</span><br><span class="line"> - go.mod</span><br><span class="line"> - go.su</span><br></pre></td></tr></table></figure>
-
-<p>创建go项目，项目结构如上, server.go如下</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">&quot;/ping&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		c.JSON(<span class="number">200</span>, gin.H&#123;</span><br><span class="line">			<span class="string">&quot;message&quot;</span>: <span class="string">&quot;pong&quot;</span>,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-编写Dockerfile"><a href="#2-编写Dockerfile" class="headerlink" title="2) 编写Dockerfile"></a>2) 编写Dockerfile</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#依赖镜像</span></span><br><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.19</span>-alpine</span><br><span class="line"></span><br><span class="line"><span class="comment">#作者信息</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> <span class="string">&quot;zhangmengnan&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置模块代理</span></span><br><span class="line"><span class="keyword">ENV</span> GO111MODULE=on</span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=https://goproxy.cn,direct</span><br><span class="line"></span><br><span class="line"><span class="comment">#工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt</span></span><br><span class="line"><span class="comment"># 将当前目录内容拷贝到容器的/opt目录</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> .  /opt</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#在Docker工作目录下执行命令，编译服务</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> go build -o server ./server.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#声明服务端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#执行项目的命令，启动服务</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/opt/server&quot;</span>]</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-基于Dockerfile构建镜像"><a href="#3-基于Dockerfile构建镜像" class="headerlink" title="3) 基于Dockerfile构建镜像"></a>3) 基于Dockerfile构建镜像</h3><p>在项目根目录下执行命令，构建镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t 镜像名字 .</span><br><span class="line">例如</span><br><span class="line">docker build -t test-gin .</span><br></pre></td></tr></table></figure>
-
-
-
-<p>运行完成后 使用 docker images 即可看到构建的镜像</p>
-<h3 id="4-基于镜像创建容器"><a href="#4-基于镜像创建容器" class="headerlink" title="4) 基于镜像创建容器"></a>4) 基于镜像创建容器</h3><p>镜像创建成功后，需要使用镜像创建运行对应容器，成功会打印创建的容器id</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 test-gin</span><br></pre></td></tr></table></figure>
-
-<p>基于 test-gin这个镜像，构建容器并后台运行，且指定端口映射。 成功后使用 docker ps 可以看到运行的该容器</p>
-<h3 id="5-启动容器及服务"><a href="#5-启动容器及服务" class="headerlink" title="5) 启动容器及服务"></a>5) 启动容器及服务</h3><ol>
-<li><p>测试服务是否正常</p>
-<p>浏览器访问 <a target="_blank" rel="noopener" href="http://localhost:8080/ping">http://localhost:8080/ping</a> 响应正常</p>
-</li>
-<li><p>容器启动后可以通过命令可以进入容器中</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it 容器id /bin/sh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>可以关闭和重启容器</p>
-</li>
-</ol>
-<h2 id="编译镜像和部署镜像分离"><a href="#编译镜像和部署镜像分离" class="headerlink" title="编译镜像和部署镜像分离"></a>编译镜像和部署镜像分离</h2><p>前面的方式有个问题是编译镜像和运行镜像是同一个，会将项目源码暴露出去。现在将服务编译使用一个镜像，然后将编译后的结果拷贝到运行容器中。</p>
-<p>最终容器内列表如下</p>
-<img src="/2024/08/01/Golang%E7%A8%8B%E5%BA%8F%E4%B8%8Edocker%E5%AE%B9%E5%99%A8%E7%BB%93%E5%90%88/docker%E5%AE%B9%E5%99%A8%E7%9B%AE%E5%BD%95-2.png" class="" title="This is an example image">
-
-
-
-<h3 id="1-创建Golang项目-1"><a href="#1-创建Golang项目-1" class="headerlink" title="1) 创建Golang项目"></a>1) 创建Golang项目</h3><p>项目结构如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">go-docker-from-to</span><br><span class="line">  - Dockerfile</span><br><span class="line">  - build.sh</span><br><span class="line">  - go.mod</span><br><span class="line">  - go.sum</span><br><span class="line">  - server.go</span><br><span class="line">  - start.sh</span><br></pre></td></tr></table></figure>
-
-
-
-<p>项目代码 server.go</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;github.com/gin-gonic/gin&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(&quot;/ping&quot;, func(c *gin.Context) &#123;</span><br><span class="line">		c.JSON(200, gin.H&#123;</span><br><span class="line">			&quot;message&quot;: &quot;pong&quot;,</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">	r.Run()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>项目编译脚本 build.sh</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go build -o server server.go</span><br></pre></td></tr></table></figure>
-
-
-
-<p>项目启动脚本 start.sh</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">./server &gt;&gt; ./logs/a.log</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="1）-修改Dockerfile"><a href="#1）-修改Dockerfile" class="headerlink" title="1） 修改Dockerfile"></a>1） 修改Dockerfile</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">依赖镜像</span></span><br><span class="line">FROM golang:1.19-alpine3.18 as builder</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">作者信息</span></span><br><span class="line">MAINTAINER &quot;zhangmengnan&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置模块代理</span></span><br><span class="line">ENV GO111MODULE=on</span><br><span class="line">ENV GOPROXY=https://goproxy.cn,direct</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">工作目录</span></span><br><span class="line">WORKDIR /mnt/engine</span><br><span class="line">ADD . .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在Docker工作目录下执行命令, 编译</span></span><br><span class="line">RUN ./build.sh</span><br><span class="line"></span><br><span class="line">FROM golang:1.19-alpine3.18</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">指定工作目录</span></span><br><span class="line">WORKDIR /mnt/engine/server</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建日志目录</span></span><br><span class="line">RUN mkdir /mnt/engine/server/logs</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">从编译机器拷贝二进制和启动脚本</span></span><br><span class="line">COPY --from=builder /mnt/engine/server .</span><br><span class="line">COPY --from=builder /mnt/engine/start.sh .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">执行项目的命令</span></span><br><span class="line">CMD [&quot;./start.sh&quot;]</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-基于Dockerfile构建镜像"><a href="#2-基于Dockerfile构建镜像" class="headerlink" title="2) 基于Dockerfile构建镜像"></a>2) 基于Dockerfile构建镜像</h3><p>执行命令基于dockerfile构建镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t 镜像命令:镜像tag .</span><br><span class="line">例如</span><br><span class="line">docker build -t gin-server:gin-server-0.0.1 .</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-创建容器"><a href="#3-创建容器" class="headerlink" title="3) 创建容器"></a>3) 创建容器</h3><p>命令创建且后台运行容器，指定端口映射，挂载磁盘，将日志挂载到本机</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 -v /Users/zhangmengnan/docker_test/ext_file:/mnt/engine/server/logs --name gin-server-0.0.1 gin-server:gin-server-0.0.1</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过上述方法可实现Go程序和docker结合，且可以避免源码暴露</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/08/01/Golang%E7%A8%8B%E5%BA%8F%E4%B8%8Edocker%E5%AE%B9%E5%99%A8%E7%BB%93%E5%90%88/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -565,7 +602,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-25 14:40:39" itemprop="dateModified" datetime="2022-04-25T14:40:39+08:00">2022-04-25</time>
+                <time title="修改时间：2022-04-25 14:45:35" itemprop="dateModified" datetime="2022-04-25T14:45:35+08:00">2022-04-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -789,7 +826,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -802,7 +839,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -838,12 +875,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">28k</span>
+    <span title="站点总字数">36k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">25 分钟</span>
+    <span title="站点阅读时长">33 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
