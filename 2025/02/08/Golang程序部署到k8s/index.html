@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前言服务通过容器化部署后，容器增多，对于容器管理编排 主流是使用Kubernetes（K8S）,本文主要是记录将一个go程序部署到k8s集群过程 环境： Macbook Pro Docker Desktop Docker: (Docker version 27.4.0, build bde2b89) K8s: 1.30.5 部署操作Golang程序此次主要是记录部署过程，golang程序为简单的w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang程序部署到k8s">
+<meta property="og:url" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言服务通过容器化部署后，容器增多，对于容器管理编排 主流是使用Kubernetes（K8S）,本文主要是记录将一个go程序部署到k8s集群过程 环境： Macbook Pro Docker Desktop Docker: (Docker version 27.4.0, build bde2b89) K8s: 1.30.5 部署操作Golang程序此次主要是记录部署过程，golang程序为简单的w">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/dockerhub%E4%BB%93%E5%BA%93.png">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/%E5%AE%B9%E5%99%A8%E7%95%8C%E9%9D%A2.png">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/k8s%E5%90%AF%E5%8A%A8.png">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/k8s%E6%B5%8B%E6%B4%BB.png">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/%E8%AE%BF%E9%97%AEk8s%E6%9C%8D%E5%8A%A1.png">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/Kuboard%E7%99%BB%E9%99%86%E9%A1%B5.png">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/k8s%E9%9B%86%E7%BE%A4%E5%AF%BC%E5%85%A5.png">
+<meta property="og:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/pod%E5%88%97%E8%A1%A8.png">
+<meta property="article:published_time" content="2025-02-08T05:59:16.000Z">
+<meta property="article:modified_time" content="2025-02-08T07:00:38.566Z">
+<meta property="article:author" content="zhangmengnan">
+<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/dockerhub%E4%BB%93%E5%BA%93.png">
+
+<link rel="canonical" href="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Golang程序部署到k8s | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">coder</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhangmengnan">
+      <meta itemprop="description" content="hahaha">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Golang程序部署到k8s
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-02-08 13:59:16 / 修改时间：15:00:38" itemprop="dateCreated datePublished" datetime="2025-02-08T13:59:16+08:00">2025-02-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>服务通过容器化部署后，容器增多，对于容器管理编排 主流是使用Kubernetes（K8S）,本文主要是记录将一个go程序部署到k8s集群过程</p>
+<p>环境：</p>
+<p>Macbook Pro</p>
+<p>Docker Desktop</p>
+<p>Docker: (Docker version 27.4.0, build bde2b89)</p>
+<p>K8s: 1.30.5</p>
+<h1 id="部署操作"><a href="#部署操作" class="headerlink" title="部署操作"></a>部署操作</h1><h2 id="Golang程序"><a href="#Golang程序" class="headerlink" title="Golang程序"></a>Golang程序</h2><p>此次主要是记录部署过程，golang程序为简单的web服务，参考代码，启动后 通过ip:8081&#x2F;info 获取返回信息</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	engine := gin.Default()</span><br><span class="line">	engine.GET(<span class="string">&quot;/info&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(context *gin.Context)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">		hostname, _ := os.Hostname()</span><br><span class="line">		ip := getExternalIP()</span><br><span class="line">		context.String(http.StatusOK, <span class="string">&quot;This is version: v1, running in pod %s, ip: %v&quot;</span>, hostname, ip)</span><br><span class="line"></span><br><span class="line">	&#125;)</span><br><span class="line">	engine.Run(<span class="string">&quot;:8081&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getExternalIP</span><span class="params">()</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="comment">// 与外部服务器建立连接（这里连接到 Google 的 DNS）</span></span><br><span class="line">	conn, err := net.Dial(<span class="string">&quot;udp&quot;</span>, <span class="string">&quot;1:80&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> conn.Close()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 获取本机的外部 IP 地址</span></span><br><span class="line">	localAddr := conn.LocalAddr().(*net.UDPAddr)</span><br><span class="line">	<span class="keyword">return</span> localAddr.IP.String()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="dockerfile"><a href="#dockerfile" class="headerlink" title="dockerfile"></a>dockerfile</h2><p>编译容器和业务容器分开</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#依赖镜像</span></span><br><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.19</span>-alpine3.<span class="number">18</span> as builder</span><br><span class="line"></span><br><span class="line"><span class="comment">#作者信息</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> <span class="string">&quot;zhangmengnan&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置模块代理</span></span><br><span class="line"><span class="keyword">ENV</span> GO111MODULE=on</span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=https://goproxy.cn,direct</span><br><span class="line"></span><br><span class="line"><span class="comment">#工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /mnt/engine</span></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> . .</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#在Docker工作目录下执行命令, 编译</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> go build -o server ./server.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.19</span>-alpine3.<span class="number">18</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">mkdir</span> /mnt/engine/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /mnt/engine</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从编译机器拷贝二进制和启动脚本</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=builder /mnt/engine/server .</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#执行项目的命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;./server&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="镜像推送到dockerhub"><a href="#镜像推送到dockerhub" class="headerlink" title="镜像推送到dockerhub"></a>镜像推送到dockerhub</h2><h3 id="创建账号"><a href="#创建账号" class="headerlink" title="创建账号"></a>创建账号</h3><p>镜像其实只要推送到镜像仓库就行，私有库公有库， 这里以dockerhub为例</p>
+<p>1、需要注册dockerhub的账号</p>
+<p>2、在repositories导航栏内选择创建一个容器仓库</p>
+<p>3、创建仓库，如 username&#x2F;repositoryName， 我的案例为 gitzmn&#x2F;go-publish-k8s</p>
+<p>4、效果如图</p>
+<img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/dockerhub%E4%BB%93%E5%BA%93.png" class="" title="dockerhub仓库">
+
+
+
+<h2 id="推送镜像"><a href="#推送镜像" class="headerlink" title="推送镜像"></a>推送镜像</h2><p>1、打包本地镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t gitzmn/go-publish-k8s:v1 . </span><br></pre></td></tr></table></figure>
+
+<p>在dockerfile目录执行 docker build -t (username)&#x2F;(repositoryName):(version) . </p>
+<p>2、推送镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push gitzmn/go-publish-k8s:v1</span><br></pre></td></tr></table></figure>
+
+<p>推送时候需要保证是可以访问dockerhub的，如果不行需要登陆 docker login。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker push gitzmn/go-publish-k8s:latest</span><br><span class="line">The push refers to repository [docker.io/gitzmn/go-publish-k8s] denied: requested access to the resource is denied</span><br></pre></td></tr></table></figure>
+
+<p> 如果还是出现访问被拒绝情况可以检查一下docker的版本，我本地推送时候经常失败，升级docker版本即可(Docker version 27.4.0, build bde2b89)</p>
+<p>3、推送成功后界面查看</p>
+<img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/%E5%AE%B9%E5%99%A8%E7%95%8C%E9%9D%A2.png" class="" title="容器界面.png">
+
+
+
+<h2 id="启动k8s"><a href="#启动k8s" class="headerlink" title="启动k8s"></a>启动k8s</h2><p>docker和k8s都是通过docker desktop启动的，在界面点击开启，等待后则k8s启动</p>
+<img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/k8s%E5%90%AF%E5%8A%A8.png" class="" title="k8s启动.png">
+
+
+
+<p>启动后通过命令行测试，获取k8s结点信息。由于启动的是单机版本，只有一个结点</p>
+<img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/k8s%E6%B5%8B%E6%B4%BB.png" class="" title="k8s测活.png">
+
+
+
+
+
+<h2 id="编写k8s文件"><a href="#编写k8s文件" class="headerlink" title="编写k8s文件"></a>编写k8s文件</h2><p>创建 deployment.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">go-publish-k8s</span> <span class="comment"># 声明pod的名称</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">my-workspace</span> <span class="comment"># 声明工作空间，默认为default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span> <span class="comment"># 声明副本数</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">go-publish-k8s</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">go-publish-k8s</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">go-publish-k8s-container</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">gitzmn/go-publish-k8s:v1</span> <span class="comment"># 指定镜像</span></span><br><span class="line">          <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8081</span> <span class="comment"># containerPort是声明容器内部的port</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">go-publish-k8s-service</span> <span class="comment"># 声明创建的服务名称</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">my-workspace</span> <span class="comment"># 声明工作空间，默认为default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">18080</span> <span class="comment"># Service暴露在cluster-ip上的端口，通过&lt;cluster-ip&gt;:port访问服务,通过此端口集群内的服务可以相互访问</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">8081</span> <span class="comment"># Pod的外部访问端口，port和nodePort的数据通过这个端口进入到Pod内部，Pod里面的containers的端口映射到这个端口，提供服务</span></span><br><span class="line">      <span class="attr">nodePort:</span> <span class="number">31080</span> <span class="comment"># Node节点的端口，&lt;nodeIP&gt;:nodePort 是提供给集群外部客户访问service的入口</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">go-publish-k8s</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="部署服务到k8s"><a href="#部署服务到k8s" class="headerlink" title="部署服务到k8s"></a>部署服务到k8s</h2><p>1、创建命名空间</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create namespace my-workspace</span><br></pre></td></tr></table></figure>
+
+<p>2、在deployment.yaml文件目录下执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f deployment.yaml</span><br></pre></td></tr></table></figure>
+
+<p>3、查看创建的pod</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get po -n my-workspace</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="访问k8s服务"><a href="#访问k8s服务" class="headerlink" title="访问k8s服务"></a>访问k8s服务</h2><p>由于配置文件中指定的service访问是nodeport， 使用k8s结点 也就是本机ip:31080&#x2F;info 即可访问</p>
+<img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/%E8%AE%BF%E9%97%AEk8s%E6%9C%8D%E5%8A%A1.png" class="" title="访问k8s服务.png">
+
+
+
+<h2 id="k8s界面管理"><a href="#k8s界面管理" class="headerlink" title="k8s界面管理"></a>k8s界面管理</h2><h3 id="安装界面"><a href="#安装界面" class="headerlink" title="安装界面"></a>安装界面</h3><p>对于k8s集群管理上，k8s本身提供了界面，但是我们选择了其他开源界面 Kuboard(<a target="_blank" rel="noopener" href="https://kuboard.cn/v4/install/#%E8%87%B4-kuboard-v3-%E7%94%A8%E6%88%B7">https://kuboard.cn/v4/install/#%E8%87%B4-kuboard-v3-%E7%94%A8%E6%88%B7</a>)</p>
+<p>参考官方提供的手册启动Kuboard</p>
+<p>1、创建mysql库表，使用了mac电脑自己安装的mysql</p>
+<p>2、启动Kuboard docker容器, 启动时候需要连接mysql，由于我使用的是宿主机的mysql，所以ip使用了host.docker.internal，这是mac支持访问宿主机的方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d \</span><br><span class="line">  --restart=unless-stopped \</span><br><span class="line">  --name=kuboard \</span><br><span class="line">  -p 80:80/tcp \</span><br><span class="line">  -e TZ=&quot;Asia/Shanghai&quot; \</span><br><span class="line">  -e DB_DRIVER=com.mysql.cj.jdbc.Driver \</span><br><span class="line">  -e DB_URL=&quot;jdbc:mysql://host.docker.internal:3306/kuboard?serverTimezone=Asia/Shanghai&quot; \</span><br><span class="line">  -e DB_USERNAME=kuboard \</span><br><span class="line">  -e DB_PASSWORD=Kuboard123 \</span><br><span class="line">  swr.cn-east-2.myhuaweicloud.com/kuboard/kuboard:v4</span><br><span class="line">  # eipwork/kuboard:v4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="登陆Kuboard"><a href="#登陆Kuboard" class="headerlink" title="登陆Kuboard"></a>登陆Kuboard</h3><p>进入登陆页后，提供了默认的用户名和密码 admin&#x2F; Kuboard123</p>
+<img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/Kuboard%E7%99%BB%E9%99%86%E9%A1%B5.png" class="" title="Kuboard登陆页">
+
+<h3 id="导入k8s集群"><a href="#导入k8s集群" class="headerlink" title="导入k8s集群"></a>导入k8s集群</h3><p>在首页选择集群导入后，填写集群名称，导入访问我选择的是Secret Token，在本机执行提供的命令，生成红色的token，拷贝到token处。 apiServer地址 通过 执行 kubectl config view –minify -o jsonpath&#x3D;’{.clusters[0].cluster.server}’ 获取， 点击导入等待一会导入成功</p>
+<img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/k8s%E9%9B%86%E7%BE%A4%E5%AF%BC%E5%85%A5.png" class="" title="k8s集群导入">
+
+
+
+<h3 id="查看启动的pod"><a href="#查看启动的pod" class="headerlink" title="查看启动的pod"></a>查看启动的pod</h3><img src="/2025/02/08/Golang%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2%E5%88%B0k8s/pod%E5%88%97%E8%A1%A8.png" class="" title="pod列表">
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Golang/" rel="tag"># Golang</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/12/18/Golang%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AE%B0%E5%BD%95/" rel="prev" title="Golang面试题记录">
+      <i class="fa fa-chevron-left"></i> Golang面试题记录
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">部署操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Golang%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.1.</span> <span class="nav-text">Golang程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dockerfile"><span class="nav-number">2.2.</span> <span class="nav-text">dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E6%8E%A8%E9%80%81%E5%88%B0dockerhub"><span class="nav-number">2.3.</span> <span class="nav-text">镜像推送到dockerhub</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%B4%A6%E5%8F%B7"><span class="nav-number">2.3.1.</span> <span class="nav-text">创建账号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E9%95%9C%E5%83%8F"><span class="nav-number">2.4.</span> <span class="nav-text">推送镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8k8s"><span class="nav-number">2.5.</span> <span class="nav-text">启动k8s</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99k8s%E6%96%87%E4%BB%B6"><span class="nav-number">2.6.</span> <span class="nav-text">编写k8s文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%9C%8D%E5%8A%A1%E5%88%B0k8s"><span class="nav-number">2.7.</span> <span class="nav-text">部署服务到k8s</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AEk8s%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.8.</span> <span class="nav-text">访问k8s服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s%E7%95%8C%E9%9D%A2%E7%AE%A1%E7%90%86"><span class="nav-number">2.9.</span> <span class="nav-text">k8s界面管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%95%8C%E9%9D%A2"><span class="nav-number">2.9.1.</span> <span class="nav-text">安装界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E9%99%86Kuboard"><span class="nav-number">2.9.2.</span> <span class="nav-text">登陆Kuboard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5k8s%E9%9B%86%E7%BE%A4"><span class="nav-number">2.9.3.</span> <span class="nav-text">导入k8s集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%90%AF%E5%8A%A8%E7%9A%84pod"><span class="nav-number">2.9.4.</span> <span class="nav-text">查看启动的pod</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhangmengnan</p>
+  <div class="site-description" itemprop="description">hahaha</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangmengnan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">56k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">50 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+
+</body>
+</html>
